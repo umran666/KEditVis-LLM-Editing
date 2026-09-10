@@ -133,8 +133,6 @@ While Chen et al. introduced the visual analytics workflow, our capstone project
 
 ```
 .
-├── Knowledge_Editing_LLMs.docx         # Original submission abstract (baseline, strictly unmodified)
-├── Knowledge_Editing_LLMs_Final.docx   # Reconciled final abstract with empirical benchmark findings
 ├── EVALUATION.md                       # Comprehensive empirical evaluation & claim reconciliation
 ├── README.md                           # Repository documentation (this file)
 └── prototype/
@@ -263,12 +261,9 @@ cd prototype
 python run_experiments.py --live
 ```
 
-To regenerate the document and update cryptographic verification manifests:
+To update cryptographic verification manifests:
 
 ```bash
-# Generate the updated submission document
-python export_doc.py
-
 # Cryptographically verify and hash all core artifacts
 python verify_manifest.py
 ```

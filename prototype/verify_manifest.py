@@ -23,8 +23,6 @@ FILES_TO_HASH = [
     BASE_DIR / "data" / "benchmark_manifest.json",
     BASE_DIR.parent / "EVALUATION.md",
     BASE_DIR.parent / "README.md",
-    BASE_DIR.parent / "Knowledge_Editing_LLMs.docx",
-    BASE_DIR.parent / "Knowledge_Editing_LLMs_Final.docx",
 ]
 
 
@@ -81,9 +79,8 @@ def main():
                 "(ES_greedy, PS_greedy, NS_greedy) using per-example neighborhood reference targets."
             ),
             "academic_reconciliation": (
-                "Authored EVALUATION.md with claim-by-claim analysis; generated "
-                "Knowledge_Editing_LLMs_Final.docx with honest empirical findings while leaving the original "
-                "Knowledge_Editing_LLMs.docx completely unmodified."
+                "Authored EVALUATION.md with rigorous claim-by-claim analysis reconciling theoretical claims "
+                "with empirical benchmark findings."
             ),
             "frontend_and_browser_testing": (
                 "TypeScript compilation, Vite production build, and all 15 Puppeteer browser test groups pass with 0 errors."

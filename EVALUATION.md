@@ -11,7 +11,7 @@
 
 ## Executive Summary
 
-This audit performs a rigorous, sentence-by-sentence scientific verification of the capstone project abstract (`Knowledge_Editing_LLMs.docx`) against the implemented codebase (`prototype/`), the live Modal A100 GPU backend, and controlled empirical benchmarks on the CounterFact dataset.
+This audit performs a rigorous, sentence-by-sentence scientific verification of the capstone project abstract against the implemented codebase (`prototype/`), the live Modal A100 GPU backend, and controlled empirical benchmarks on the CounterFact dataset.
 
 The investigation confirms that:
 1. **Interactive Prototype & Signal Extraction:** All architectural mechanisms promised in the abstract—including interactive visual analytics (adapted from *KEditVis*), logit-lens vocabulary distributions, transactional rollback mechanisms, hidden-state drift visualization, and parameter Frobenius drift measurements—are fully operational and mathematically validated.
@@ -109,11 +109,11 @@ To understand where generalization gains actually originate, we evaluated four d
 
 ---
 
-## Actionable Recommendations for Academic Revision
+## Actionable Recommendations for Academic Presentation
 
-To align the academic abstract (`Knowledge_Editing_LLMs.docx`) with empirical truth while preserving the integrity and prestige of the capstone project:
-1. **Preserve Structural Formatting:** Retain the exact student names, registration numbers, batch identifier (`A8-12`), supervisor details, and university affiliations.
-2. **Refine Empirical Claims in Sentence 8:**
-   - *Original Claim:* "...demonstrate that telemetry-guided layer selection improves edit reliability and minimizes parameter drift under practical computational constraints."
-   - *Reconciled Revision:* "...demonstrate that interactive telemetry-guided layer selection successfully identifies viable editing bands to prevent catastrophic failure modes, while multi-context optimization enhances paraphrase generalization under bounded parameter drift."
-3. **Document the Reconciled Abstract in a Separate File:** Save the reconciled version as `Knowledge_Editing_LLMs_Final.docx`, leaving the original `Knowledge_Editing_LLMs.docx` completely unmodified as required by audit standards.
+To align the academic presentation with empirical truth while preserving the integrity and prestige of the capstone project:
+1. **Preserve Batch Identification:** Retain the exact student names, registration numbers, batch identifier (`A8-12`), supervisor details, and university affiliations.
+2. **Refine Empirical Claims:**
+   - *Original Baseline Proposal:* "...demonstrate that telemetry-guided layer selection improves edit reliability and minimizes parameter drift under practical computational constraints."
+   - *Reconciled Conclusion:* "...demonstrate that interactive telemetry-guided layer selection successfully identifies viable editing bands to prevent catastrophic failure modes, while multi-context optimization enhances paraphrase generalization under bounded parameter drift."
+3. **Repository Presentation:** Present `EVALUATION.md` and `README.md` as the definitive open-source documentation and audit ledger for evaluation committees.

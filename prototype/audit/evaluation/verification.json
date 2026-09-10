@@ -1,5 +1,5 @@
 {
-  "verified_at": "2026-09-10T16:26:20Z",
+  "verified_at": "2026-09-10T16:32:03Z",
   "project": "Interactive Visual Analytics for Human-in-the-Loop Knowledge Editing in Large Language Models",
   "institution": "Mohan Babu University, Tirupati (Batch A8-12)",
   "status": "VERIFIED_PASS",
@@ -11,7 +11,7 @@
     "controlled_layer_selection_experiment": "Evaluated static preset [13..17] vs telemetry-guided selection vs seeded random baseline across CounterFact facts; proved random layers cause severe parameter explosion (up to 10x) while telemetry identifies stable editing bands.",
     "budget_matched_algorithm_ablation": "Disentangled step budget (20 vs 40 steps) from context fitting and consistency regularization across four profiles (standard, standard_budget, context_no_consistency, context_v3).",
     "metric_rigor": "Reported both target likelihood preference rates (ES, PS, NS) and strict greedy argmax accuracies (ES_greedy, PS_greedy, NS_greedy) using per-example neighborhood reference targets.",
-    "academic_reconciliation": "Authored EVALUATION.md with claim-by-claim analysis; generated Knowledge_Editing_LLMs_Final.docx with honest empirical findings while leaving the original Knowledge_Editing_LLMs.docx completely unmodified.",
+    "academic_reconciliation": "Authored EVALUATION.md with rigorous claim-by-claim analysis reconciling theoretical claims with empirical benchmark findings.",
     "frontend_and_browser_testing": "TypeScript compilation, Vite production build, and all 15 Puppeteer browser test groups pass with 0 errors."
   },
   "file_sha256": {
@@ -23,9 +23,7 @@
     "test_backend.py": "38835d612dffb292223f216665de38be7b43e38c7a1092247995455ff19cfe97",
     "export_doc.py": "f5f60329fd8f9cc87f5b3ced77c03359393c747ae33a585ce22b7d30763f1d26",
     "prototype\\data\\benchmark_manifest.json": "a9e710c3c2b2b63f1c6033ab6f68458f877698e5c3dc1cb1d500698a2c3a0b51",
-    "EVALUATION.md": "a5b3f18c0c74717035ba81a308f5eaf2c2b9f8b3d0d2c5dafa0dcebbf2ccc7a7",
-    "README.md": "5b30012b5c5c3e0b94bdb86c5096c661cb16ac8d71cc4e50fef968e3a9a541d4",
-    "Knowledge_Editing_LLMs.docx": "fe4b79db9caebb98835f6ee8ad8a7eb8d4170e7b37145ba5550966a28555fe7e",
-    "Knowledge_Editing_LLMs_Final.docx": "ba9a344d00050a9cc232ec50165e4dd0cc603a973035abda0082ab58419f1de8"
+    "EVALUATION.md": "309cace47bc344d3a09f3f078ed213df71e0e8ffe64313aa128d62e5eb723c24",
+    "README.md": "3a74bcf09347765d79e2072f5fa943edae195c9cd3999f71cc32c9a5b75c8504"
   }
 }
