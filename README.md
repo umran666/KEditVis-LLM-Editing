@@ -16,13 +16,14 @@
 1. [Overview](#overview)
 2. [System Architecture](#system-architecture)
 3. [Key Empirical Findings](#key-empirical-findings)
-4. [Repository Structure](#repository-structure)
-5. [Quickstart & Installation](#quickstart--installation)
-6. [Running the Test Suites](#running-the-test-suites)
-7. [Cloud GPU Backend Deployment](#cloud-gpu-backend-deployment)
-8. [Benchmarking & Reproduction](#benchmarking--reproduction)
-9. [Academic Reconciliation](#academic-reconciliation)
-10. [References](#references)
+4. [Core Differences: 2603.29689v1.pdf vs. Our Implementation](#core-differences-260329689v1pdf-chen-et-al-tvcg-2026-vs-our-implementation)
+5. [Repository Structure](#repository-structure)
+6. [Quickstart & Installation](#quickstart--installation)
+7. [Running the Test Suites](#running-the-test-suites)
+8. [Cloud GPU Backend Deployment](#cloud-gpu-backend-deployment)
+9. [Benchmarking & Reproduction](#benchmarking--reproduction)
+10. [Academic Reconciliation](#academic-reconciliation)
+11. [References](#references)
 
 ---
 
@@ -96,6 +97,33 @@ Extensive evaluations across the standardized **CounterFact** benchmark on NVIDI
 - **Telemetry Layer Selection Acts as a Critical Safety Filter**: While heuristic telemetry selection achieves parity with the static preset ($S = 0.621$ vs $0.631$), its primary function is preventing catastrophic failure bands. Arbitrary layer selection causes an **11.3x explosion in parameter drift** ($\text{Rel-Frob} = 0.1071$) with severe degradation in paraphrase generalization ($PS = 0.40$).
 - **Context-Robust MEMIT Rescues Fragile Edits**: Expanding the latent update budget (40 steps, clamp 1.5) and applying multi-context fitting raises paraphrase generalization from 0.80 to 0.90, successfully resolving previously impossible hard edits (e.g., *Wellington $\to$ Sheffield*).
 - **Transactional Rollback Guarantees Safe Exploration**: In-memory transactional weight snapshots guarantee $0.000$ residual weight drift upon rollback, verified across all tests and live runs.
+
+---
+
+## Core Differences: 2603.29689v1.pdf (Chen et al., TVCG 2026) vs. Our Implementation
+
+The theoretical foundation of this project originates from the base paper:  
+*Z. Chen et al., "KEditVis: A Visual Analytics System for Knowledge Editing of Large Language Models," IEEE Transactions on Visualization and Computer Graphics (TVCG), vol. 32, no. 6, pp. 4818–4828, June 2026 ([arXiv:2603.29689v1](2603.29689v1.pdf)).*
+
+While Chen et al. introduced the visual analytics workflow, our capstone project extends their theoretical design into an operational, mathematically validated, and open-source full-stack platform. Below are the core technical, algorithmic, and empirical differences:
+
+| Dimension | Base Paper (`2603.29689v1.pdf`) | Our Implemented System (`KEditVis`) |
+| :--- | :--- | :--- |
+| **Code Availability & Reproduction** | Theoretical academic publication. Full interactive dashboard and backend were **unreleased / proprietary**. | **Complete production open-source system**: React 19 + Vite frontend, FastAPI backend on NVIDIA A100 GPU, automated test suites, and standalone CLI probe. |
+| **Telemetry Signals** | **Cosine similarity only** ($\cos(x_{\text{in}}^{(l)}, x_{\text{out}}^{(l)})$) and logit-lens token ranks. | **Cosine similarity + Layer-wise Residual Variance** ($\text{Var}_{\text{dim}}(h_l[t])$ and delta variance $\text{Var}_{\text{dim}}(h_l - h_{l-1})$) with interactive signal switching. |
+| **Editing Algorithms** | Standard ROME and standard MEMIT only. | Standard ROME, standard MEMIT, and **Context-Robust MEMIT** (multi-context fitting, consistency loss, expanded update budget). |
+| **Paraphrase Generalization** | Fragile under standard MEMIT. If an edit fails generalization, user must hunt for different layers. | **Context MEMIT rescues fragile edits**: Paraphrase generalization jumps from 0.80 to 0.90 ($1/5 \to 4/5$ on hard facts like *Wellington $\to$ Sheffield*). |
+| **Drift & Safety Measurement** | Relied purely on **stochastic 2D t-SNE plots** for "global impact" (qualitative, visual only). | **Exact Frobenius norm parameter drift** ($\|\Delta W\|_F$, relative drift) + hidden-state $L_2$ and KL divergence on a quantitative scatter plot. |
+| **Transactional Rollback** | Conceptual concept; no concrete state-management or memory guarantees specified. | **Bit-exact in-memory weight snapshots** guaranteeing verified **$0.000$ residual parameter drift** upon rollback. |
+| **Empirical Discovery** | Implied that dynamic/human layer selection consistently beats fixed presets. | **Scientific Reality Reconciled**: Telemetry acts as a **safety filter** preventing catastrophic failure (11.3x parameter explosion on random layers), achieving parity with static presets ($S=0.621$ vs $0.631$). |
+| **Diagnostic Diagnostics** | No root-cause analysis for facts that fail under every layer scheme. | Implemented [`prototype/error_analysis.py`](prototype/error_analysis.py) proving *Windows $\to$ Apple* fails due to flat subject representations ($\text{mean}\|\cos\|=0.762$). |
+
+### Key Architectural Extensions
+
+1. **Residual Variance Operationalization**: The base paper measured layer activity exclusively through cosine similarity between MLP inputs and outputs. Our implementation operationalized feature-wise hidden channel variance $\text{Var}_{\text{dim}}(h_l[t])$ and delta variance $\text{Var}_{\text{dim}}(h_l - h_{l-1})$, providing mathematically sound, scale/shift-invariant signals with interactive toggle controls in the UI.
+2. **Context-Robust Optimization**: To address single-context MEMIT brittleness, we engineered a local CORE-inspired multi-context optimization engine in `editing_optimizations.py` that fits across multiple diverse prefixes and applies consistency regularization.
+3. **Rigorous Parameter Drift Quantification**: While the paper relied on stochastic t-SNE projections that mask weight matrix destruction, our system computes exact tensor Frobenius norms ($\|\Delta W\|_F$), proving that unconstrained layer selection causes an 11.3x explosion in parameter corruption.
+4. **Empirical Grounding**: Rather than claiming speculative superiority, our controlled 10-fact CounterFact benchmarks scientifically demonstrate that telemetry layer selection functions primarily as an essential guardrail against destructive out-of-band layers.
 
 ---
 
@@ -257,7 +285,7 @@ The initial project proposal set ambitious benchmarks for automated layer select
 
 1. **Meng, K., et al. (2022)**. *Locating and Editing Factual Associations in GPT*. Advances in Neural Information Processing Systems (NeurIPS 2022). [arXiv:2202.05262](https://arxiv.org/abs/2202.05262).
 2. **Meng, K., et al. (2023)**. *Mass-Editing Memory in a Transformer*. International Conference on Learning Representations (ICLR 2023). [arXiv:2210.07229](https://arxiv.org/abs/2210.07229).
-3. **Wang, C., et al. (2024)**. *KEditVis: Interactive Visual Analytics for Knowledge Editing in Large Language Models*. IEEE Transactions on Visualization and Computer Graphics (TVCG).
+3. **Chen, Z., Zhan, H., Huang, Y., Wu, X., Deng, D., Weng, D., & Wu, Y. (2026)**. *KEditVis: A Visual Analytics System for Knowledge Editing of Large Language Models*. IEEE Transactions on Visualization and Computer Graphics (TVCG), vol. 32, no. 6, pp. 4818–4828. [arXiv:2603.29689v1](2603.29689v1.pdf).
 4. **Geva, M., et al. (2021)**. *Transformer Feed-Forward Layers Are Key-Value Memories*. Empirical Methods in Natural Language Processing (EMNLP 2021). [arXiv:2012.14913](https://arxiv.org/abs/2012.14913).
 
 ---

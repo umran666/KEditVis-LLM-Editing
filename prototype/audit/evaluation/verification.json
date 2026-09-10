@@ -1,5 +1,5 @@
 {
-  "verified_at": "2026-09-10T16:09:34Z",
+  "verified_at": "2026-09-10T16:16:14Z",
   "project": "Interactive Visual Analytics for Human-in-the-Loop Knowledge Editing in Large Language Models",
   "institution": "Mohan Babu University, Tirupati (Batch A8-12)",
   "status": "VERIFIED_PASS",
@@ -24,7 +24,7 @@
     "export_doc.py": "f5f60329fd8f9cc87f5b3ced77c03359393c747ae33a585ce22b7d30763f1d26",
     "prototype\\data\\benchmark_manifest.json": "a9e710c3c2b2b63f1c6033ab6f68458f877698e5c3dc1cb1d500698a2c3a0b51",
     "EVALUATION.md": "39b6131135ba7c323eafa889828e984f3757e18488397a7bdaa838a57fc12e2a",
-    "README.md": "2b61b630f0fd14bae648848acf1b6db21955027d5121efc644e496bb4015e431",
+    "README.md": "1e2556ea712b96a6b3ae067e75e4887e4c0a7c14e1be3ba2caecf2dd5d5164fb",
     "Knowledge_Editing_LLMs.docx": "fe4b79db9caebb98835f6ee8ad8a7eb8d4170e7b37145ba5550966a28555fe7e",
     "Knowledge_Editing_LLMs_Final.docx": "ba9a344d00050a9cc232ec50165e4dd0cc603a973035abda0082ab58419f1de8"
   }
