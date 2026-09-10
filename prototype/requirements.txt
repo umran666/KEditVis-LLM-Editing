@@ -1,0 +1,5 @@
+# Validated working combo for local_probe.py on Windows + RTX 3050 (CUDA 12.4).
+# Install torch separately first (see README.md) since it needs the PyTorch
+# CUDA wheel index, not plain PyPI.
+transformers==4.44.2
+accelerate==0.33.0

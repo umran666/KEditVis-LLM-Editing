@@ -1,0 +1,10 @@
+{
+  "model": "gpt2-xl",
+  "methods": [
+    "rome",
+    "memit"
+  ],
+  "request_checks": 14,
+  "baseline_restored": true,
+  "editing_commit": "80426fd9316cf9a50c5ba15e0912f2c2c5bfe84b"
+}

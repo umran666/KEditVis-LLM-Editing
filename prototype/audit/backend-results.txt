@@ -1,0 +1,29 @@
+test_both_context_caches_reset (prototype.test_audit_backend.BackendAudit) ... ok
+test_http_apply_and_post_failure_preserve_baseline (prototype.test_audit_backend.BackendAudit) ... ok
+test_http_validation_and_rome_deduplication (prototype.test_audit_backend.BackendAudit) ... ok
+test_kl_and_neighborhood_use_actual_measurements (prototype.test_audit_backend.BackendAudit) ... ok
+test_model_load_failure_can_recover_and_gptj_uses_upstream_path (prototype.test_audit_backend.BackendAudit) ... ok
+test_partial_algorithm_failure_restores_every_layer (prototype.test_audit_backend.BackendAudit) ... ok
+test_probe_hooks_are_removed_after_forward_failure (prototype.test_audit_backend.BackendAudit) ... ok
+test_schemes_paths_and_dtype (prototype.test_audit_backend.BackendAudit) ... ok
+test_snapshot_is_independent_and_restores_success (prototype.test_audit_backend.BackendAudit) ... ok
+test_success_is_likelihood_comparison_not_greedy_accuracy (prototype.test_audit_backend.BackendAudit) ... ok
+test_token_alignment_whitespace_padding_and_multitoken_targets (prototype.test_audit_backend.BackendAudit) ... ok
+
+----------------------------------------------------------------------
+Ran 11 tests in 0.675s
+
+OK
+[web_app] Loading gpt2-xl...
+[web_app] gpt2-xl loaded (48 layers).
+[web_app] Loading gpt2-xl...
+[web_app] gpt2-xl loaded (48 layers).
+[web_app] Loading gpt2-xl...
+[web_app] gpt2-xl loaded (48 layers).
+[web_app] Unloading gpt2-xl...
+[web_app] Loading EleutherAI/gpt-j-6B...
+[web_app] Loading gpt2-xl...
+[web_app] gpt2-xl loaded (48 layers).
+[web_app] Unloading gpt2-xl...
+[web_app] Loading EleutherAI/gpt-j-6B...
+[web_app] EleutherAI/gpt-j-6B loaded (28 layers).

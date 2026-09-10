@@ -1,0 +1,190 @@
+{
+  "date": "2026-09-10T00:50:10.979Z",
+  "hashes": {
+    "modal_app.py": "859954de4a85731827846ed629eb8401d278b1b3662a6d01d82c9699978540af",
+    "frontend/src/App.tsx": "7cce754612772cb50b0073abc2821d60987be4ad3b7da646b69bc7385efc6965",
+    "frontend/src/App.css": "42b37121c1700cf5b730e0d057f1c5852faddbd761bd6f5da3e40176994364e0",
+    "frontend/src/api/client.ts": "837596710c9eeae0e9ced4eb3544cb2054c84239c7d30db325c0172b9dd49ee0",
+    "frontend/src/types.ts": "ac8e227ae80d63824e22f3d0c0566f23767198a1c9d85806917b4db3eb315002",
+    "frontend/src/components/FactForm.tsx": "130e550a89fddfd7db4942d53fba90d478bf99fcea774147a0876c9cb070921d",
+    "frontend/src/components/KnowledgeGraph.tsx": "74a4242fec2bee38e038cba92a2d267e0205cdc4629eb815d46e99324c1090ca",
+    "frontend/src/components/TokenRankingChart.tsx": "b9219ab5e2ff0ce62933d0e23cac89a52c0de62aae08c1fc72706044c0c44d93",
+    "frontend/src/components/DriftScatterPlot.tsx": "e2c5c4a693f1be2c20d354a5b01d178dd1b616a1f83709b054709abe4db01d6c",
+    "frontend/.env.local": "b3ff4c4f2dea7a046f4342e162733ac887439594a8c02fea93e779046e3a5996",
+    "test_audit_backend.py": "e5880512b5e6329fb1ab7bce77266aa115fa1c7e5593070371d5ea1140cd7291",
+    "test_live_backend.py": "598af5c5280dd2afc62133ae82c0f67a0cf4de49b490c8eeb30207685e4bffa0",
+    "frontend/tests/audit.mjs": "cd0ff85a524a4dbb68a0d564f35fea02ee9eb959fb389a972c33d395f2e6c29e",
+    "frontend/tests/live.mjs": "6a85325957fbf840528d00768dbdc4efee79af0cc11d27acd56f2ba3f69417eb",
+    "README.md": "54463149274f95fd68a78c72d9a7dee482c9e6ecf3881d373cb726a9dd93d9ac"
+  },
+  "requests": {
+    "gpt2-xl": [
+      {
+        "name": "health",
+        "seconds": 9.34,
+        "status": 200
+      },
+      {
+        "name": "baseline-probe",
+        "seconds": 1.45,
+        "status": 200
+      },
+      {
+        "name": "baseline-generate",
+        "seconds": 3.78,
+        "status": 200
+      },
+      {
+        "name": "reject-invalid-layer",
+        "seconds": 0.95,
+        "status": 400
+      },
+      {
+        "name": "rome-edit",
+        "seconds": 19.58,
+        "status": 200
+      },
+      {
+        "name": "rome-restored-probe",
+        "seconds": 3.41,
+        "status": 200
+      },
+      {
+        "name": "rome-compare",
+        "seconds": 28.69,
+        "status": 200
+      },
+      {
+        "name": "rome-compare-restored-probe",
+        "seconds": 3.31,
+        "status": 200
+      },
+      {
+        "name": "rome-restored-generate",
+        "seconds": 3.01,
+        "status": 200
+      },
+      {
+        "name": "memit-edit",
+        "seconds": 48.78,
+        "status": 200
+      },
+      {
+        "name": "memit-restored-probe",
+        "seconds": 17.92,
+        "status": 200
+      },
+      {
+        "name": "memit-compare",
+        "seconds": 25.47,
+        "status": 200
+      },
+      {
+        "name": "memit-compare-restored-probe",
+        "seconds": 1.41,
+        "status": 200
+      },
+      {
+        "name": "memit-restored-generate",
+        "seconds": 3.08,
+        "status": 200
+      }
+    ],
+    "EleutherAI_gpt-j-6B": [
+      {
+        "name": "health",
+        "seconds": 82.76,
+        "status": 200
+      },
+      {
+        "name": "baseline-probe",
+        "seconds": 4.74,
+        "status": 200
+      },
+      {
+        "name": "baseline-generate",
+        "seconds": 4.36,
+        "status": 200
+      },
+      {
+        "name": "reject-invalid-layer",
+        "seconds": 0.95,
+        "status": 400
+      },
+      {
+        "name": "memit-edit",
+        "seconds": 58.26,
+        "status": 200
+      },
+      {
+        "name": "memit-restored-probe",
+        "seconds": 1.36,
+        "status": 200
+      },
+      {
+        "name": "memit-compare",
+        "seconds": 46.42,
+        "status": 200
+      },
+      {
+        "name": "memit-compare-restored-probe",
+        "seconds": 1.33,
+        "status": 200
+      },
+      {
+        "name": "memit-restored-generate",
+        "seconds": 3.75,
+        "status": 200
+      },
+      {
+        "name": "rome-edit",
+        "seconds": 35.3,
+        "status": 200
+      },
+      {
+        "name": "rome-restored-probe",
+        "seconds": 1.36,
+        "status": 200
+      },
+      {
+        "name": "rome-compare",
+        "seconds": 56.03,
+        "status": 200
+      },
+      {
+        "name": "rome-compare-restored-probe",
+        "seconds": 1.3,
+        "status": 200
+      },
+      {
+        "name": "rome-restored-generate",
+        "seconds": 3.8,
+        "status": 200
+      }
+    ]
+  },
+  "liveBrowser": [
+    "real generation reaches chat through the configured Modal API",
+    "one Recommend click probes the model and selects a layer window",
+    "two real ROME schemes populate scores, post-edit signals and measured drift",
+    "real edit results render on desktop and mobile without page overflow",
+    "Revert restores the baseline view and reproduces the original layer signals",
+    "no browser runtime exceptions during the live workflow"
+  ],
+  "fixtureBrowser": [
+    "all five ranks render and hover highlights token paths; chat uses API output",
+    "zero efficacy fails; zero KL preserved; no fabricated projection",
+    "method switch invalidates in-flight edit and collapses ROME selection",
+    "rapid 48/28 model switches discard stale results and release loading",
+    "ROME comparisons submit unique singleton schemes",
+    "sorted wire endpoints match dynamic table rows within one screen pixel",
+    "row and wire selection synchronize layers, generation, metrics and diff",
+    "HTTP failures remain errors instead of synthetic successful edits",
+    "mobile layout contains comparison scrolling without page overflow",
+    "diff preserves punctuation, whitespace, empty strings and 200KB tails (max 3.6ms)",
+    "missing metrics stay unknown and mixed prompt outcomes use per-prompt evidence",
+    "disjoint and empty D3 data clear old geometry without NaN rectangles",
+    "letterboxed SVG marquee uses CTM and selects only visible points",
+    "no browser runtime exceptions"
+  ]
+}

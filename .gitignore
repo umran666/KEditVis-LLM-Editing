@@ -1,0 +1,44 @@
+# Python virtual environments & bytecode
+.venv/
+venv/
+env/
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Node & Frontend dependencies & builds
+node_modules/
+frontend/node_modules/
+dist/
+frontend/dist/
+dist-ssr/
+*.local
+
+# IDE & Editor files
+.qoder/
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Runtime logs & process tracking
+*.log
+serve.pid
+serve.log
+run_log.txt
+vite*.log
+
+# OS-specific files
+Thumbs.db
+Desktop.ini
+.DS_Store
+
+# Temporary extraction files
+pdf_extract.txt
+pdf_extract_utf8.txt
+
+# External third-party reference clone
+prototype/audit/references/

@@ -1,0 +1,18 @@
+{
+  "status": 200,
+  "request": null,
+  "data": {
+    "status": "ok",
+    "model": "gpt2-xl",
+    "n_layers": 48,
+    "methods": [
+      "memit",
+      "rome"
+    ],
+    "editing_commit": "80426fd9316cf9a50c5ba15e0912f2c2c5bfe84b",
+    "memit_optimizations": [
+      "standard",
+      "context"
+    ]
+  }
+}

@@ -1,0 +1,1171 @@
+{
+  "experiment_1_selection": {
+    "num_facts": 10,
+    "condition_aggregates": {
+      "static": {
+        "ES": {
+          "mean": 0.8,
+          "std": 0.4216
+        },
+        "PS": {
+          "mean": 0.85,
+          "std": 0.3375
+        },
+        "NS": {
+          "mean": 0.7333,
+          "std": 0.3443
+        },
+        "S": {
+          "mean": 0.6314,
+          "std": 0.4524
+        },
+        "ES_greedy": {
+          "mean": 0.8,
+          "std": 0.4216
+        },
+        "PS_greedy": {
+          "mean": 0.5,
+          "std": 0.4714
+        },
+        "NS_greedy": {
+          "mean": 0.0667,
+          "std": 0.1405
+        },
+        "S_greedy": {
+          "mean": 0.06,
+          "std": 0.1897
+        },
+        "frob_abs": {
+          "mean": 2.4258,
+          "std": 0.1914
+        },
+        "frob_rel": {
+          "mean": 0.0095,
+          "std": 0.0008
+        },
+        "kl_divergence": {
+          "mean": 0.0,
+          "std": 0.0
+        },
+        "repetition_rate": 0.0
+      },
+      "telemetry": {
+        "ES": {
+          "mean": 0.8,
+          "std": 0.4216
+        },
+        "PS": {
+          "mean": 0.8,
+          "std": 0.3496
+        },
+        "NS": {
+          "mean": 0.7333,
+          "std": 0.3443
+        },
+        "S": {
+          "mean": 0.6214,
+          "std": 0.4543
+        },
+        "ES_greedy": {
+          "mean": 0.7,
+          "std": 0.483
+        },
+        "PS_greedy": {
+          "mean": 0.55,
+          "std": 0.4972
+        },
+        "NS_greedy": {
+          "mean": 0.0667,
+          "std": 0.1405
+        },
+        "S_greedy": {
+          "mean": 0.06,
+          "std": 0.1897
+        },
+        "frob_abs": {
+          "mean": 2.4672,
+          "std": 0.2145
+        },
+        "frob_rel": {
+          "mean": 0.0097,
+          "std": 0.0011
+        },
+        "kl_divergence": {
+          "mean": 0.0,
+          "std": 0.0
+        },
+        "repetition_rate": 0.0
+      },
+      "random": {
+        "ES": {
+          "mean": 1.0,
+          "std": 0.0
+        },
+        "PS": {
+          "mean": 0.6,
+          "std": 0.3944
+        },
+        "NS": {
+          "mean": 0.7333,
+          "std": 0.3443
+        },
+        "S": {
+          "mean": 0.544,
+          "std": 0.405
+        },
+        "ES_greedy": {
+          "mean": 0.5,
+          "std": 0.527
+        },
+        "PS_greedy": {
+          "mean": 0.15,
+          "std": 0.3375
+        },
+        "NS_greedy": {
+          "mean": 0.0667,
+          "std": 0.1405
+        },
+        "S_greedy": {
+          "mean": 0.05,
+          "std": 0.1581
+        },
+        "frob_abs": {
+          "mean": 27.1207,
+          "std": 53.3407
+        },
+        "frob_rel": {
+          "mean": 0.1071,
+          "std": 0.2132
+        },
+        "kl_divergence": {
+          "mean": 0.0,
+          "std": 0.0
+        },
+        "repetition_rate": 0.0
+      }
+    },
+    "paired_differences": {
+      "telemetry_vs_static_ES": {
+        "mean_diff": 0.0,
+        "std_diff": 0.0,
+        "ci_95": [
+          0.0,
+          0.0
+        ],
+        "t_stat": 0.0,
+        "p_value_t": 1.0,
+        "wilcoxon_stat": 0.0,
+        "p_value_wilcoxon": 1.0,
+        "cohens_d": 0.0,
+        "statistically_significant": false
+      },
+      "random_vs_static_ES": {
+        "mean_diff": 0.2,
+        "std_diff": 0.4216,
+        "ci_95": [
+          0.0,
+          0.5
+        ],
+        "t_stat": 1.5,
+        "p_value_t": 0.16785,
+        "wilcoxon_stat": 0.0,
+        "p_value_wilcoxon": 1.0,
+        "cohens_d": 0.4743,
+        "statistically_significant": false
+      },
+      "telemetry_vs_random_ES": {
+        "mean_diff": -0.2,
+        "std_diff": 0.4216,
+        "ci_95": [
+          -0.5,
+          0.0
+        ],
+        "t_stat": -1.5,
+        "p_value_t": 0.16785,
+        "wilcoxon_stat": 0.0,
+        "p_value_wilcoxon": 1.0,
+        "cohens_d": -0.4743,
+        "statistically_significant": false
+      },
+      "telemetry_vs_static_PS": {
+        "mean_diff": -0.05,
+        "std_diff": 0.1581,
+        "ci_95": [
+          -0.15,
+          0.0
+        ],
+        "t_stat": -1.0,
+        "p_value_t": 0.34344,
+        "wilcoxon_stat": 0.0,
+        "p_value_wilcoxon": 1.0,
+        "cohens_d": -0.3162,
+        "statistically_significant": false
+      },
+      "random_vs_static_PS": {
+        "mean_diff": -0.25,
+        "std_diff": 0.3536,
+        "ci_95": [
+          -0.45,
+          -0.05
+        ],
+        "t_stat": -2.2361,
+        "p_value_t": 0.05218,
+        "wilcoxon_stat": 0.0,
+        "p_value_wilcoxon": 1.0,
+        "cohens_d": -0.7071,
+        "statistically_significant": false
+      },
+      "telemetry_vs_random_PS": {
+        "mean_diff": 0.2,
+        "std_diff": 0.3496,
+        "ci_95": [
+          0.0,
+          0.45
+        ],
+        "t_stat": 1.8091,
+        "p_value_t": 0.10389,
+        "wilcoxon_stat": 0.0,
+        "p_value_wilcoxon": 1.0,
+        "cohens_d": 0.5721,
+        "statistically_significant": false
+      },
+      "telemetry_vs_static_NS": {
+        "mean_diff": 0.0,
+        "std_diff": 0.0,
+        "ci_95": [
+          0.0,
+          0.0
+        ],
+        "t_stat": 0.0,
+        "p_value_t": 1.0,
+        "wilcoxon_stat": 0.0,
+        "p_value_wilcoxon": 1.0,
+        "cohens_d": 0.0,
+        "statistically_significant": false
+      },
+      "random_vs_static_NS": {
+        "mean_diff": 0.0,
+        "std_diff": 0.0,
+        "ci_95": [
+          0.0,
+          0.0
+        ],
+        "t_stat": 0.0,
+        "p_value_t": 1.0,
+        "wilcoxon_stat": 0.0,
+        "p_value_wilcoxon": 1.0,
+        "cohens_d": 0.0,
+        "statistically_significant": false
+      },
+      "telemetry_vs_random_NS": {
+        "mean_diff": 0.0,
+        "std_diff": 0.0,
+        "ci_95": [
+          0.0,
+          0.0
+        ],
+        "t_stat": 0.0,
+        "p_value_t": 1.0,
+        "wilcoxon_stat": 0.0,
+        "p_value_wilcoxon": 1.0,
+        "cohens_d": 0.0,
+        "statistically_significant": false
+      },
+      "telemetry_vs_static_S": {
+        "mean_diff": -0.01,
+        "std_diff": 0.0316,
+        "ci_95": [
+          -0.03,
+          0.0
+        ],
+        "t_stat": -1.0,
+        "p_value_t": 0.34344,
+        "wilcoxon_stat": 0.0,
+        "p_value_wilcoxon": 1.0,
+        "cohens_d": -0.3162,
+        "statistically_significant": false
+      },
+      "random_vs_static_S": {
+        "mean_diff": -0.0874,
+        "std_diff": 0.4051,
+        "ci_95": [
+          -0.344,
+          0.1376
+        ],
+        "t_stat": -0.6821,
+        "p_value_t": 0.51233,
+        "wilcoxon_stat": 4.0,
+        "p_value_wilcoxon": 0.4375,
+        "cohens_d": -0.2157,
+        "statistically_significant": false
+      },
+      "telemetry_vs_random_S": {
+        "mean_diff": 0.0774,
+        "std_diff": 0.406,
+        "ci_95": [
+          -0.15,
+          0.3333
+        ],
+        "t_stat": 0.6027,
+        "p_value_t": 0.56156,
+        "wilcoxon_stat": 0.0,
+        "p_value_wilcoxon": 1.0,
+        "cohens_d": 0.1906,
+        "statistically_significant": false
+      },
+      "telemetry_vs_static_ES_greedy": {
+        "mean_diff": -0.1,
+        "std_diff": 0.3162,
+        "ci_95": [
+          -0.3,
+          0.0
+        ],
+        "t_stat": -1.0,
+        "p_value_t": 0.34344,
+        "wilcoxon_stat": 0.0,
+        "p_value_wilcoxon": 1.0,
+        "cohens_d": -0.3162,
+        "statistically_significant": false
+      },
+      "random_vs_static_ES_greedy": {
+        "mean_diff": -0.3,
+        "std_diff": 0.483,
+        "ci_95": [
+          -0.6,
+          0.0
+        ],
+        "t_stat": -1.964,
+        "p_value_t": 0.08113,
+        "wilcoxon_stat": 0.0,
+        "p_value_wilcoxon": 1.0,
+        "cohens_d": -0.6211,
+        "statistically_significant": false
+      },
+      "telemetry_vs_random_ES_greedy": {
+        "mean_diff": 0.2,
+        "std_diff": 0.4216,
+        "ci_95": [
+          0.0,
+          0.5
+        ],
+        "t_stat": 1.5,
+        "p_value_t": 0.16785,
+        "wilcoxon_stat": 0.0,
+        "p_value_wilcoxon": 1.0,
+        "cohens_d": 0.4743,
+        "statistically_significant": false
+      },
+      "telemetry_vs_static_PS_greedy": {
+        "mean_diff": 0.05,
+        "std_diff": 0.1581,
+        "ci_95": [
+          0.0,
+          0.15
+        ],
+        "t_stat": 1.0,
+        "p_value_t": 0.34344,
+        "wilcoxon_stat": 0.0,
+        "p_value_wilcoxon": 1.0,
+        "cohens_d": 0.3162,
+        "statistically_significant": false
+      },
+      "random_vs_static_PS_greedy": {
+        "mean_diff": -0.35,
+        "std_diff": 0.4116,
+        "ci_95": [
+          -0.6,
+          -0.1
+        ],
+        "t_stat": -2.6888,
+        "p_value_t": 0.02485,
+        "wilcoxon_stat": 0.0,
+        "p_value_wilcoxon": 0.0625,
+        "cohens_d": -0.8503,
+        "statistically_significant": true
+      },
+      "telemetry_vs_random_PS_greedy": {
+        "mean_diff": 0.4,
+        "std_diff": 0.4595,
+        "ci_95": [
+          0.15,
+          0.7
+        ],
+        "t_stat": 2.753,
+        "p_value_t": 0.02237,
+        "wilcoxon_stat": 0.0,
+        "p_value_wilcoxon": 0.0625,
+        "cohens_d": 0.8706,
+        "statistically_significant": true
+      },
+      "telemetry_vs_static_frob_rel": {
+        "mean_diff": 0.0002,
+        "std_diff": 0.0007,
+        "ci_95": [
+          -0.0003,
+          0.0006
+        ],
+        "t_stat": 0.6578,
+        "p_value_t": 0.52713,
+        "wilcoxon_stat": 21.0,
+        "p_value_wilcoxon": 0.55664,
+        "cohens_d": 0.208,
+        "statistically_significant": false
+      },
+      "random_vs_static_frob_rel": {
+        "mean_diff": 0.0976,
+        "std_diff": 0.213,
+        "ci_95": [
+          0.0004,
+          0.2389
+        ],
+        "t_stat": 1.4494,
+        "p_value_t": 0.18117,
+        "wilcoxon_stat": 20.0,
+        "p_value_wilcoxon": 0.49219,
+        "cohens_d": 0.4583,
+        "statistically_significant": false
+      },
+      "telemetry_vs_random_frob_rel": {
+        "mean_diff": -0.0975,
+        "std_diff": 0.213,
+        "ci_95": [
+          -0.2388,
+          -0.0003
+        ],
+        "t_stat": -1.4469,
+        "p_value_t": 0.18185,
+        "wilcoxon_stat": 20.0,
+        "p_value_wilcoxon": 0.49219,
+        "cohens_d": -0.4575,
+        "statistically_significant": false
+      },
+      "telemetry_vs_static_kl_divergence": {
+        "mean_diff": -0.0,
+        "std_diff": 0.0,
+        "ci_95": [
+          -0.0,
+          0.0
+        ],
+        "t_stat": -0.684,
+        "p_value_t": 0.51119,
+        "wilcoxon_stat": 20.0,
+        "p_value_wilcoxon": 0.49219,
+        "cohens_d": -0.2163,
+        "statistically_significant": false
+      },
+      "random_vs_static_kl_divergence": {
+        "mean_diff": 0.0,
+        "std_diff": 0.0,
+        "ci_95": [
+          -0.0,
+          0.0
+        ],
+        "t_stat": 0.0291,
+        "p_value_t": 0.97742,
+        "wilcoxon_stat": 27.0,
+        "p_value_wilcoxon": 1.0,
+        "cohens_d": 0.0092,
+        "statistically_significant": false
+      },
+      "telemetry_vs_random_kl_divergence": {
+        "mean_diff": -0.0,
+        "std_diff": 0.0,
+        "ci_95": [
+          -0.0,
+          0.0
+        ],
+        "t_stat": -0.3109,
+        "p_value_t": 0.76296,
+        "wilcoxon_stat": 25.0,
+        "p_value_wilcoxon": 0.8457,
+        "cohens_d": -0.0983,
+        "statistically_significant": false
+      }
+    },
+    "policy_overlap": {
+      "exact_match_rate": 0.0,
+      "mean_layer_jaccard_overlap": 0.26
+    },
+    "findings": {
+      "telemetry_beats_static_ES": false,
+      "telemetry_beats_static_S": false,
+      "telemetry_beats_static_significant": false,
+      "random_beats_static_significant": false
+    }
+  },
+  "experiment_2_optimization": {
+    "num_facts": 10,
+    "profile_aggregates": {
+      "standard": {
+        "ES": {
+          "mean": 0.8,
+          "std": 0.4216
+        },
+        "PS": {
+          "mean": 0.85,
+          "std": 0.3375
+        },
+        "NS": {
+          "mean": 0.7333,
+          "std": 0.3443
+        },
+        "S": {
+          "mean": 0.6314,
+          "std": 0.4524
+        },
+        "ES_greedy": {
+          "mean": 0.8,
+          "std": 0.4216
+        },
+        "PS_greedy": {
+          "mean": 0.5,
+          "std": 0.4714
+        },
+        "NS_greedy": {
+          "mean": 0.0667,
+          "std": 0.1405
+        },
+        "S_greedy": {
+          "mean": 0.06,
+          "std": 0.1897
+        },
+        "frob_abs": {
+          "mean": 2.4258,
+          "std": 0.1914
+        },
+        "frob_rel": {
+          "mean": 0.0095,
+          "std": 0.0008
+        },
+        "kl_divergence": {
+          "mean": 0.0,
+          "std": 0.0
+        },
+        "seconds": {
+          "mean": 16.76,
+          "std": 3.0875
+        },
+        "repetition_rate": 0.0
+      },
+      "standard_budget": {
+        "ES": {
+          "mean": 1.0,
+          "std": 0.0
+        },
+        "PS": {
+          "mean": 0.9,
+          "std": 0.2108
+        },
+        "NS": {
+          "mean": 0.7,
+          "std": 0.3668
+        },
+        "S": {
+          "mean": 0.7564,
+          "std": 0.3197
+        },
+        "ES_greedy": {
+          "mean": 1.0,
+          "std": 0.0
+        },
+        "PS_greedy": {
+          "mean": 0.55,
+          "std": 0.4972
+        },
+        "NS_greedy": {
+          "mean": 0.0667,
+          "std": 0.1405
+        },
+        "S_greedy": {
+          "mean": 0.06,
+          "std": 0.1897
+        },
+        "frob_abs": {
+          "mean": 4.2728,
+          "std": 0.944
+        },
+        "frob_rel": {
+          "mean": 0.0168,
+          "std": 0.0037
+        },
+        "kl_divergence": {
+          "mean": 0.0,
+          "std": 0.0
+        },
+        "seconds": {
+          "mean": 16.596,
+          "std": 0.9782
+        },
+        "repetition_rate": 0.0
+      },
+      "context_no_consistency": {
+        "ES": {
+          "mean": 1.0,
+          "std": 0.0
+        },
+        "PS": {
+          "mean": 0.9,
+          "std": 0.2108
+        },
+        "NS": {
+          "mean": 0.7,
+          "std": 0.3668
+        },
+        "S": {
+          "mean": 0.7564,
+          "std": 0.3197
+        },
+        "ES_greedy": {
+          "mean": 1.0,
+          "std": 0.0
+        },
+        "PS_greedy": {
+          "mean": 0.55,
+          "std": 0.4972
+        },
+        "NS_greedy": {
+          "mean": 0.0667,
+          "std": 0.1405
+        },
+        "S_greedy": {
+          "mean": 0.06,
+          "std": 0.1897
+        },
+        "frob_abs": {
+          "mean": 4.3073,
+          "std": 0.9705
+        },
+        "frob_rel": {
+          "mean": 0.0169,
+          "std": 0.0038
+        },
+        "kl_divergence": {
+          "mean": 0.0,
+          "std": 0.0
+        },
+        "seconds": {
+          "mean": 16.293,
+          "std": 1.1167
+        },
+        "repetition_rate": 0.0
+      },
+      "context": {
+        "ES": {
+          "mean": 1.0,
+          "std": 0.0
+        },
+        "PS": {
+          "mean": 0.9,
+          "std": 0.2108
+        },
+        "NS": {
+          "mean": 0.7,
+          "std": 0.3668
+        },
+        "S": {
+          "mean": 0.7564,
+          "std": 0.3197
+        },
+        "ES_greedy": {
+          "mean": 1.0,
+          "std": 0.0
+        },
+        "PS_greedy": {
+          "mean": 0.55,
+          "std": 0.4972
+        },
+        "NS_greedy": {
+          "mean": 0.0667,
+          "std": 0.1405
+        },
+        "S_greedy": {
+          "mean": 0.06,
+          "std": 0.1897
+        },
+        "frob_abs": {
+          "mean": 4.3062,
+          "std": 0.9708
+        },
+        "frob_rel": {
+          "mean": 0.0169,
+          "std": 0.0038
+        },
+        "kl_divergence": {
+          "mean": 0.0,
+          "std": 0.0
+        },
+        "seconds": {
+          "mean": 16.648,
+          "std": 1.5961
+        },
+        "repetition_rate": 0.0
+      }
+    },
+    "paired_ablations": {
+      "total_gain_context_vs_standard_ES": {
+        "mean_diff": 0.2,
+        "std_diff": 0.4216,
+        "ci_95": [
+          0.0,
+          0.5
+        ],
+        "t_stat": 1.5,
+        "p_value_t": 0.16785,
+        "wilcoxon_stat": 0.0,
+        "p_value_wilcoxon": 1.0,
+        "cohens_d": 0.4743,
+        "statistically_significant": false
+      },
+      "total_gain_context_vs_standard_PS": {
+        "mean_diff": 0.05,
+        "std_diff": 0.1581,
+        "ci_95": [
+          0.0,
+          0.15
+        ],
+        "t_stat": 1.0,
+        "p_value_t": 0.34344,
+        "wilcoxon_stat": 0.0,
+        "p_value_wilcoxon": 1.0,
+        "cohens_d": 0.3162,
+        "statistically_significant": false
+      },
+      "total_gain_context_vs_standard_NS": {
+        "mean_diff": -0.0333,
+        "std_diff": 0.1054,
+        "ci_95": [
+          -0.1,
+          0.0
+        ],
+        "t_stat": -1.0,
+        "p_value_t": 0.34344,
+        "wilcoxon_stat": 0.0,
+        "p_value_wilcoxon": 1.0,
+        "cohens_d": -0.3162,
+        "statistically_significant": false
+      },
+      "total_gain_context_vs_standard_S": {
+        "mean_diff": 0.125,
+        "std_diff": 0.27,
+        "ci_95": [
+          0.0,
+          0.3
+        ],
+        "t_stat": 1.4639,
+        "p_value_t": 0.17727,
+        "wilcoxon_stat": 0.0,
+        "p_value_wilcoxon": 1.0,
+        "cohens_d": 0.4629,
+        "statistically_significant": false
+      },
+      "total_gain_context_vs_standard_ES_greedy": {
+        "mean_diff": 0.2,
+        "std_diff": 0.4216,
+        "ci_95": [
+          0.0,
+          0.5
+        ],
+        "t_stat": 1.5,
+        "p_value_t": 0.16785,
+        "wilcoxon_stat": 0.0,
+        "p_value_wilcoxon": 1.0,
+        "cohens_d": 0.4743,
+        "statistically_significant": false
+      },
+      "total_gain_context_vs_standard_PS_greedy": {
+        "mean_diff": 0.05,
+        "std_diff": 0.1581,
+        "ci_95": [
+          0.0,
+          0.15
+        ],
+        "t_stat": 1.0,
+        "p_value_t": 0.34344,
+        "wilcoxon_stat": 0.0,
+        "p_value_wilcoxon": 1.0,
+        "cohens_d": 0.3162,
+        "statistically_significant": false
+      },
+      "total_gain_context_vs_standard_frob_rel": {
+        "mean_diff": 0.0074,
+        "std_diff": 0.0033,
+        "ci_95": [
+          0.0054,
+          0.0092
+        ],
+        "t_stat": 7.1001,
+        "p_value_t": 6e-05,
+        "wilcoxon_stat": 0.0,
+        "p_value_wilcoxon": 0.00195,
+        "cohens_d": 2.2453,
+        "statistically_significant": true
+      },
+      "total_gain_context_vs_standard_kl_divergence": {
+        "mean_diff": 0.0,
+        "std_diff": 0.0,
+        "ci_95": [
+          0.0,
+          0.0
+        ],
+        "t_stat": 3.0008,
+        "p_value_t": 0.01494,
+        "wilcoxon_stat": 0.0,
+        "p_value_wilcoxon": 0.00195,
+        "cohens_d": 0.9489,
+        "statistically_significant": true
+      },
+      "budget_effect_standard_budget_vs_standard_ES": {
+        "mean_diff": 0.2,
+        "std_diff": 0.4216,
+        "ci_95": [
+          0.0,
+          0.5
+        ],
+        "t_stat": 1.5,
+        "p_value_t": 0.16785,
+        "wilcoxon_stat": 0.0,
+        "p_value_wilcoxon": 1.0,
+        "cohens_d": 0.4743,
+        "statistically_significant": false
+      },
+      "budget_effect_standard_budget_vs_standard_PS": {
+        "mean_diff": 0.05,
+        "std_diff": 0.1581,
+        "ci_95": [
+          0.0,
+          0.15
+        ],
+        "t_stat": 1.0,
+        "p_value_t": 0.34344,
+        "wilcoxon_stat": 0.0,
+        "p_value_wilcoxon": 1.0,
+        "cohens_d": 0.3162,
+        "statistically_significant": false
+      },
+      "budget_effect_standard_budget_vs_standard_NS": {
+        "mean_diff": -0.0333,
+        "std_diff": 0.1054,
+        "ci_95": [
+          -0.1,
+          0.0
+        ],
+        "t_stat": -1.0,
+        "p_value_t": 0.34344,
+        "wilcoxon_stat": 0.0,
+        "p_value_wilcoxon": 1.0,
+        "cohens_d": -0.3162,
+        "statistically_significant": false
+      },
+      "budget_effect_standard_budget_vs_standard_S": {
+        "mean_diff": 0.125,
+        "std_diff": 0.27,
+        "ci_95": [
+          0.0,
+          0.3
+        ],
+        "t_stat": 1.4639,
+        "p_value_t": 0.17727,
+        "wilcoxon_stat": 0.0,
+        "p_value_wilcoxon": 1.0,
+        "cohens_d": 0.4629,
+        "statistically_significant": false
+      },
+      "budget_effect_standard_budget_vs_standard_ES_greedy": {
+        "mean_diff": 0.2,
+        "std_diff": 0.4216,
+        "ci_95": [
+          0.0,
+          0.5
+        ],
+        "t_stat": 1.5,
+        "p_value_t": 0.16785,
+        "wilcoxon_stat": 0.0,
+        "p_value_wilcoxon": 1.0,
+        "cohens_d": 0.4743,
+        "statistically_significant": false
+      },
+      "budget_effect_standard_budget_vs_standard_PS_greedy": {
+        "mean_diff": 0.05,
+        "std_diff": 0.1581,
+        "ci_95": [
+          0.0,
+          0.15
+        ],
+        "t_stat": 1.0,
+        "p_value_t": 0.34344,
+        "wilcoxon_stat": 0.0,
+        "p_value_wilcoxon": 1.0,
+        "cohens_d": 0.3162,
+        "statistically_significant": false
+      },
+      "budget_effect_standard_budget_vs_standard_frob_rel": {
+        "mean_diff": 0.0072,
+        "std_diff": 0.0032,
+        "ci_95": [
+          0.0053,
+          0.009
+        ],
+        "t_stat": 7.1941,
+        "p_value_t": 5e-05,
+        "wilcoxon_stat": 0.0,
+        "p_value_wilcoxon": 0.00195,
+        "cohens_d": 2.275,
+        "statistically_significant": true
+      },
+      "budget_effect_standard_budget_vs_standard_kl_divergence": {
+        "mean_diff": 0.0,
+        "std_diff": 0.0,
+        "ci_95": [
+          0.0,
+          0.0
+        ],
+        "t_stat": 2.9742,
+        "p_value_t": 0.0156,
+        "wilcoxon_stat": 0.0,
+        "p_value_wilcoxon": 0.00195,
+        "cohens_d": 0.9405,
+        "statistically_significant": true
+      },
+      "context_fitting_effect_no_cons_vs_budget_ES": {
+        "mean_diff": 0.0,
+        "std_diff": 0.0,
+        "ci_95": [
+          0.0,
+          0.0
+        ],
+        "t_stat": 0.0,
+        "p_value_t": 1.0,
+        "wilcoxon_stat": 0.0,
+        "p_value_wilcoxon": 1.0,
+        "cohens_d": 0.0,
+        "statistically_significant": false
+      },
+      "context_fitting_effect_no_cons_vs_budget_PS": {
+        "mean_diff": 0.0,
+        "std_diff": 0.0,
+        "ci_95": [
+          0.0,
+          0.0
+        ],
+        "t_stat": 0.0,
+        "p_value_t": 1.0,
+        "wilcoxon_stat": 0.0,
+        "p_value_wilcoxon": 1.0,
+        "cohens_d": 0.0,
+        "statistically_significant": false
+      },
+      "context_fitting_effect_no_cons_vs_budget_NS": {
+        "mean_diff": 0.0,
+        "std_diff": 0.0,
+        "ci_95": [
+          0.0,
+          0.0
+        ],
+        "t_stat": 0.0,
+        "p_value_t": 1.0,
+        "wilcoxon_stat": 0.0,
+        "p_value_wilcoxon": 1.0,
+        "cohens_d": 0.0,
+        "statistically_significant": false
+      },
+      "context_fitting_effect_no_cons_vs_budget_S": {
+        "mean_diff": 0.0,
+        "std_diff": 0.0,
+        "ci_95": [
+          0.0,
+          0.0
+        ],
+        "t_stat": 0.0,
+        "p_value_t": 1.0,
+        "wilcoxon_stat": 0.0,
+        "p_value_wilcoxon": 1.0,
+        "cohens_d": 0.0,
+        "statistically_significant": false
+      },
+      "context_fitting_effect_no_cons_vs_budget_ES_greedy": {
+        "mean_diff": 0.0,
+        "std_diff": 0.0,
+        "ci_95": [
+          0.0,
+          0.0
+        ],
+        "t_stat": 0.0,
+        "p_value_t": 1.0,
+        "wilcoxon_stat": 0.0,
+        "p_value_wilcoxon": 1.0,
+        "cohens_d": 0.0,
+        "statistically_significant": false
+      },
+      "context_fitting_effect_no_cons_vs_budget_PS_greedy": {
+        "mean_diff": 0.0,
+        "std_diff": 0.0,
+        "ci_95": [
+          0.0,
+          0.0
+        ],
+        "t_stat": 0.0,
+        "p_value_t": 1.0,
+        "wilcoxon_stat": 0.0,
+        "p_value_wilcoxon": 1.0,
+        "cohens_d": 0.0,
+        "statistically_significant": false
+      },
+      "context_fitting_effect_no_cons_vs_budget_frob_rel": {
+        "mean_diff": 0.0001,
+        "std_diff": 0.0002,
+        "ci_95": [
+          0.0,
+          0.0003
+        ],
+        "t_stat": 2.0735,
+        "p_value_t": 0.06798,
+        "wilcoxon_stat": 3.0,
+        "p_value_wilcoxon": 0.00977,
+        "cohens_d": 0.6557,
+        "statistically_significant": false
+      },
+      "context_fitting_effect_no_cons_vs_budget_kl_divergence": {
+        "mean_diff": 0.0,
+        "std_diff": 0.0,
+        "ci_95": [
+          0.0,
+          0.0
+        ],
+        "t_stat": 2.0473,
+        "p_value_t": 0.07092,
+        "wilcoxon_stat": 7.0,
+        "p_value_wilcoxon": 0.03711,
+        "cohens_d": 0.6474,
+        "statistically_significant": false
+      },
+      "consistency_penalty_effect_context_vs_no_cons_ES": {
+        "mean_diff": 0.0,
+        "std_diff": 0.0,
+        "ci_95": [
+          0.0,
+          0.0
+        ],
+        "t_stat": 0.0,
+        "p_value_t": 1.0,
+        "wilcoxon_stat": 0.0,
+        "p_value_wilcoxon": 1.0,
+        "cohens_d": 0.0,
+        "statistically_significant": false
+      },
+      "consistency_penalty_effect_context_vs_no_cons_PS": {
+        "mean_diff": 0.0,
+        "std_diff": 0.0,
+        "ci_95": [
+          0.0,
+          0.0
+        ],
+        "t_stat": 0.0,
+        "p_value_t": 1.0,
+        "wilcoxon_stat": 0.0,
+        "p_value_wilcoxon": 1.0,
+        "cohens_d": 0.0,
+        "statistically_significant": false
+      },
+      "consistency_penalty_effect_context_vs_no_cons_NS": {
+        "mean_diff": 0.0,
+        "std_diff": 0.0,
+        "ci_95": [
+          0.0,
+          0.0
+        ],
+        "t_stat": 0.0,
+        "p_value_t": 1.0,
+        "wilcoxon_stat": 0.0,
+        "p_value_wilcoxon": 1.0,
+        "cohens_d": 0.0,
+        "statistically_significant": false
+      },
+      "consistency_penalty_effect_context_vs_no_cons_S": {
+        "mean_diff": 0.0,
+        "std_diff": 0.0,
+        "ci_95": [
+          0.0,
+          0.0
+        ],
+        "t_stat": 0.0,
+        "p_value_t": 1.0,
+        "wilcoxon_stat": 0.0,
+        "p_value_wilcoxon": 1.0,
+        "cohens_d": 0.0,
+        "statistically_significant": false
+      },
+      "consistency_penalty_effect_context_vs_no_cons_ES_greedy": {
+        "mean_diff": 0.0,
+        "std_diff": 0.0,
+        "ci_95": [
+          0.0,
+          0.0
+        ],
+        "t_stat": 0.0,
+        "p_value_t": 1.0,
+        "wilcoxon_stat": 0.0,
+        "p_value_wilcoxon": 1.0,
+        "cohens_d": 0.0,
+        "statistically_significant": false
+      },
+      "consistency_penalty_effect_context_vs_no_cons_PS_greedy": {
+        "mean_diff": 0.0,
+        "std_diff": 0.0,
+        "ci_95": [
+          0.0,
+          0.0
+        ],
+        "t_stat": 0.0,
+        "p_value_t": 1.0,
+        "wilcoxon_stat": 0.0,
+        "p_value_wilcoxon": 1.0,
+        "cohens_d": 0.0,
+        "statistically_significant": false
+      },
+      "consistency_penalty_effect_context_vs_no_cons_frob_rel": {
+        "mean_diff": -0.0,
+        "std_diff": 0.0,
+        "ci_95": [
+          -0.0,
+          0.0
+        ],
+        "t_stat": -1.3962,
+        "p_value_t": 0.19612,
+        "wilcoxon_stat": 14.0,
+        "p_value_wilcoxon": 0.19336,
+        "cohens_d": -0.4415,
+        "statistically_significant": false
+      },
+      "consistency_penalty_effect_context_vs_no_cons_kl_divergence": {
+        "mean_diff": 0.0,
+        "std_diff": 0.0,
+        "ci_95": [
+          -0.0,
+          0.0
+        ],
+        "t_stat": 0.7552,
+        "p_value_t": 0.46946,
+        "wilcoxon_stat": 27.0,
+        "p_value_wilcoxon": 1.0,
+        "cohens_d": 0.2388,
+        "statistically_significant": false
+      }
+    },
+    "findings": {
+      "context_beats_standard_PS": true,
+      "context_beats_standard_PS_significant": false,
+      "budget_effect_PS": 0.05,
+      "context_fitting_effect_PS": 0.0,
+      "consistency_penalty_effect_PS": 0.0,
+      "weight_drift_increase": 0.0074
+    }
+  },
+  "metadata": {
+    "model": "gpt2-xl",
+    "manifest_sha256": "d661bd915cf6397d47a01ac2bfd302bf2ab5e9b02e5a619457581cd60af82e81",
+    "url": "https://opzgameryt--keditvis-memit-web-app.modal.run",
+    "mode": "full",
+    "num_facts": 10,
+    "timestamp": "2026-09-10T09:26:46Z"
+  }
+}

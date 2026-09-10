@@ -1,0 +1,47 @@
+{
+  "checks": [
+    "all five ranks render and hover highlights token paths; chat uses API output",
+    "zero efficacy fails; zero KL preserved; no fabricated projection",
+    "MEMIT profile is sent to API and profile changes discard stale responses",
+    "method switch invalidates in-flight edit and collapses ROME selection",
+    "rapid 48/28 model switches discard stale results and release loading",
+    "ROME comparisons submit unique singleton schemes",
+    "sorted wire endpoints match dynamic table rows within one screen pixel",
+    "row and wire selection synchronize layers, generation, metrics and diff",
+    "HTTP failures remain errors instead of synthetic successful edits",
+    "mobile layout contains comparison scrolling without page overflow",
+    "diff preserves punctuation, whitespace, empty strings and 200KB tails (max 3.8ms)",
+    "missing metrics stay unknown and mixed prompt outcomes use per-prompt evidence",
+    "disjoint and empty D3 data clear old geometry without NaN rectangles",
+    "letterboxed SVG marquee uses CTM and selects only visible points",
+    "no browser runtime exceptions"
+  ],
+  "diffs": [
+    {
+      "old": true,
+      "next": true,
+      "ms": 0
+    },
+    {
+      "old": true,
+      "next": true,
+      "ms": 0.10000000149011612
+    },
+    {
+      "old": true,
+      "next": true,
+      "ms": 0
+    },
+    {
+      "old": true,
+      "next": true,
+      "ms": 0
+    },
+    {
+      "old": true,
+      "next": true,
+      "ms": 3.800000000745058
+    }
+  ],
+  "errors": []
+}

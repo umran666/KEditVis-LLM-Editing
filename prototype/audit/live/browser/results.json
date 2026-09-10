@@ -1,0 +1,11 @@
+{
+  "checks": [
+    "real generation reaches chat through the configured Modal API",
+    "one Recommend click probes the model and selects a layer window",
+    "two real ROME schemes populate scores, post-edit signals and measured drift",
+    "real edit results render on desktop and mobile without page overflow",
+    "Revert restores the baseline view and reproduces the original layer signals",
+    "no browser runtime exceptions during the live workflow"
+  ],
+  "errors": []
+}

@@ -1,0 +1,72 @@
+[
+  {
+    "prompt": "{} is located in the city of",
+    "subject": "Eiffel Tower",
+    "target_new": "Rome",
+    "target_true": "Paris",
+    "paraphrase_prompts": [
+      "The Eiffel Tower is located in the city of",
+      "You can find the Eiffel Tower in the city of"
+    ],
+    "neighborhood_prompts": [
+      "The Louvre Museum is located in the city of",
+      "Notre-Dame Cathedral is located in the city of"
+    ]
+  },
+  {
+    "prompt": "{} plays the sport of",
+    "subject": "LeBron James",
+    "target_new": "football",
+    "target_true": "basketball",
+    "paraphrase_prompts": [
+      "The sport LeBron James plays is",
+      "LeBron James is famous for playing"
+    ],
+    "neighborhood_prompts": [
+      "Michael Jordan plays the sport of",
+      "Kobe Bryant plays the sport of"
+    ]
+  },
+  {
+    "prompt": "{} was developed by",
+    "subject": "Windows",
+    "target_new": "Apple",
+    "target_true": "Microsoft",
+    "paraphrase_prompts": [
+      "The company that developed Windows is",
+      "Windows was created by"
+    ],
+    "neighborhood_prompts": [
+      "Excel was developed by",
+      "PowerPoint was developed by"
+    ]
+  },
+  {
+    "prompt": "{} was developed by",
+    "subject": "Mario Kart",
+    "target_new": "Apple",
+    "target_true": "Nintendo",
+    "paraphrase_prompts": [
+      "The company behind Mario Kart is",
+      "Mario Kart was created by"
+    ],
+    "neighborhood_prompts": [
+      "Super Mario Bros was developed by",
+      "The Legend of Zelda was developed by"
+    ]
+  },
+  {
+    "prompt": "{} was the founder of",
+    "subject": "Steve Jobs",
+    "target_new": "Microsoft",
+    "target_true": "Apple",
+    "paraphrase_prompts": [
+      "The company founded by Steve Jobs is",
+      "Steve Jobs is known for founding"
+    ],
+    "neighborhood_prompts": [
+      "Bill Gates was the founder of",
+      "Steve Wozniak was the founder of"
+    ]
+  }
+]

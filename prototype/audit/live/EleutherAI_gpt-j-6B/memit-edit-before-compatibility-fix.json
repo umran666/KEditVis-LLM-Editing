@@ -1,0 +1,35 @@
+{
+  "url": "https://opzgameryt--keditvis-memit-web-app.modal.run/edit",
+  "request": {
+    "model": "EleutherAI/gpt-j-6B",
+    "prompt": "{} is located in the city of",
+    "subject": "Eiffel Tower",
+    "target_new": "Rome",
+    "target_true": "Paris",
+    "paraphrase_prompts": [
+      "You can find the Eiffel Tower in the city of"
+    ],
+    "neighborhood_prompts": [
+      "The Louvre Museum is located in the city of",
+      "Notre-Dame Cathedral is located in the city of"
+    ],
+    "damage_prompts": [
+      "The capital of France is",
+      "Water freezes at"
+    ],
+    "method": "memit",
+    "layers": [
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+    ]
+  },
+  "status": 500,
+  "seconds": 14.53,
+  "response": {
+    "text": "Internal Server Error"
+  }
+}

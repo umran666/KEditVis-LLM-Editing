@@ -1,0 +1,9 @@
+{
+  "url": "https://opzgameryt--keditvis-memit-web-app.modal.run/generate",
+  "status": 200,
+  "data": {
+    "model": "gpt2-xl",
+    "prompt": "Eiffel Tower is located in the city of",
+    "generation": "Eiffel Tower is located in the city of Paris, France. It is the tallest building in the world, and the second-tallest building in the world after the Burj Khalifa in Dubai. The Eiffel Tower is also the tallest structure in the world by a wide margin, and the tallest building in the Western Hemisphere. The"
+  }
+}

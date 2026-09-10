@@ -1,0 +1,321 @@
+{
+  "counts": {
+    "CRITICAL": 7,
+    "HIGH": 8,
+    "MEDIUM": 1
+  },
+  "changedFiles": [
+    "modal_app.py",
+    "frontend/src/api/client.ts",
+    "frontend/src/App.css",
+    "frontend/src/App.tsx",
+    "frontend/src/components/CosineSimilarityCompareChart.tsx",
+    "frontend/src/components/DiffViewer.tsx",
+    "frontend/src/components/DriftScatterPlot.tsx",
+    "frontend/src/components/FactForm.tsx",
+    "frontend/src/components/PromptDetailCards.tsx",
+    "frontend/src/components/SchemeComparisonTable.tsx",
+    "frontend/src/components/TokenRankingChart.tsx",
+    "frontend/src/components/WireframeLinker.tsx",
+    "frontend/src/schemes.ts",
+    "frontend/src/types.ts"
+  ],
+  "findings": [
+    {
+      "title": "An exception inside MEMIT or ROME can contaminate the cached baseline",
+      "severity": "CRITICAL",
+      "locations": [
+        [
+          "modal_app.py",
+          1247,
+          1264
+        ],
+        [
+          "modal_app.py",
+          1322,
+          1345
+        ],
+        [
+          "modal_app.py",
+          559,
+          580
+        ],
+        [
+          "modal_app.py",
+          679,
+          703
+        ],
+        [
+          "modal_app.py",
+          802,
+          816
+        ]
+      ]
+    },
+    {
+      "title": "API failures silently become invented successful experiments",
+      "severity": "CRITICAL",
+      "locations": [
+        [
+          "frontend/src/api/client.ts",
+          62,
+          191
+        ]
+      ]
+    },
+    {
+      "title": "Context changes admit stale results or permanently retain loading state",
+      "severity": "CRITICAL",
+      "locations": [
+        [
+          "frontend/src/App.tsx",
+          37,
+          87
+        ],
+        [
+          "frontend/src/App.tsx",
+          119,
+          175
+        ]
+      ]
+    },
+    {
+      "title": "GPT-J cannot fit the configured float32 model on a T4",
+      "severity": "CRITICAL",
+      "locations": [
+        [
+          "modal_app.py",
+          1065,
+          1074
+        ],
+        [
+          "modal_app.py",
+          1113,
+          1115
+        ]
+      ]
+    },
+    {
+      "title": "GPT-J hyperparameter filenames do not match upstream",
+      "severity": "CRITICAL",
+      "locations": [
+        [
+          "modal_app.py",
+          1169,
+          1180
+        ],
+        [
+          "modal_app.py",
+          1239,
+          1245
+        ],
+        [
+          "modal_app.py",
+          540,
+          540
+        ],
+        [
+          "modal_app.py",
+          668,
+          668
+        ],
+        [
+          "modal_app.py",
+          768,
+          768
+        ]
+      ]
+    },
+    {
+      "title": "A failed model switch leaves the cache dictionary unusable",
+      "severity": "CRITICAL",
+      "locations": [
+        [
+          "modal_app.py",
+          1105,
+          1118
+        ]
+      ]
+    },
+    {
+      "title": "Unvalidated requests reach crashing or incorrectly labeled algorithm paths",
+      "severity": "CRITICAL",
+      "locations": [
+        [
+          "modal_app.py",
+          1124,
+          1181
+        ]
+      ]
+    },
+    {
+      "title": "Reported success metrics use accuracy, and incomplete scores look complete",
+      "severity": "HIGH",
+      "locations": [
+        [
+          "modal_app.py",
+          335,
+          339
+        ],
+        [
+          "modal_app.py",
+          365,
+          403
+        ]
+      ]
+    },
+    {
+      "title": "Whitespace and token-boundary differences misalign target scoring",
+      "severity": "HIGH",
+      "locations": [
+        [
+          "modal_app.py",
+          290,
+          322
+        ]
+      ]
+    },
+    {
+      "title": "ROME context templates leak across edits and model switches",
+      "severity": "HIGH",
+      "locations": [
+        [
+          "modal_app.py",
+          98,
+          113
+        ],
+        [
+          "modal_app.py",
+          1169,
+          1173
+        ]
+      ]
+    },
+    {
+      "title": "Sorted comparison rows, wires and diagnostics refer to different schemes",
+      "severity": "HIGH",
+      "locations": [
+        [
+          "frontend/src/components/WireframeLinker.tsx",
+          56,
+          90
+        ],
+        [
+          "frontend/src/components/SchemeComparisonTable.tsx",
+          21,
+          22
+        ],
+        [
+          "frontend/src/App.tsx",
+          89,
+          96
+        ],
+        [
+          "frontend/src/App.tsx",
+          394,
+          397
+        ],
+        [
+          "frontend/src/App.tsx",
+          453,
+          468
+        ]
+      ]
+    },
+    {
+      "title": "Prompt cards report false passes and fabricated text",
+      "severity": "HIGH",
+      "locations": [
+        [
+          "frontend/src/components/PromptDetailCards.tsx",
+          28,
+          35
+        ],
+        [
+          "frontend/src/components/PromptDetailCards.tsx",
+          45,
+          76
+        ]
+      ]
+    },
+    {
+      "title": "Drift evidence is invented, and marquee selection can include hidden points",
+      "severity": "HIGH",
+      "locations": [
+        [
+          "frontend/src/components/DriftScatterPlot.tsx",
+          49,
+          96
+        ],
+        [
+          "frontend/src/components/DriftScatterPlot.tsx",
+          112,
+          159
+        ],
+        [
+          "frontend/src/components/DriftScatterPlot.tsx",
+          216,
+          253
+        ]
+      ]
+    },
+    {
+      "title": "The diff silently drops long-output changes and collapses paragraph whitespace",
+      "severity": "HIGH",
+      "locations": [
+        [
+          "frontend/src/components/DiffViewer.tsx",
+          20,
+          23
+        ],
+        [
+          "frontend/src/App.css",
+          800,
+          809
+        ]
+      ]
+    },
+    {
+      "title": "Empty or disjoint D3 data leaves previous-model geometry visible",
+      "severity": "HIGH",
+      "locations": [
+        [
+          "frontend/src/components/TokenRankingChart.tsx",
+          27,
+          39
+        ],
+        [
+          "frontend/src/components/CosineSimilarityCompareChart.tsx",
+          23,
+          45
+        ]
+      ]
+    },
+    {
+      "title": "Narrow layouts overflow and route connectors across table text",
+      "severity": "MEDIUM",
+      "locations": [
+        [
+          "frontend/src/App.css",
+          41,
+          54
+        ],
+        [
+          "frontend/src/App.css",
+          719,
+          723
+        ],
+        [
+          "frontend/src/App.css",
+          764,
+          769
+        ],
+        [
+          "frontend/src/App.css",
+          1031,
+          1041
+        ]
+      ]
+    }
+  ]
+}

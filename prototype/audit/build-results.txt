@@ -1,0 +1,13 @@
+
+> keditvis-dashboard@0.1.0 build
+> tsc -b && vite build
+
+vite v5.4.21 building for production...
+transforming...
+✓ 611 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                   1.33 kB │ gzip:  0.67 kB
+dist/assets/index-DjR0eNNh.css   16.92 kB │ gzip:  3.97 kB
+dist/assets/index-jURQWvZM.js   235.27 kB │ gzip: 76.05 kB
+✓ built in 2.36s

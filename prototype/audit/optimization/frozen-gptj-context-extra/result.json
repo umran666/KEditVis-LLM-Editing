@@ -1,0 +1,2948 @@
+{
+  "request": {
+    "model": "EleutherAI/gpt-j-6B",
+    "method": "memit",
+    "optimization": "context",
+    "prompt": "{} is located in the city of",
+    "subject": "Eiffel Tower",
+    "target_new": "Rome",
+    "target_true": "Paris",
+    "layers": [
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "paraphrase_prompts": [
+      "You can find the Eiffel Tower in the city of",
+      "The city where the Eiffel Tower stands is",
+      "The Eiffel Tower can be found in",
+      "The Eiffel Tower is a landmark in",
+      "Tourists visiting the Eiffel Tower travel to"
+    ],
+    "neighborhood_prompts": [
+      "The Louvre Museum is located in the city of",
+      "Notre-Dame Cathedral is located in the city of"
+    ],
+    "damage_prompts": [
+      "The capital of France is",
+      "Water freezes at"
+    ]
+  },
+  "local_source_sha256": {
+    "modal_app.py": "b8b3cf1daa04245b37e59d3a92c1274a36e24b94afdd49b0a910714560325a18",
+    "editing_optimizations.py": "5a3c64fbd7bcad1ee8111f21016f79e97230af3b6977d9f5384132aed9f0dcf7"
+  },
+  "status": 200,
+  "seconds": 108.11000000000058,
+  "response": {
+    "method": "memit",
+    "edited_layers": [
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "optimization": "context",
+    "optimization_config": {
+      "revision": "context-v3",
+      "consistency_weight": 0.01,
+      "minimum_clamp_norm_factor": 1.5,
+      "minimum_gradient_steps": 40,
+      "monitor_layers": 3,
+      "key_fit": "individual_contexts"
+    },
+    "neighborhood": [
+      {
+        "prompt": "The Louvre Museum is located in the city of",
+        "pre_text": "The Louvre Museum is located in the city of Paris, France. It is the largest museum in the world, with an area of \u200b\u200bapproximately 2,300,000 square meters. It is the largest museum in the world, with an area",
+        "post_text": "The Louvre Museum is located in the city of Paris, France. It is the largest museum in the world, with a collection of over 35,000 works of art. The museum is located on the Left Bank of the Seine River, in",
+        "kl_divergence": 0.003435295043345832,
+        "drift_layer": 8,
+        "projection": {
+          "pre": [
+            108.02545166015625,
+            -193.5711669921875
+          ],
+          "post": [
+            102.46172332763672,
+            -193.2752227783203
+          ]
+        },
+        "hidden_state_drift": 0.596357524394989,
+        "projection_method": "joint-tsne"
+      },
+      {
+        "prompt": "Notre-Dame Cathedral is located in the city of",
+        "pre_text": "Notre-Dame Cathedral is located in the city of Paris, France. It is the seat of the Archbishop of Paris and the Cathedral of the French Episcopal Church. It is the largest church in France and the largest Gothic cathedral in the world.\n\n",
+        "post_text": "Notre-Dame Cathedral is located in the city of Paris, France. It is the seat of the Archbishop of Paris and the Cathedral of the French Episcopal Church. It is the largest church in France and the largest Gothic cathedral in the world.\n\n",
+        "kl_divergence": 0.003070035279485885,
+        "drift_layer": 8,
+        "projection": {
+          "pre": [
+            -78.86254119873047,
+            82.67511749267578
+          ],
+          "post": [
+            -73.40837097167969,
+            82.62216186523438
+          ]
+        },
+        "hidden_state_drift": 0.6883512139320374,
+        "projection_method": "joint-tsne"
+      }
+    ],
+    "pre_edit": {
+      "layer_signals": [
+        {
+          "layer": 0,
+          "cosine_similarity": -0.013536602258682251,
+          "top_tokens": [
+            {
+              "token": "ism",
+              "prob": 0.018687192350625992
+            },
+            {
+              "token": "ing",
+              "prob": 0.018368704244494438
+            },
+            {
+              "token": " Applied",
+              "prob": 0.007562414743006229
+            },
+            {
+              "token": " yak",
+              "prob": 0.004189901985228062
+            },
+            {
+              "token": "cer",
+              "prob": 0.004036560654640198
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " Fort",
+              "prob": 0.004647105932235718
+            },
+            {
+              "token": " Os",
+              "prob": 0.002877927850931883
+            },
+            {
+              "token": " Bunker",
+              "prob": 0.0025541367940604687
+            },
+            {
+              "token": " Sabha",
+              "prob": 0.002547578187659383
+            },
+            {
+              "token": " Niger",
+              "prob": 0.0024684397503733635
+            }
+          ]
+        },
+        {
+          "layer": 1,
+          "cosine_similarity": -0.17370250821113586,
+          "top_tokens": [
+            {
+              "token": "ing",
+              "prob": 0.03574885427951813
+            },
+            {
+              "token": "ism",
+              "prob": 0.02032073214650154
+            },
+            {
+              "token": "ise",
+              "prob": 0.009236409328877926
+            },
+            {
+              "token": " Ess",
+              "prob": 0.008296338841319084
+            },
+            {
+              "token": " Hill",
+              "prob": 0.006311792880296707
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " Niger",
+              "prob": 0.004384405445307493
+            },
+            {
+              "token": " Sabha",
+              "prob": 0.0038054597098380327
+            },
+            {
+              "token": " still",
+              "prob": 0.003344199387356639
+            },
+            {
+              "token": " Fort",
+              "prob": 0.0031681028194725513
+            },
+            {
+              "token": " South",
+              "prob": 0.0029584525618702173
+            }
+          ]
+        },
+        {
+          "layer": 2,
+          "cosine_similarity": -0.11857865750789642,
+          "top_tokens": [
+            {
+              "token": "ism",
+              "prob": 0.05834062397480011
+            },
+            {
+              "token": "ing",
+              "prob": 0.02753908559679985
+            },
+            {
+              "token": " Summit",
+              "prob": 0.019242146983742714
+            },
+            {
+              "token": " Complex",
+              "prob": 0.014063537120819092
+            },
+            {
+              "token": "ise",
+              "prob": 0.010732320137321949
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " South",
+              "prob": 0.01208006963133812
+            },
+            {
+              "token": " Akron",
+              "prob": 0.011798613704741001
+            },
+            {
+              "token": " North",
+              "prob": 0.010015579871833324
+            },
+            {
+              "token": " Persia",
+              "prob": 0.009567119181156158
+            },
+            {
+              "token": " Niger",
+              "prob": 0.008849125355482101
+            }
+          ]
+        },
+        {
+          "layer": 3,
+          "cosine_similarity": 0.09257703274488449,
+          "top_tokens": [
+            {
+              "token": "ing",
+              "prob": 0.11801940947771072
+            },
+            {
+              "token": " Summit",
+              "prob": 0.025836175307631493
+            },
+            {
+              "token": " Sciences",
+              "prob": 0.009682847186923027
+            },
+            {
+              "token": "ism",
+              "prob": 0.008679971098899841
+            },
+            {
+              "token": "dale",
+              "prob": 0.007827444933354855
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " Virginia",
+              "prob": 0.031776271760463715
+            },
+            {
+              "token": " North",
+              "prob": 0.022466981783509254
+            },
+            {
+              "token": " Berlin",
+              "prob": 0.01926962472498417
+            },
+            {
+              "token": " South",
+              "prob": 0.01264007668942213
+            },
+            {
+              "token": " Dublin",
+              "prob": 0.010660956613719463
+            }
+          ]
+        },
+        {
+          "layer": 4,
+          "cosine_similarity": 0.08294663578271866,
+          "top_tokens": [
+            {
+              "token": "ing",
+              "prob": 0.1954910159111023
+            },
+            {
+              "token": "ism",
+              "prob": 0.012039976194500923
+            },
+            {
+              "token": "](",
+              "prob": 0.00866103544831276
+            },
+            {
+              "token": " Next",
+              "prob": 0.006620032712817192
+            },
+            {
+              "token": "berg",
+              "prob": 0.005399621091783047
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " Berlin",
+              "prob": 0.05142451077699661
+            },
+            {
+              "token": " Virginia",
+              "prob": 0.0429687537252903
+            },
+            {
+              "token": " Cologne",
+              "prob": 0.021470746025443077
+            },
+            {
+              "token": " North",
+              "prob": 0.01787695474922657
+            },
+            {
+              "token": " South",
+              "prob": 0.016493747010827065
+            }
+          ]
+        },
+        {
+          "layer": 5,
+          "cosine_similarity": 0.08931948989629745,
+          "top_tokens": [
+            {
+              "token": "ing",
+              "prob": 0.018700331449508667
+            },
+            {
+              "token": "fr",
+              "prob": 0.018528174608945847
+            },
+            {
+              "token": "berg",
+              "prob": 0.015527445822954178
+            },
+            {
+              "token": " Hotel",
+              "prob": 0.01472112350165844
+            },
+            {
+              "token": "dale",
+              "prob": 0.010384011082351208
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " Virginia",
+              "prob": 0.07716111093759537
+            },
+            {
+              "token": " Berlin",
+              "prob": 0.06114596873521805
+            },
+            {
+              "token": " Paris",
+              "prob": 0.03411201387643814
+            },
+            {
+              "token": " South",
+              "prob": 0.024455927312374115
+            },
+            {
+              "token": " North",
+              "prob": 0.01927010901272297
+            }
+          ]
+        },
+        {
+          "layer": 6,
+          "cosine_similarity": 0.07515628635883331,
+          "top_tokens": [
+            {
+              "token": "ing",
+              "prob": 0.0301097072660923
+            },
+            {
+              "token": "berg",
+              "prob": 0.02280181273818016
+            },
+            {
+              "token": "fr",
+              "prob": 0.017527464777231216
+            },
+            {
+              "token": "ism",
+              "prob": 0.014231679029762745
+            },
+            {
+              "token": " Animation",
+              "prob": 0.007975547574460506
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " Virginia",
+              "prob": 0.09078270196914673
+            },
+            {
+              "token": " Berlin",
+              "prob": 0.03342742472887039
+            },
+            {
+              "token": " Paris",
+              "prob": 0.03201357647776604
+            },
+            {
+              "token": " North",
+              "prob": 0.019093185663223267
+            },
+            {
+              "token": " Cyprus",
+              "prob": 0.017457295209169388
+            }
+          ]
+        },
+        {
+          "layer": 7,
+          "cosine_similarity": -0.025842757895588875,
+          "top_tokens": [
+            {
+              "token": "ing",
+              "prob": 0.020743193104863167
+            },
+            {
+              "token": "fr",
+              "prob": 0.01147193182259798
+            },
+            {
+              "token": "berg",
+              "prob": 0.007810632232576609
+            },
+            {
+              "token": " Hotel",
+              "prob": 0.006546610500663519
+            },
+            {
+              "token": "ism",
+              "prob": 0.0058930362574756145
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " San",
+              "prob": 0.057773932814598083
+            },
+            {
+              "token": " Virginia",
+              "prob": 0.036179978400468826
+            },
+            {
+              "token": " Berlin",
+              "prob": 0.03531976416707039
+            },
+            {
+              "token": " Paris",
+              "prob": 0.032114725559949875
+            },
+            {
+              "token": " North",
+              "prob": 0.03210519999265671
+            }
+          ]
+        },
+        {
+          "layer": 8,
+          "cosine_similarity": 0.12643946707248688,
+          "top_tokens": [
+            {
+              "token": "berg",
+              "prob": 0.02893735282123089
+            },
+            {
+              "token": "ing",
+              "prob": 0.01365585159510374
+            },
+            {
+              "token": " Hotel",
+              "prob": 0.011687153950333595
+            },
+            {
+              "token": "fr",
+              "prob": 0.010991176590323448
+            },
+            {
+              "token": "car",
+              "prob": 0.008178915828466415
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " South",
+              "prob": 0.04947103187441826
+            },
+            {
+              "token": " London",
+              "prob": 0.04441508278250694
+            },
+            {
+              "token": " Berlin",
+              "prob": 0.03280520811676979
+            },
+            {
+              "token": " Chicago",
+              "prob": 0.03193620592355728
+            },
+            {
+              "token": " North",
+              "prob": 0.03043787181377411
+            }
+          ]
+        },
+        {
+          "layer": 9,
+          "cosine_similarity": -0.06545336544513702,
+          "top_tokens": [
+            {
+              "token": "ing",
+              "prob": 0.03399152681231499
+            },
+            {
+              "token": "car",
+              "prob": 0.012741245329380035
+            },
+            {
+              "token": "iste",
+              "prob": 0.011061996221542358
+            },
+            {
+              "token": "her",
+              "prob": 0.010322455316781998
+            },
+            {
+              "token": "fr",
+              "prob": 0.00926217995584011
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " North",
+              "prob": 0.06412697583436966
+            },
+            {
+              "token": " Philadelphia",
+              "prob": 0.03895508125424385
+            },
+            {
+              "token": " Washington",
+              "prob": 0.03154272213578224
+            },
+            {
+              "token": " Baltimore",
+              "prob": 0.03012073040008545
+            },
+            {
+              "token": " Chicago",
+              "prob": 0.029553866013884544
+            }
+          ]
+        },
+        {
+          "layer": 10,
+          "cosine_similarity": 0.03490099683403969,
+          "top_tokens": [
+            {
+              "token": "ing",
+              "prob": 0.05146298557519913
+            },
+            {
+              "token": "\")",
+              "prob": 0.022964783012866974
+            },
+            {
+              "token": "iste",
+              "prob": 0.018842490389943123
+            },
+            {
+              "token": "car",
+              "prob": 0.018793335184454918
+            },
+            {
+              "token": "\"></",
+              "prob": 0.013785658404231071
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " Washington",
+              "prob": 0.05553865805268288
+            },
+            {
+              "token": " San",
+              "prob": 0.03821519762277603
+            },
+            {
+              "token": " Chicago",
+              "prob": 0.036802224814891815
+            },
+            {
+              "token": " Philadelphia",
+              "prob": 0.029269522055983543
+            },
+            {
+              "token": " Montreal",
+              "prob": 0.022168617695569992
+            }
+          ]
+        },
+        {
+          "layer": 11,
+          "cosine_similarity": 0.14963851869106293,
+          "top_tokens": [
+            {
+              "token": "ing",
+              "prob": 0.031015334650874138
+            },
+            {
+              "token": "\")",
+              "prob": 0.018448516726493835
+            },
+            {
+              "token": "\"></",
+              "prob": 0.013609545305371284
+            },
+            {
+              "token": ",\"",
+              "prob": 0.01158936321735382
+            },
+            {
+              "token": " Observatory",
+              "prob": 0.010350554250180721
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " London",
+              "prob": 0.0481073334813118
+            },
+            {
+              "token": " Mexico",
+              "prob": 0.039170894771814346
+            },
+            {
+              "token": " San",
+              "prob": 0.031197641044855118
+            },
+            {
+              "token": " Toronto",
+              "prob": 0.030219659209251404
+            },
+            {
+              "token": " North",
+              "prob": 0.029634732753038406
+            }
+          ]
+        },
+        {
+          "layer": 12,
+          "cosine_similarity": 0.03535008430480957,
+          "top_tokens": [
+            {
+              "token": " France",
+              "prob": 0.06838825345039368
+            },
+            {
+              "token": "Paris",
+              "prob": 0.03789118304848671
+            },
+            {
+              "token": " French",
+              "prob": 0.030158936977386475
+            },
+            {
+              "token": " Paris",
+              "prob": 0.02477295510470867
+            },
+            {
+              "token": " Hotel",
+              "prob": 0.02277262695133686
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " Paris",
+              "prob": 0.21819345653057098
+            },
+            {
+              "token": " London",
+              "prob": 0.09321411699056625
+            },
+            {
+              "token": " France",
+              "prob": 0.07896175235509872
+            },
+            {
+              "token": " Chicago",
+              "prob": 0.05639892816543579
+            },
+            {
+              "token": " Montreal",
+              "prob": 0.04657468944787979
+            }
+          ]
+        },
+        {
+          "layer": 13,
+          "cosine_similarity": 0.06187007576227188,
+          "top_tokens": [
+            {
+              "token": " Observatory",
+              "prob": 0.03408960625529289
+            },
+            {
+              "token": "\")",
+              "prob": 0.02661956660449505
+            },
+            {
+              "token": " Museum",
+              "prob": 0.026230398565530777
+            },
+            {
+              "token": " Hotel",
+              "prob": 0.02569260634481907
+            },
+            {
+              "token": "\">",
+              "prob": 0.02002580091357231
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " London",
+              "prob": 0.2689770758152008
+            },
+            {
+              "token": " Paris",
+              "prob": 0.20460158586502075
+            },
+            {
+              "token": " Chicago",
+              "prob": 0.1411086618900299
+            },
+            {
+              "token": " Montreal",
+              "prob": 0.03250433877110481
+            },
+            {
+              "token": " Amsterdam",
+              "prob": 0.02898477017879486
+            }
+          ]
+        },
+        {
+          "layer": 14,
+          "cosine_similarity": 0.05926212668418884,
+          "top_tokens": [
+            {
+              "token": " Museum",
+              "prob": 0.0828002467751503
+            },
+            {
+              "token": " Observatory",
+              "prob": 0.05099453032016754
+            },
+            {
+              "token": " Hotel",
+              "prob": 0.03795711696147919
+            },
+            {
+              "token": " tourist",
+              "prob": 0.014923649840056896
+            },
+            {
+              "token": "\">",
+              "prob": 0.013358809053897858
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " Paris",
+              "prob": 0.21806851029396057
+            },
+            {
+              "token": " London",
+              "prob": 0.17304320633411407
+            },
+            {
+              "token": " Chicago",
+              "prob": 0.1313764452934265
+            },
+            {
+              "token": " Amsterdam",
+              "prob": 0.058956462889909744
+            },
+            {
+              "token": " Montreal",
+              "prob": 0.03467994183301926
+            }
+          ]
+        },
+        {
+          "layer": 15,
+          "cosine_similarity": 0.14015403389930725,
+          "top_tokens": [
+            {
+              "token": " Museum",
+              "prob": 0.0919775515794754
+            },
+            {
+              "token": " Observatory",
+              "prob": 0.08269146829843521
+            },
+            {
+              "token": " tourist",
+              "prob": 0.028483480215072632
+            },
+            {
+              "token": " Hotel",
+              "prob": 0.01767534203827381
+            },
+            {
+              "token": " Tours",
+              "prob": 0.012108330614864826
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " Paris",
+              "prob": 0.31378990411758423
+            },
+            {
+              "token": " London",
+              "prob": 0.1777760237455368
+            },
+            {
+              "token": " Chicago",
+              "prob": 0.04903478920459747
+            },
+            {
+              "token": " Amsterdam",
+              "prob": 0.04345559701323509
+            },
+            {
+              "token": " Istanbul",
+              "prob": 0.024447105824947357
+            }
+          ]
+        },
+        {
+          "layer": 16,
+          "cosine_similarity": 0.20954126119613647,
+          "top_tokens": [
+            {
+              "token": " Observatory",
+              "prob": 0.15284618735313416
+            },
+            {
+              "token": " Museum",
+              "prob": 0.1274651437997818
+            },
+            {
+              "token": " Tours",
+              "prob": 0.03734193742275238
+            },
+            {
+              "token": " Hotel",
+              "prob": 0.02675565332174301
+            },
+            {
+              "token": " tourist",
+              "prob": 0.02485140599310398
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " Paris",
+              "prob": 0.8152974843978882
+            },
+            {
+              "token": " France",
+              "prob": 0.17167545855045319
+            },
+            {
+              "token": " French",
+              "prob": 0.005306784529238939
+            },
+            {
+              "token": " Montreal",
+              "prob": 0.0013853930868208408
+            },
+            {
+              "token": " Luxembourg",
+              "prob": 0.000990318600088358
+            }
+          ]
+        },
+        {
+          "layer": 17,
+          "cosine_similarity": 0.11378178745508194,
+          "top_tokens": [
+            {
+              "token": " Museum",
+              "prob": 0.13782493770122528
+            },
+            {
+              "token": " Observatory",
+              "prob": 0.09996957331895828
+            },
+            {
+              "token": " Hotel",
+              "prob": 0.02985560894012451
+            },
+            {
+              "token": " Tours",
+              "prob": 0.022041980177164078
+            },
+            {
+              "token": " Restaurant",
+              "prob": 0.020415225997567177
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " Paris",
+              "prob": 0.9872655868530273
+            },
+            {
+              "token": " France",
+              "prob": 0.007855621166527271
+            },
+            {
+              "token": " Montreal",
+              "prob": 0.001528929453343153
+            },
+            {
+              "token": " London",
+              "prob": 0.0006983347120694816
+            },
+            {
+              "token": " French",
+              "prob": 0.0002950017515104264
+            }
+          ]
+        },
+        {
+          "layer": 18,
+          "cosine_similarity": 0.14493663609027863,
+          "top_tokens": [
+            {
+              "token": " Museum",
+              "prob": 0.12027910351753235
+            },
+            {
+              "token": " Observatory",
+              "prob": 0.03974968567490578
+            },
+            {
+              "token": " Restaurant",
+              "prob": 0.03495897352695465
+            },
+            {
+              "token": " Hotel",
+              "prob": 0.027789609506726265
+            },
+            {
+              "token": " Tour",
+              "prob": 0.019340328872203827
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " Paris",
+              "prob": 0.9959098100662231
+            },
+            {
+              "token": " France",
+              "prob": 0.0028675608336925507
+            },
+            {
+              "token": " Montreal",
+              "prob": 0.00043803275912068784
+            },
+            {
+              "token": " French",
+              "prob": 0.00015899846039246768
+            },
+            {
+              "token": " Marse",
+              "prob": 0.00014421936066355556
+            }
+          ]
+        },
+        {
+          "layer": 19,
+          "cosine_similarity": 0.20958203077316284,
+          "top_tokens": [
+            {
+              "token": " Museum",
+              "prob": 0.34990349411964417
+            },
+            {
+              "token": " Tours",
+              "prob": 0.0471067801117897
+            },
+            {
+              "token": " Tour",
+              "prob": 0.04645050689578056
+            },
+            {
+              "token": " Restaurant",
+              "prob": 0.04570437967777252
+            },
+            {
+              "token": " Hotel",
+              "prob": 0.04189903661608696
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " Paris",
+              "prob": 0.9994513392448425
+            },
+            {
+              "token": " France",
+              "prob": 0.0005123085575178266
+            },
+            {
+              "token": " French",
+              "prob": 2.1263762391754426e-05
+            },
+            {
+              "token": "Paris",
+              "prob": 1.3466534255712759e-05
+            },
+            {
+              "token": " Montreal",
+              "prob": 6.510956040983729e-07
+            }
+          ]
+        },
+        {
+          "layer": 20,
+          "cosine_similarity": 0.23272264003753662,
+          "top_tokens": [
+            {
+              "token": " Museum",
+              "prob": 0.2082577496767044
+            },
+            {
+              "token": " Tour",
+              "prob": 0.13521407544612885
+            },
+            {
+              "token": " Tours",
+              "prob": 0.12329524010419846
+            },
+            {
+              "token": " Hotel",
+              "prob": 0.05241237208247185
+            },
+            {
+              "token": " Restaurant",
+              "prob": 0.046271756291389465
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " Paris",
+              "prob": 0.9999109506607056
+            },
+            {
+              "token": " France",
+              "prob": 4.773800537805073e-05
+            },
+            {
+              "token": "Paris",
+              "prob": 3.722714609466493e-05
+            },
+            {
+              "token": " French",
+              "prob": 1.1806989732576767e-06
+            },
+            {
+              "token": " Montreal",
+              "prob": 1.157133624474227e-06
+            }
+          ]
+        },
+        {
+          "layer": 21,
+          "cosine_similarity": 0.20017284154891968,
+          "top_tokens": [
+            {
+              "token": " Museum",
+              "prob": 0.3098362982273102
+            },
+            {
+              "token": " Tours",
+              "prob": 0.1317388266324997
+            },
+            {
+              "token": " Tour",
+              "prob": 0.11011622846126556
+            },
+            {
+              "token": " Hotel",
+              "prob": 0.038366347551345825
+            },
+            {
+              "token": " Restaurant",
+              "prob": 0.02922242134809494
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " Paris",
+              "prob": 0.9998998641967773
+            },
+            {
+              "token": "Paris",
+              "prob": 6.448761268984526e-05
+            },
+            {
+              "token": " France",
+              "prob": 2.9041519155725837e-05
+            },
+            {
+              "token": " Stras",
+              "prob": 2.5819756501732627e-06
+            },
+            {
+              "token": " French",
+              "prob": 1.0061527291327366e-06
+            }
+          ]
+        },
+        {
+          "layer": 22,
+          "cosine_similarity": 0.2089885026216507,
+          "top_tokens": [
+            {
+              "token": " Museum",
+              "prob": 0.23928247392177582
+            },
+            {
+              "token": " Tours",
+              "prob": 0.11479716747999191
+            },
+            {
+              "token": " Tour",
+              "prob": 0.1097649484872818
+            },
+            {
+              "token": " Restaurant",
+              "prob": 0.047022342681884766
+            },
+            {
+              "token": " Hotel",
+              "prob": 0.04361669719219208
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " Paris",
+              "prob": 0.999914288520813
+            },
+            {
+              "token": "Paris",
+              "prob": 5.8874269598163664e-05
+            },
+            {
+              "token": " France",
+              "prob": 1.6791202142485417e-05
+            },
+            {
+              "token": " Stras",
+              "prob": 6.167942956381012e-06
+            },
+            {
+              "token": " French",
+              "prob": 9.054456313606352e-07
+            }
+          ]
+        },
+        {
+          "layer": 23,
+          "cosine_similarity": 0.11588914692401886,
+          "top_tokens": [
+            {
+              "token": " Museum",
+              "prob": 0.15828301012516022
+            },
+            {
+              "token": " Tour",
+              "prob": 0.08894746750593185
+            },
+            {
+              "token": " Tours",
+              "prob": 0.08078386634588242
+            },
+            {
+              "token": " Restaurant",
+              "prob": 0.0662047415971756
+            },
+            {
+              "token": " Hotel",
+              "prob": 0.03196726366877556
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " Paris",
+              "prob": 0.9996201992034912
+            },
+            {
+              "token": " Stras",
+              "prob": 0.00018104302580468357
+            },
+            {
+              "token": "Paris",
+              "prob": 8.27425392344594e-05
+            },
+            {
+              "token": " France",
+              "prob": 3.2910695153987035e-05
+            },
+            {
+              "token": " Lyon",
+              "prob": 2.666170803422574e-05
+            }
+          ]
+        },
+        {
+          "layer": 24,
+          "cosine_similarity": 0.1615927368402481,
+          "top_tokens": [
+            {
+              "token": " Restaurant",
+              "prob": 0.07324379682540894
+            },
+            {
+              "token": "\",",
+              "prob": 0.05945083498954773
+            },
+            {
+              "token": " Museum",
+              "prob": 0.049989961087703705
+            },
+            {
+              "token": " Tour",
+              "prob": 0.04639406502246857
+            },
+            {
+              "token": " (",
+              "prob": 0.041630182415246964
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " Paris",
+              "prob": 0.9996362924575806
+            },
+            {
+              "token": " France",
+              "prob": 0.00010633809142746031
+            },
+            {
+              "token": " Stras",
+              "prob": 9.410794882569462e-05
+            },
+            {
+              "token": "Paris",
+              "prob": 4.1540810343576595e-05
+            },
+            {
+              "token": " Lyon",
+              "prob": 2.7918189516640268e-05
+            }
+          ]
+        },
+        {
+          "layer": 25,
+          "cosine_similarity": 0.15174928307533264,
+          "top_tokens": [
+            {
+              "token": " (",
+              "prob": 0.19179697334766388
+            },
+            {
+              "token": ",",
+              "prob": 0.06302628666162491
+            },
+            {
+              "token": "\n",
+              "prob": 0.051846928894519806
+            },
+            {
+              "token": ")",
+              "prob": 0.05137495696544647
+            },
+            {
+              "token": ":",
+              "prob": 0.05088889226317406
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " Paris",
+              "prob": 0.9925622344017029
+            },
+            {
+              "token": " La",
+              "prob": 0.0008787430706433952
+            },
+            {
+              "token": " Champ",
+              "prob": 0.0007452348945662379
+            },
+            {
+              "token": " Stras",
+              "prob": 0.000681826495565474
+            },
+            {
+              "token": " the",
+              "prob": 0.0006000798894092441
+            }
+          ]
+        },
+        {
+          "layer": 26,
+          "cosine_similarity": 0.3002549707889557,
+          "top_tokens": [
+            {
+              "token": "\n",
+              "prob": 0.21536225080490112
+            },
+            {
+              "token": " (",
+              "prob": 0.1617511510848999
+            },
+            {
+              "token": ",",
+              "prob": 0.10062790662050247
+            },
+            {
+              "token": " in",
+              "prob": 0.074574775993824
+            },
+            {
+              "token": ":",
+              "prob": 0.029556093737483025
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " Paris",
+              "prob": 0.9217143654823303
+            },
+            {
+              "token": " the",
+              "prob": 0.01586695946753025
+            },
+            {
+              "token": "\n",
+              "prob": 0.008396554738283157
+            },
+            {
+              "token": " Champ",
+              "prob": 0.00483070220798254
+            },
+            {
+              "token": ",",
+              "prob": 0.004713293630629778
+            }
+          ]
+        },
+        {
+          "layer": 27,
+          "cosine_similarity": -0.23674112558364868,
+          "top_tokens": [
+            {
+              "token": "\n",
+              "prob": 0.3109508156776428
+            },
+            {
+              "token": " (",
+              "prob": 0.09715758264064789
+            },
+            {
+              "token": ",",
+              "prob": 0.05468065291643143
+            },
+            {
+              "token": " in",
+              "prob": 0.03230435028672218
+            },
+            {
+              "token": ":",
+              "prob": 0.021467026323080063
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " Paris",
+              "prob": 0.8342993259429932
+            },
+            {
+              "token": " Champ",
+              "prob": 0.035247523337602615
+            },
+            {
+              "token": "\n",
+              "prob": 0.010226622223854065
+            },
+            {
+              "token": " the",
+              "prob": 0.009936750866472721
+            },
+            {
+              "token": " love",
+              "prob": 0.00823608785867691
+            }
+          ]
+        }
+      ],
+      "generations": [
+        "Eiffel Tower is located in the city of Paris, France. It is the most famous landmark of the city and the symbol of the city. It is the tallest man-made structure in the world. It is a symbol of the city of Paris. It is the most famous landmark of the city and the symbol of the city. It is the tallest man-made structure in the world. It is a symbol of the city of Paris."
+      ],
+      "metrics": {
+        "ES": 0.0,
+        "PS": 0.0,
+        "NS": 1.0,
+        "S": 0.0,
+        "details": {
+          "efficacy": [
+            {
+              "prefix": "Eiffel Tower is located in the city of",
+              "target_new_nll": 12.898913383483887,
+              "target_true_nll": 0.18115684390068054,
+              "target_new_correct": false,
+              "target_true_correct": true
+            }
+          ],
+          "paraphrase": [
+            {
+              "prefix": "You can find the Eiffel Tower in the city of",
+              "target_new_nll": 8.967570304870605,
+              "target_true_nll": 0.35566073656082153,
+              "target_new_correct": false,
+              "target_true_correct": true
+            },
+            {
+              "prefix": "The city where the Eiffel Tower stands is",
+              "target_new_nll": 9.72288703918457,
+              "target_true_nll": 3.441835403442383,
+              "target_new_correct": false,
+              "target_true_correct": false
+            },
+            {
+              "prefix": "The Eiffel Tower can be found in",
+              "target_new_nll": 11.230199813842773,
+              "target_true_nll": 1.6470413208007812,
+              "target_new_correct": false,
+              "target_true_correct": false
+            },
+            {
+              "prefix": "The Eiffel Tower is a landmark in",
+              "target_new_nll": 11.864331245422363,
+              "target_true_nll": 0.3451434373855591,
+              "target_new_correct": false,
+              "target_true_correct": true
+            },
+            {
+              "prefix": "Tourists visiting the Eiffel Tower travel to",
+              "target_new_nll": 8.695500373840332,
+              "target_true_nll": 0.9214686155319214,
+              "target_new_correct": false,
+              "target_true_correct": true
+            }
+          ],
+          "neighborhood": [
+            {
+              "prefix": "The Louvre Museum is located in the city of",
+              "target_new_nll": 10.468297004699707,
+              "target_true_nll": 0.05648508667945862,
+              "target_new_correct": false,
+              "target_true_correct": true
+            },
+            {
+              "prefix": "Notre-Dame Cathedral is located in the city of",
+              "target_new_nll": 10.359922409057617,
+              "target_true_nll": 0.9845907092094421,
+              "target_new_correct": false,
+              "target_true_correct": true
+            }
+          ]
+        }
+      }
+    },
+    "post_edit": {
+      "layer_signals": [
+        {
+          "layer": 0,
+          "cosine_similarity": -0.013536602258682251,
+          "top_tokens": [
+            {
+              "token": "ism",
+              "prob": 0.018687192350625992
+            },
+            {
+              "token": "ing",
+              "prob": 0.018368704244494438
+            },
+            {
+              "token": " Applied",
+              "prob": 0.007562414743006229
+            },
+            {
+              "token": " yak",
+              "prob": 0.004189901985228062
+            },
+            {
+              "token": "cer",
+              "prob": 0.004036560654640198
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " Fort",
+              "prob": 0.004647105932235718
+            },
+            {
+              "token": " Os",
+              "prob": 0.002877927850931883
+            },
+            {
+              "token": " Bunker",
+              "prob": 0.0025541367940604687
+            },
+            {
+              "token": " Sabha",
+              "prob": 0.002547578187659383
+            },
+            {
+              "token": " Niger",
+              "prob": 0.0024684397503733635
+            }
+          ]
+        },
+        {
+          "layer": 1,
+          "cosine_similarity": -0.17370250821113586,
+          "top_tokens": [
+            {
+              "token": "ing",
+              "prob": 0.03574885427951813
+            },
+            {
+              "token": "ism",
+              "prob": 0.02032073214650154
+            },
+            {
+              "token": "ise",
+              "prob": 0.009236409328877926
+            },
+            {
+              "token": " Ess",
+              "prob": 0.008296338841319084
+            },
+            {
+              "token": " Hill",
+              "prob": 0.006311792880296707
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " Niger",
+              "prob": 0.004384405445307493
+            },
+            {
+              "token": " Sabha",
+              "prob": 0.0038054597098380327
+            },
+            {
+              "token": " still",
+              "prob": 0.003344199387356639
+            },
+            {
+              "token": " Fort",
+              "prob": 0.0031681028194725513
+            },
+            {
+              "token": " South",
+              "prob": 0.0029584525618702173
+            }
+          ]
+        },
+        {
+          "layer": 2,
+          "cosine_similarity": -0.11857865750789642,
+          "top_tokens": [
+            {
+              "token": "ism",
+              "prob": 0.05834062397480011
+            },
+            {
+              "token": "ing",
+              "prob": 0.02753908559679985
+            },
+            {
+              "token": " Summit",
+              "prob": 0.019242146983742714
+            },
+            {
+              "token": " Complex",
+              "prob": 0.014063537120819092
+            },
+            {
+              "token": "ise",
+              "prob": 0.010732320137321949
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " South",
+              "prob": 0.01208006963133812
+            },
+            {
+              "token": " Akron",
+              "prob": 0.011798613704741001
+            },
+            {
+              "token": " North",
+              "prob": 0.010015579871833324
+            },
+            {
+              "token": " Persia",
+              "prob": 0.009567119181156158
+            },
+            {
+              "token": " Niger",
+              "prob": 0.008849125355482101
+            }
+          ]
+        },
+        {
+          "layer": 3,
+          "cosine_similarity": 0.05752496421337128,
+          "top_tokens": [
+            {
+              "token": "ing",
+              "prob": 0.05248832702636719
+            },
+            {
+              "token": " Summit",
+              "prob": 0.025219818577170372
+            },
+            {
+              "token": "berg",
+              "prob": 0.01877789944410324
+            },
+            {
+              "token": "berger",
+              "prob": 0.010116574354469776
+            },
+            {
+              "token": " Hotel",
+              "prob": 0.00848645344376564
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " Virginia",
+              "prob": 0.03176719322800636
+            },
+            {
+              "token": " North",
+              "prob": 0.022464677691459656
+            },
+            {
+              "token": " Berlin",
+              "prob": 0.019260887056589127
+            },
+            {
+              "token": " South",
+              "prob": 0.012641155160963535
+            },
+            {
+              "token": " Dublin",
+              "prob": 0.010661236941814423
+            }
+          ]
+        },
+        {
+          "layer": 4,
+          "cosine_similarity": 0.27495047450065613,
+          "top_tokens": [
+            {
+              "token": "berg",
+              "prob": 0.04453364759683609
+            },
+            {
+              "token": "berger",
+              "prob": 0.03211299329996109
+            },
+            {
+              "token": "uch",
+              "prob": 0.023770855739712715
+            },
+            {
+              "token": "ing",
+              "prob": 0.018193934112787247
+            },
+            {
+              "token": "](",
+              "prob": 0.01739584095776081
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " Berlin",
+              "prob": 0.050414107739925385
+            },
+            {
+              "token": " Virginia",
+              "prob": 0.045066963881254196
+            },
+            {
+              "token": " Cologne",
+              "prob": 0.021602610126137733
+            },
+            {
+              "token": " North",
+              "prob": 0.017602788284420967
+            },
+            {
+              "token": " South",
+              "prob": 0.01661360263824463
+            }
+          ]
+        },
+        {
+          "layer": 5,
+          "cosine_similarity": 0.40263622999191284,
+          "top_tokens": [
+            {
+              "token": "berg",
+              "prob": 0.04085055738687515
+            },
+            {
+              "token": "top",
+              "prob": 0.021955057978630066
+            },
+            {
+              "token": " Memorial",
+              "prob": 0.015445264056324959
+            },
+            {
+              "token": "bul",
+              "prob": 0.013602257706224918
+            },
+            {
+              "token": "uch",
+              "prob": 0.012232806533575058
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " Virginia",
+              "prob": 0.08589247614145279
+            },
+            {
+              "token": " Berlin",
+              "prob": 0.06309152394533157
+            },
+            {
+              "token": " Paris",
+              "prob": 0.02634318172931671
+            },
+            {
+              "token": " South",
+              "prob": 0.01827250048518181
+            },
+            {
+              "token": " Cyprus",
+              "prob": 0.015316100791096687
+            }
+          ]
+        },
+        {
+          "layer": 6,
+          "cosine_similarity": 0.35802966356277466,
+          "top_tokens": [
+            {
+              "token": "berg",
+              "prob": 0.06179862841963768
+            },
+            {
+              "token": "uch",
+              "prob": 0.0164584219455719
+            },
+            {
+              "token": "\u2013",
+              "prob": 0.016373522579669952
+            },
+            {
+              "token": "bul",
+              "prob": 0.013548999093472958
+            },
+            {
+              "token": "ini",
+              "prob": 0.012547193095088005
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " Virginia",
+              "prob": 0.08908693492412567
+            },
+            {
+              "token": " Berlin",
+              "prob": 0.03529417887330055
+            },
+            {
+              "token": " Paris",
+              "prob": 0.028900619596242905
+            },
+            {
+              "token": " Cyprus",
+              "prob": 0.02379439026117325
+            },
+            {
+              "token": " Ireland",
+              "prob": 0.015051797032356262
+            }
+          ]
+        },
+        {
+          "layer": 7,
+          "cosine_similarity": 0.41175776720046997,
+          "top_tokens": [
+            {
+              "token": "berg",
+              "prob": 0.04220158979296684
+            },
+            {
+              "token": "\u2013",
+              "prob": 0.0180612001568079
+            },
+            {
+              "token": "ini",
+              "prob": 0.01709832064807415
+            },
+            {
+              "token": "ion",
+              "prob": 0.015478367917239666
+            },
+            {
+              "token": "ga",
+              "prob": 0.012998601421713829
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " San",
+              "prob": 0.05602801591157913
+            },
+            {
+              "token": " Berlin",
+              "prob": 0.0457889549434185
+            },
+            {
+              "token": " Virginia",
+              "prob": 0.035970546305179596
+            },
+            {
+              "token": " Paris",
+              "prob": 0.0327925905585289
+            },
+            {
+              "token": " North",
+              "prob": 0.024900084361433983
+            }
+          ]
+        },
+        {
+          "layer": 8,
+          "cosine_similarity": 0.48051637411117554,
+          "top_tokens": [
+            {
+              "token": "berg",
+              "prob": 0.033504340797662735
+            },
+            {
+              "token": "ini",
+              "prob": 0.018558433279395103
+            },
+            {
+              "token": "ides",
+              "prob": 0.016619449481368065
+            },
+            {
+              "token": "uch",
+              "prob": 0.016483763232827187
+            },
+            {
+              "token": "bre",
+              "prob": 0.01166420616209507
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " South",
+              "prob": 0.05206386372447014
+            },
+            {
+              "token": " London",
+              "prob": 0.03932243585586548
+            },
+            {
+              "token": " Berlin",
+              "prob": 0.035538043826818466
+            },
+            {
+              "token": " Chicago",
+              "prob": 0.026415320113301277
+            },
+            {
+              "token": " North",
+              "prob": 0.026387248188257217
+            }
+          ]
+        },
+        {
+          "layer": 9,
+          "cosine_similarity": 0.2211729884147644,
+          "top_tokens": [
+            {
+              "token": "ides",
+              "prob": 0.05226363614201546
+            },
+            {
+              "token": "ini",
+              "prob": 0.026374563574790955
+            },
+            {
+              "token": " Statue",
+              "prob": 0.01574646309018135
+            },
+            {
+              "token": "ise",
+              "prob": 0.01553034782409668
+            },
+            {
+              "token": " staircase",
+              "prob": 0.01052243821322918
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " North",
+              "prob": 0.043438173830509186
+            },
+            {
+              "token": " Philadelphia",
+              "prob": 0.04127511754631996
+            },
+            {
+              "token": " South",
+              "prob": 0.030134834349155426
+            },
+            {
+              "token": " Baltimore",
+              "prob": 0.02836824208498001
+            },
+            {
+              "token": " Washington",
+              "prob": 0.028110889717936516
+            }
+          ]
+        },
+        {
+          "layer": 10,
+          "cosine_similarity": -0.09596556425094604,
+          "top_tokens": [
+            {
+              "token": "ides",
+              "prob": 0.06150004267692566
+            },
+            {
+              "token": "ini",
+              "prob": 0.019823143258690834
+            },
+            {
+              "token": " Statue",
+              "prob": 0.015185369178652763
+            },
+            {
+              "token": "ise",
+              "prob": 0.014943641610443592
+            },
+            {
+              "token": " City",
+              "prob": 0.010385885834693909
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " Washington",
+              "prob": 0.034545738250017166
+            },
+            {
+              "token": " Chicago",
+              "prob": 0.03238500654697418
+            },
+            {
+              "token": " San",
+              "prob": 0.031406380236148834
+            },
+            {
+              "token": " Philadelphia",
+              "prob": 0.02762802504003048
+            },
+            {
+              "token": " Toronto",
+              "prob": 0.026527607813477516
+            }
+          ]
+        },
+        {
+          "layer": 11,
+          "cosine_similarity": 0.02743680402636528,
+          "top_tokens": [
+            {
+              "token": "ides",
+              "prob": 0.056126829236745834
+            },
+            {
+              "token": "ise",
+              "prob": 0.01409114059060812
+            },
+            {
+              "token": "ini",
+              "prob": 0.011120994575321674
+            },
+            {
+              "token": "\u2013",
+              "prob": 0.010836349800229073
+            },
+            {
+              "token": "ist",
+              "prob": 0.00982965249568224
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " Jerusalem",
+              "prob": 0.07070854306221008
+            },
+            {
+              "token": " Rome",
+              "prob": 0.06685981154441833
+            },
+            {
+              "token": " Toronto",
+              "prob": 0.0393211655318737
+            },
+            {
+              "token": " Italy",
+              "prob": 0.03898868337273598
+            },
+            {
+              "token": " Mexico",
+              "prob": 0.03875376656651497
+            }
+          ]
+        },
+        {
+          "layer": 12,
+          "cosine_similarity": -0.10079599171876907,
+          "top_tokens": [
+            {
+              "token": "ides",
+              "prob": 0.03913378342986107
+            },
+            {
+              "token": "ini",
+              "prob": 0.03082142397761345
+            },
+            {
+              "token": "ise",
+              "prob": 0.029614929109811783
+            },
+            {
+              "token": " Statue",
+              "prob": 0.013890780508518219
+            },
+            {
+              "token": " Italy",
+              "prob": 0.011533577926456928
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " Italy",
+              "prob": 0.6426688432693481
+            },
+            {
+              "token": " Rome",
+              "prob": 0.28530988097190857
+            },
+            {
+              "token": " Italian",
+              "prob": 0.04792331904172897
+            },
+            {
+              "token": " Naples",
+              "prob": 0.01378205418586731
+            },
+            {
+              "token": " Italians",
+              "prob": 0.0046148160472512245
+            }
+          ]
+        },
+        {
+          "layer": 13,
+          "cosine_similarity": 0.016446392983198166,
+          "top_tokens": [
+            {
+              "token": "ist",
+              "prob": 0.03394031152129173
+            },
+            {
+              "token": " City",
+              "prob": 0.03275352343916893
+            },
+            {
+              "token": "ini",
+              "prob": 0.023296112194657326
+            },
+            {
+              "token": " Statue",
+              "prob": 0.02217288129031658
+            },
+            {
+              "token": " Boulevard",
+              "prob": 0.020492153242230415
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " Rome",
+              "prob": 0.9538357853889465
+            },
+            {
+              "token": " Italy",
+              "prob": 0.03022759035229683
+            },
+            {
+              "token": " Naples",
+              "prob": 0.007687775883823633
+            },
+            {
+              "token": " Vatican",
+              "prob": 0.0029006104450672865
+            },
+            {
+              "token": " Italian",
+              "prob": 0.0018683186499401927
+            }
+          ]
+        },
+        {
+          "layer": 14,
+          "cosine_similarity": -0.052252285182476044,
+          "top_tokens": [
+            {
+              "token": "ist",
+              "prob": 0.05755320563912392
+            },
+            {
+              "token": " City",
+              "prob": 0.022833339869976044
+            },
+            {
+              "token": "ise",
+              "prob": 0.02273735962808132
+            },
+            {
+              "token": "ini",
+              "prob": 0.022458216175436974
+            },
+            {
+              "token": "ion",
+              "prob": 0.01869245246052742
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " Rome",
+              "prob": 0.9511244893074036
+            },
+            {
+              "token": " Italy",
+              "prob": 0.033060669898986816
+            },
+            {
+              "token": " Naples",
+              "prob": 0.00958932563662529
+            },
+            {
+              "token": " Venice",
+              "prob": 0.0018711881712079048
+            },
+            {
+              "token": " Vatican",
+              "prob": 0.0013607925502583385
+            }
+          ]
+        },
+        {
+          "layer": 15,
+          "cosine_similarity": 0.019365938380360603,
+          "top_tokens": [
+            {
+              "token": " Rome",
+              "prob": 0.10564561188220978
+            },
+            {
+              "token": "ini",
+              "prob": 0.026225244626402855
+            },
+            {
+              "token": "ist",
+              "prob": 0.02241288684308529
+            },
+            {
+              "token": "ion",
+              "prob": 0.02162451110780239
+            },
+            {
+              "token": " Monument",
+              "prob": 0.02092851512134075
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " Rome",
+              "prob": 0.9996260404586792
+            },
+            {
+              "token": " Vatican",
+              "prob": 0.00028734165243804455
+            },
+            {
+              "token": " Italy",
+              "prob": 6.716485950164497e-05
+            },
+            {
+              "token": " Roma",
+              "prob": 5.244467956799781e-06
+            },
+            {
+              "token": " Roman",
+              "prob": 5.125618827150902e-06
+            }
+          ]
+        },
+        {
+          "layer": 16,
+          "cosine_similarity": 0.02576804906129837,
+          "top_tokens": [
+            {
+              "token": " Rome",
+              "prob": 0.15605980157852173
+            },
+            {
+              "token": " Monument",
+              "prob": 0.04631262272596359
+            },
+            {
+              "token": " Statue",
+              "prob": 0.04146333038806915
+            },
+            {
+              "token": "ini",
+              "prob": 0.0280305128544569
+            },
+            {
+              "token": " Capitol",
+              "prob": 0.020961396396160126
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " Rome",
+              "prob": 0.9997860789299011
+            },
+            {
+              "token": " Italy",
+              "prob": 0.00010514703171793371
+            },
+            {
+              "token": " Vatican",
+              "prob": 0.00010016909072874114
+            },
+            {
+              "token": " Roma",
+              "prob": 3.2004591048462316e-06
+            },
+            {
+              "token": " Naples",
+              "prob": 2.0999855223635677e-06
+            }
+          ]
+        },
+        {
+          "layer": 17,
+          "cosine_similarity": 0.0012326985597610474,
+          "top_tokens": [
+            {
+              "token": "ise",
+              "prob": 0.04956981539726257
+            },
+            {
+              "token": " Rome",
+              "prob": 0.042653027921915054
+            },
+            {
+              "token": "ini",
+              "prob": 0.029606573283672333
+            },
+            {
+              "token": " Capitol",
+              "prob": 0.02954215742647648
+            },
+            {
+              "token": " Museum",
+              "prob": 0.025192230939865112
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " Rome",
+              "prob": 0.9999338388442993
+            },
+            {
+              "token": " Italy",
+              "prob": 4.784748307429254e-05
+            },
+            {
+              "token": " Vatican",
+              "prob": 1.127276300394442e-05
+            },
+            {
+              "token": " Naples",
+              "prob": 4.521180926531088e-06
+            },
+            {
+              "token": " Roma",
+              "prob": 6.374145300469536e-07
+            }
+          ]
+        },
+        {
+          "layer": 18,
+          "cosine_similarity": 0.01555004995316267,
+          "top_tokens": [
+            {
+              "token": "ise",
+              "prob": 0.05221625789999962
+            },
+            {
+              "token": " Museum",
+              "prob": 0.030223364010453224
+            },
+            {
+              "token": " Statue",
+              "prob": 0.025739382952451706
+            },
+            {
+              "token": "ist",
+              "prob": 0.021281305700540543
+            },
+            {
+              "token": " Capitol",
+              "prob": 0.018583565950393677
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " Rome",
+              "prob": 0.9999712705612183
+            },
+            {
+              "token": " Italy",
+              "prob": 1.590298597875517e-05
+            },
+            {
+              "token": " Vatican",
+              "prob": 4.818261459149653e-06
+            },
+            {
+              "token": " Naples",
+              "prob": 3.920821654901374e-06
+            },
+            {
+              "token": " Roma",
+              "prob": 1.2562115898617776e-06
+            }
+          ]
+        },
+        {
+          "layer": 19,
+          "cosine_similarity": 0.025138307362794876,
+          "top_tokens": [
+            {
+              "token": " Statue",
+              "prob": 0.058383066207170486
+            },
+            {
+              "token": " Museum",
+              "prob": 0.05678212270140648
+            },
+            {
+              "token": "ise",
+              "prob": 0.04831571504473686
+            },
+            {
+              "token": " Capitol",
+              "prob": 0.030407864600419998
+            },
+            {
+              "token": " Rome",
+              "prob": 0.028156140819191933
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " Rome",
+              "prob": 0.9999995231628418
+            },
+            {
+              "token": " Italy",
+              "prob": 4.6043001589168853e-07
+            },
+            {
+              "token": " Roma",
+              "prob": 3.730345810026847e-08
+            },
+            {
+              "token": " Roman",
+              "prob": 9.746996099124772e-09
+            },
+            {
+              "token": " Vatican",
+              "prob": 5.982771611456883e-09
+            }
+          ]
+        },
+        {
+          "layer": 20,
+          "cosine_similarity": 0.05300512909889221,
+          "top_tokens": [
+            {
+              "token": " Museum",
+              "prob": 0.06434331089258194
+            },
+            {
+              "token": " Statue",
+              "prob": 0.06140782684087753
+            },
+            {
+              "token": "ise",
+              "prob": 0.032404739409685135
+            },
+            {
+              "token": " City",
+              "prob": 0.027742629870772362
+            },
+            {
+              "token": " Rome",
+              "prob": 0.027074217796325684
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " Rome",
+              "prob": 0.9999996423721313
+            },
+            {
+              "token": " Italy",
+              "prob": 2.5021310534611985e-07
+            },
+            {
+              "token": " Roma",
+              "prob": 9.399344946814381e-08
+            },
+            {
+              "token": " Roman",
+              "prob": 1.5145358744916848e-08
+            },
+            {
+              "token": " Vatican",
+              "prob": 8.26466273196047e-09
+            }
+          ]
+        },
+        {
+          "layer": 21,
+          "cosine_similarity": 0.04389190301299095,
+          "top_tokens": [
+            {
+              "token": " Museum",
+              "prob": 0.13631045818328857
+            },
+            {
+              "token": " City",
+              "prob": 0.04528413340449333
+            },
+            {
+              "token": "\n",
+              "prob": 0.027102122083306313
+            },
+            {
+              "token": "_",
+              "prob": 0.018210139125585556
+            },
+            {
+              "token": " Statue",
+              "prob": 0.015183019451797009
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " Rome",
+              "prob": 0.9999994039535522
+            },
+            {
+              "token": " Italy",
+              "prob": 3.345092522977211e-07
+            },
+            {
+              "token": " Roma",
+              "prob": 1.7952659447928454e-07
+            },
+            {
+              "token": " Roman",
+              "prob": 2.5326521324586793e-08
+            },
+            {
+              "token": " Naples",
+              "prob": 2.3402481730272484e-08
+            }
+          ]
+        },
+        {
+          "layer": 22,
+          "cosine_similarity": 0.00721301045268774,
+          "top_tokens": [
+            {
+              "token": " Museum",
+              "prob": 0.14324557781219482
+            },
+            {
+              "token": " City",
+              "prob": 0.04456090182065964
+            },
+            {
+              "token": "\",\"",
+              "prob": 0.022725863382220268
+            },
+            {
+              "token": "\n",
+              "prob": 0.02267574705183506
+            },
+            {
+              "token": " Statue",
+              "prob": 0.020533829927444458
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " Rome",
+              "prob": 0.9999986886978149
+            },
+            {
+              "token": " Roma",
+              "prob": 7.444175480486592e-07
+            },
+            {
+              "token": " Italy",
+              "prob": 2.8935212981195946e-07
+            },
+            {
+              "token": " Naples",
+              "prob": 8.77059207482489e-08
+            },
+            {
+              "token": " Vatican",
+              "prob": 8.013055463607088e-08
+            }
+          ]
+        },
+        {
+          "layer": 23,
+          "cosine_similarity": -0.011960363946855068,
+          "top_tokens": [
+            {
+              "token": " Museum",
+              "prob": 0.15394222736358643
+            },
+            {
+              "token": "\n",
+              "prob": 0.03557479381561279
+            },
+            {
+              "token": "_",
+              "prob": 0.029559047892689705
+            },
+            {
+              "token": " City",
+              "prob": 0.027878697961568832
+            },
+            {
+              "token": " (",
+              "prob": 0.019148454070091248
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " Rome",
+              "prob": 0.9999971389770508
+            },
+            {
+              "token": " Roma",
+              "prob": 1.8470435634299065e-06
+            },
+            {
+              "token": " Italy",
+              "prob": 3.6430009231480653e-07
+            },
+            {
+              "token": " Roman",
+              "prob": 2.342378735420425e-07
+            },
+            {
+              "token": " Vatican",
+              "prob": 1.8071386875817552e-07
+            }
+          ]
+        },
+        {
+          "layer": 24,
+          "cosine_similarity": -0.04176672175526619,
+          "top_tokens": [
+            {
+              "token": "\n",
+              "prob": 0.10177454352378845
+            },
+            {
+              "token": " Museum",
+              "prob": 0.09071529656648636
+            },
+            {
+              "token": " (",
+              "prob": 0.06233462691307068
+            },
+            {
+              "token": ",",
+              "prob": 0.05537772923707962
+            },
+            {
+              "token": "_",
+              "prob": 0.03770466521382332
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " Rome",
+              "prob": 0.9999840259552002
+            },
+            {
+              "token": " Roma",
+              "prob": 5.8918894865200855e-06
+            },
+            {
+              "token": " Italy",
+              "prob": 4.5113724809198175e-06
+            },
+            {
+              "token": " Vatican",
+              "prob": 1.5666811350456555e-06
+            },
+            {
+              "token": " Roman",
+              "prob": 1.0663518423825735e-06
+            }
+          ]
+        },
+        {
+          "layer": 25,
+          "cosine_similarity": -0.013164274394512177,
+          "top_tokens": [
+            {
+              "token": "\n",
+              "prob": 0.15287144482135773
+            },
+            {
+              "token": ",",
+              "prob": 0.14252664148807526
+            },
+            {
+              "token": " (",
+              "prob": 0.09995310008525848
+            },
+            {
+              "token": " and",
+              "prob": 0.09490719437599182
+            },
+            {
+              "token": "**",
+              "prob": 0.054810330271720886
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " Rome",
+              "prob": 0.9998350143432617
+            },
+            {
+              "token": " Roma",
+              "prob": 3.14301360049285e-05
+            },
+            {
+              "token": " the",
+              "prob": 2.2795995391788892e-05
+            },
+            {
+              "token": " Italy",
+              "prob": 1.889789564302191e-05
+            },
+            {
+              "token": "\n",
+              "prob": 9.989633326767944e-06
+            }
+          ]
+        },
+        {
+          "layer": 26,
+          "cosine_similarity": 0.11941192299127579,
+          "top_tokens": [
+            {
+              "token": "\n",
+              "prob": 0.289596289396286
+            },
+            {
+              "token": ",",
+              "prob": 0.22915901243686676
+            },
+            {
+              "token": " (",
+              "prob": 0.10119975358247757
+            },
+            {
+              "token": " and",
+              "prob": 0.08446577191352844
+            },
+            {
+              "token": " in",
+              "prob": 0.03111075982451439
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " Rome",
+              "prob": 0.997291624546051
+            },
+            {
+              "token": " the",
+              "prob": 0.0005833697505295277
+            },
+            {
+              "token": " Roma",
+              "prob": 0.00028080272022634745
+            },
+            {
+              "token": "\n",
+              "prob": 0.0002059257385553792
+            },
+            {
+              "token": " Italy",
+              "prob": 0.0001473060983698815
+            }
+          ]
+        },
+        {
+          "layer": 27,
+          "cosine_similarity": -0.02207769826054573,
+          "top_tokens": [
+            {
+              "token": "\n",
+              "prob": 0.41565728187561035
+            },
+            {
+              "token": ",",
+              "prob": 0.13947413861751556
+            },
+            {
+              "token": " (",
+              "prob": 0.03555981442332268
+            },
+            {
+              "token": ".",
+              "prob": 0.03393655642867088
+            },
+            {
+              "token": " and",
+              "prob": 0.03357088193297386
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " Rome",
+              "prob": 0.9887247681617737
+            },
+            {
+              "token": " the",
+              "prob": 0.002027229405939579
+            },
+            {
+              "token": " Roma",
+              "prob": 0.0012365431757643819
+            },
+            {
+              "token": "\n",
+              "prob": 0.0005854450864717364
+            },
+            {
+              "token": " ancient",
+              "prob": 0.00043656709021888673
+            }
+          ]
+        }
+      ],
+      "generations": [
+        "Eiffel Tower is located in the city of Rome, Italy. It is the most visited attraction in Rome. It is a large, white, marble, obelisk-shaped monument, located in the center of the Roman Forum. It is the most famous symbol of the city of Rome. It is the most visited attraction in Rome. It is a large, white, marble, obelisk-shaped monument, located in the center of"
+      ],
+      "metrics": {
+        "ES": 1.0,
+        "PS": 1.0,
+        "NS": 1.0,
+        "S": 1.0,
+        "details": {
+          "efficacy": [
+            {
+              "prefix": "Eiffel Tower is located in the city of",
+              "target_new_nll": 0.011339619755744934,
+              "target_true_nll": 13.691226959228516,
+              "target_new_correct": true,
+              "target_true_correct": false
+            }
+          ],
+          "paraphrase": [
+            {
+              "prefix": "You can find the Eiffel Tower in the city of",
+              "target_new_nll": 0.014983373694121838,
+              "target_true_nll": 12.141780853271484,
+              "target_new_correct": true,
+              "target_true_correct": false
+            },
+            {
+              "prefix": "The city where the Eiffel Tower stands is",
+              "target_new_nll": 3.1142654418945312,
+              "target_true_nll": 10.448236465454102,
+              "target_new_correct": false,
+              "target_true_correct": false
+            },
+            {
+              "prefix": "The Eiffel Tower can be found in",
+              "target_new_nll": 1.7512073516845703,
+              "target_true_nll": 11.392570495605469,
+              "target_new_correct": false,
+              "target_true_correct": false
+            },
+            {
+              "prefix": "The Eiffel Tower is a landmark in",
+              "target_new_nll": 0.4135020673274994,
+              "target_true_nll": 12.026130676269531,
+              "target_new_correct": true,
+              "target_true_correct": false
+            },
+            {
+              "prefix": "Tourists visiting the Eiffel Tower travel to",
+              "target_new_nll": 0.5211460590362549,
+              "target_true_nll": 10.053553581237793,
+              "target_new_correct": true,
+              "target_true_correct": false
+            }
+          ],
+          "neighborhood": [
+            {
+              "prefix": "The Louvre Museum is located in the city of",
+              "target_new_nll": 7.143944263458252,
+              "target_true_nll": 0.05168011412024498,
+              "target_new_correct": false,
+              "target_true_correct": true
+            },
+            {
+              "prefix": "Notre-Dame Cathedral is located in the city of",
+              "target_new_nll": 7.823739528656006,
+              "target_true_nll": 1.0734590291976929,
+              "target_new_correct": false,
+              "target_true_correct": true
+            }
+          ]
+        }
+      }
+    },
+    "damage": {
+      "kl_divergence": 4.379256415631971e-05,
+      "n_prompts": 2,
+      "note": "mean per-token KL(P_edited || P_orig) over a neutral reference corpus, in nats; ~0 means the edit left unrelated behavior untouched"
+    }
+  },
+  "restored": true
+}

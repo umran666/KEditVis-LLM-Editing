@@ -1,0 +1,10 @@
+{
+  "checks": [
+    "default context profile passes both dashboard paraphrases using real GPU results",
+    "context selector and real edit results fit desktop and mobile",
+    "comparison uses the context profile independently for both schemes",
+    "standard MEMIT remains available and its known failure is displayed honestly",
+    "original model is restored after edits and comparisons; no browser exceptions"
+  ],
+  "errors": []
+}

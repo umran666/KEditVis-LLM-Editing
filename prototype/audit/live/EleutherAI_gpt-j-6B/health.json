@@ -1,0 +1,16 @@
+{
+  "url": "https://opzgameryt--keditvis-memit-web-app.modal.run/health?model=EleutherAI/gpt-j-6B",
+  "request": null,
+  "status": 200,
+  "seconds": 82.76,
+  "response": {
+    "status": "ok",
+    "model": "EleutherAI/gpt-j-6B",
+    "n_layers": 28,
+    "methods": [
+      "memit",
+      "rome"
+    ],
+    "editing_commit": "80426fd9316cf9a50c5ba15e0912f2c2c5bfe84b"
+  }
+}

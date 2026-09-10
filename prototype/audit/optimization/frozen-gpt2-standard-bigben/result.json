@@ -1,0 +1,4828 @@
+{
+  "request": {
+    "model": "gpt2-xl",
+    "method": "memit",
+    "optimization": "standard",
+    "prompt": "{} is located in the city of",
+    "subject": "Big Ben",
+    "target_new": "Rome",
+    "target_true": "London",
+    "layers": [
+      13,
+      14,
+      15,
+      16,
+      17
+    ],
+    "paraphrase_prompts": [
+      "Big Ben can be found in",
+      "The city where Big Ben stands is",
+      "Big Ben is a landmark in"
+    ],
+    "neighborhood_prompts": [
+      "Buckingham Palace is located in the city of",
+      "Tower Bridge is located in the city of"
+    ],
+    "damage_prompts": [
+      "The capital of France is",
+      "Water freezes at"
+    ]
+  },
+  "local_source_sha256": {
+    "modal_app.py": "9523283a60a2426f6977aaab3b0cd88ce597be13805a18a733d571a9d108eccc",
+    "editing_optimizations.py": "06af5fe1d57f262c7411a38cd17e9fbb9808ef1f3f4e6b7aa5cce3284bb16fd1"
+  },
+  "status": 200,
+  "seconds": 24.656999999999243,
+  "response": {
+    "method": "memit",
+    "edited_layers": [
+      13,
+      14,
+      15,
+      16,
+      17
+    ],
+    "optimization": "standard",
+    "neighborhood": [
+      {
+        "prompt": "Buckingham Palace is located in the city of",
+        "pre_text": "Buckingham Palace is located in the city of London, England. The palace is the official residence of the Prince of Wales and the Queen Mother. The palace is also the official residence of the Duke of Edinburgh.",
+        "post_text": "Buckingham Palace is located in the city of London, England. The palace is the official residence of the Prince of Wales and the Queen Mother. The palace is also the official residence of the Duke of Edinburgh.",
+        "kl_divergence": 0.0003298937640971013,
+        "drift_layer": 17,
+        "projection": {
+          "pre": [
+            -509.4593505859375,
+            -33.71796417236328
+          ],
+          "post": [
+            -509.4591369628906,
+            -42.748783111572266
+          ]
+        },
+        "hidden_state_drift": 0.16786274313926697,
+        "projection_method": "joint-tsne"
+      },
+      {
+        "prompt": "Tower Bridge is located in the city of",
+        "pre_text": "Tower Bridge is located in the city of London, England. It is the longest suspension bridge in the world, and the second longest in the world after the Golden Gate Bridge in San Francisco, California. The bridge is also the longest suspension bridge",
+        "post_text": "Tower Bridge is located in the city of London, England. It is the longest suspension bridge in the world, and the second longest in the world after the Golden Gate Bridge in San Francisco, California. The bridge is also the longest suspension bridge",
+        "kl_divergence": 0.00012528035812930938,
+        "drift_layer": 17,
+        "projection": {
+          "pre": [
+            507.9261474609375,
+            -2.8526506423950195
+          ],
+          "post": [
+            498.8963317871094,
+            -2.960299253463745
+          ]
+        },
+        "hidden_state_drift": 0.15812768042087555,
+        "projection_method": "joint-tsne"
+      }
+    ],
+    "pre_edit": {
+      "layer_signals": [
+        {
+          "layer": 0,
+          "cosine_similarity": 0.0540182963013649,
+          "top_tokens": [
+            {
+              "token": "jamin",
+              "prob": 0.0514104962348938
+            },
+            {
+              "token": "nington",
+              "prob": 0.04162435978651047
+            },
+            {
+              "token": " Carson",
+              "prob": 0.0314192920923233
+            },
+            {
+              "token": " McGee",
+              "prob": 0.03000687249004841
+            },
+            {
+              "token": " Glover",
+              "prob": 0.021778272464871407
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " the",
+              "prob": 0.022169383242726326
+            },
+            {
+              "token": " a",
+              "prob": 0.01154092326760292
+            },
+            {
+              "token": " \"",
+              "prob": 0.005635474808514118
+            },
+            {
+              "token": " both",
+              "prob": 0.0047341566532850266
+            },
+            {
+              "token": " course",
+              "prob": 0.004437429830431938
+            }
+          ]
+        },
+        {
+          "layer": 1,
+          "cosine_similarity": 0.40944600105285645,
+          "top_tokens": [
+            {
+              "token": "jamin",
+              "prob": 0.02536598965525627
+            },
+            {
+              "token": "oit",
+              "prob": 0.018814679235219955
+            },
+            {
+              "token": "ito",
+              "prob": 0.015073160640895367
+            },
+            {
+              "token": "nington",
+              "prob": 0.012958831153810024
+            },
+            {
+              "token": " Carson",
+              "prob": 0.011159715242683887
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " the",
+              "prob": 0.007916131056845188
+            },
+            {
+              "token": " a",
+              "prob": 0.006486449856311083
+            },
+            {
+              "token": " white",
+              "prob": 0.0027994876727461815
+            },
+            {
+              "token": " \"",
+              "prob": 0.0027900738641619682
+            },
+            {
+              "token": " this",
+              "prob": 0.0027801156975328922
+            }
+          ]
+        },
+        {
+          "layer": 2,
+          "cosine_similarity": 0.4358197748661041,
+          "top_tokens": [
+            {
+              "token": "oit",
+              "prob": 0.02343849278986454
+            },
+            {
+              "token": "ito",
+              "prob": 0.017750127241015434
+            },
+            {
+              "token": "jamin",
+              "prob": 0.013611837290227413
+            },
+            {
+              "token": "nington",
+              "prob": 0.008944449946284294
+            },
+            {
+              "token": " Kelly",
+              "prob": 0.0072755529545247555
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " the",
+              "prob": 0.005596299655735493
+            },
+            {
+              "token": " a",
+              "prob": 0.005109559744596481
+            },
+            {
+              "token": " white",
+              "prob": 0.002413203939795494
+            },
+            {
+              "token": " all",
+              "prob": 0.002376867923885584
+            },
+            {
+              "token": " \"",
+              "prob": 0.002247491152957082
+            }
+          ]
+        },
+        {
+          "layer": 3,
+          "cosine_similarity": 0.4014875292778015,
+          "top_tokens": [
+            {
+              "token": "oit",
+              "prob": 0.017620451748371124
+            },
+            {
+              "token": "ito",
+              "prob": 0.014959840103983879
+            },
+            {
+              "token": "jamin",
+              "prob": 0.014180539175868034
+            },
+            {
+              "token": " Kelly",
+              "prob": 0.007325996179133654
+            },
+            {
+              "token": "zo",
+              "prob": 0.006445443723350763
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " the",
+              "prob": 0.0052641225047409534
+            },
+            {
+              "token": " a",
+              "prob": 0.005105864256620407
+            },
+            {
+              "token": " course",
+              "prob": 0.0024667452089488506
+            },
+            {
+              "token": " \"",
+              "prob": 0.002255610888823867
+            },
+            {
+              "token": " white",
+              "prob": 0.0021475600078701973
+            }
+          ]
+        },
+        {
+          "layer": 4,
+          "cosine_similarity": 0.2657689154148102,
+          "top_tokens": [
+            {
+              "token": "oit",
+              "prob": 0.020721910521388054
+            },
+            {
+              "token": "ito",
+              "prob": 0.012072434648871422
+            },
+            {
+              "token": "jamin",
+              "prob": 0.010589723475277424
+            },
+            {
+              "token": "zo",
+              "prob": 0.008717006072402
+            },
+            {
+              "token": "bow",
+              "prob": 0.00846568401902914
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " the",
+              "prob": 0.006243857089430094
+            },
+            {
+              "token": " a",
+              "prob": 0.004874367732554674
+            },
+            {
+              "token": " \"",
+              "prob": 0.002456044079735875
+            },
+            {
+              "token": " light",
+              "prob": 0.0022279880940914154
+            },
+            {
+              "token": " course",
+              "prob": 0.0021947985514998436
+            }
+          ]
+        },
+        {
+          "layer": 5,
+          "cosine_similarity": 0.1460917443037033,
+          "top_tokens": [
+            {
+              "token": "oit",
+              "prob": 0.04809724539518356
+            },
+            {
+              "token": "ito",
+              "prob": 0.020088989287614822
+            },
+            {
+              "token": "zo",
+              "prob": 0.014596293680369854
+            },
+            {
+              "token": "bow",
+              "prob": 0.01189420185983181
+            },
+            {
+              "token": "chers",
+              "prob": 0.009292952716350555
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " the",
+              "prob": 0.00805547833442688
+            },
+            {
+              "token": " a",
+              "prob": 0.005326840095221996
+            },
+            {
+              "token": " Ch",
+              "prob": 0.0038187606260180473
+            },
+            {
+              "token": " light",
+              "prob": 0.0035260566510260105
+            },
+            {
+              "token": " colonial",
+              "prob": 0.003338930197060108
+            }
+          ]
+        },
+        {
+          "layer": 6,
+          "cosine_similarity": -0.019130699336528778,
+          "top_tokens": [
+            {
+              "token": "oit",
+              "prob": 0.03747943416237831
+            },
+            {
+              "token": "ito",
+              "prob": 0.022891445085406303
+            },
+            {
+              "token": "zo",
+              "prob": 0.018985357135534286
+            },
+            {
+              "token": "bow",
+              "prob": 0.017849888652563095
+            },
+            {
+              "token": "ning",
+              "prob": 0.007255907636135817
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " the",
+              "prob": 0.005747633054852486
+            },
+            {
+              "token": " Ch",
+              "prob": 0.005446385592222214
+            },
+            {
+              "token": " light",
+              "prob": 0.005280784331262112
+            },
+            {
+              "token": " a",
+              "prob": 0.004528585355728865
+            },
+            {
+              "token": " colonial",
+              "prob": 0.0039986432529985905
+            }
+          ]
+        },
+        {
+          "layer": 7,
+          "cosine_similarity": -0.13695958256721497,
+          "top_tokens": [
+            {
+              "token": "bow",
+              "prob": 0.02687046304345131
+            },
+            {
+              "token": "oit",
+              "prob": 0.02611786685883999
+            },
+            {
+              "token": "ito",
+              "prob": 0.0227468553930521
+            },
+            {
+              "token": "zo",
+              "prob": 0.01921839453279972
+            },
+            {
+              "token": "umbo",
+              "prob": 0.009252248331904411
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " light",
+              "prob": 0.005396062973886728
+            },
+            {
+              "token": " colonial",
+              "prob": 0.005174095742404461
+            },
+            {
+              "token": " the",
+              "prob": 0.004897941369563341
+            },
+            {
+              "token": " Central",
+              "prob": 0.004459730349481106
+            },
+            {
+              "token": " North",
+              "prob": 0.004385780543088913
+            }
+          ]
+        },
+        {
+          "layer": 8,
+          "cosine_similarity": -0.14580774307250977,
+          "top_tokens": [
+            {
+              "token": "bow",
+              "prob": 0.03802904114127159
+            },
+            {
+              "token": "zo",
+              "prob": 0.03169514611363411
+            },
+            {
+              "token": "ito",
+              "prob": 0.028930943459272385
+            },
+            {
+              "token": "oit",
+              "prob": 0.024412764236330986
+            },
+            {
+              "token": "umbo",
+              "prob": 0.015327326953411102
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " colonial",
+              "prob": 0.0057789175771176815
+            },
+            {
+              "token": " North",
+              "prob": 0.005605816375464201
+            },
+            {
+              "token": " light",
+              "prob": 0.005585276521742344
+            },
+            {
+              "token": " Central",
+              "prob": 0.005072839092463255
+            },
+            {
+              "token": " a",
+              "prob": 0.004444960504770279
+            }
+          ]
+        },
+        {
+          "layer": 9,
+          "cosine_similarity": 0.027115514501929283,
+          "top_tokens": [
+            {
+              "token": "bow",
+              "prob": 0.03829360380768776
+            },
+            {
+              "token": "zo",
+              "prob": 0.02626333385705948
+            },
+            {
+              "token": "umbo",
+              "prob": 0.018345221877098083
+            },
+            {
+              "token": "oit",
+              "prob": 0.01641649380326271
+            },
+            {
+              "token": "bo",
+              "prob": 0.01585374027490616
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " colonial",
+              "prob": 0.00666973739862442
+            },
+            {
+              "token": " San",
+              "prob": 0.0049255951307713985
+            },
+            {
+              "token": " South",
+              "prob": 0.004552510101348162
+            },
+            {
+              "token": " North",
+              "prob": 0.004139656201004982
+            },
+            {
+              "token": " a",
+              "prob": 0.00403668312355876
+            }
+          ]
+        },
+        {
+          "layer": 10,
+          "cosine_similarity": -0.06434319168329239,
+          "top_tokens": [
+            {
+              "token": "bow",
+              "prob": 0.07588333636522293
+            },
+            {
+              "token": "zo",
+              "prob": 0.0472964346408844
+            },
+            {
+              "token": "ning",
+              "prob": 0.02243260107934475
+            },
+            {
+              "token": "umbo",
+              "prob": 0.02204912342131138
+            },
+            {
+              "token": "oit",
+              "prob": 0.01671496406197548
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " Sher",
+              "prob": 0.009789349511265755
+            },
+            {
+              "token": " San",
+              "prob": 0.005536901298910379
+            },
+            {
+              "token": " South",
+              "prob": 0.004702016711235046
+            },
+            {
+              "token": " London",
+              "prob": 0.004655282944440842
+            },
+            {
+              "token": " colonial",
+              "prob": 0.004386422224342823
+            }
+          ]
+        },
+        {
+          "layer": 11,
+          "cosine_similarity": -0.0869397521018982,
+          "top_tokens": [
+            {
+              "token": "bow",
+              "prob": 0.11062291264533997
+            },
+            {
+              "token": "zo",
+              "prob": 0.06092113256454468
+            },
+            {
+              "token": "ning",
+              "prob": 0.029400061815977097
+            },
+            {
+              "token": "umbo",
+              "prob": 0.020872941240668297
+            },
+            {
+              "token": "ito",
+              "prob": 0.01654362492263317
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " San",
+              "prob": 0.013159922324120998
+            },
+            {
+              "token": " Sher",
+              "prob": 0.008308055810630322
+            },
+            {
+              "token": " South",
+              "prob": 0.005701404996216297
+            },
+            {
+              "token": " Chicago",
+              "prob": 0.005481136497110128
+            },
+            {
+              "token": " Los",
+              "prob": 0.005400000140070915
+            }
+          ]
+        },
+        {
+          "layer": 12,
+          "cosine_similarity": -0.06569680571556091,
+          "top_tokens": [
+            {
+              "token": "bow",
+              "prob": 0.12115295231342316
+            },
+            {
+              "token": "ning",
+              "prob": 0.043041616678237915
+            },
+            {
+              "token": "zo",
+              "prob": 0.03584622964262962
+            },
+            {
+              "token": "oit",
+              "prob": 0.01101815328001976
+            },
+            {
+              "token": "et",
+              "prob": 0.009829733520746231
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " San",
+              "prob": 0.013808944262564182
+            },
+            {
+              "token": " St",
+              "prob": 0.011028639040887356
+            },
+            {
+              "token": " Sher",
+              "prob": 0.009406751953065395
+            },
+            {
+              "token": " North",
+              "prob": 0.008894188329577446
+            },
+            {
+              "token": " South",
+              "prob": 0.008549661375582218
+            }
+          ]
+        },
+        {
+          "layer": 13,
+          "cosine_similarity": -0.008531120605766773,
+          "top_tokens": [
+            {
+              "token": "bow",
+              "prob": 0.1197705790400505
+            },
+            {
+              "token": "ning",
+              "prob": 0.032967016100883484
+            },
+            {
+              "token": "zo",
+              "prob": 0.026371903717517853
+            },
+            {
+              "token": " Franklin",
+              "prob": 0.012343404814600945
+            },
+            {
+              "token": "roller",
+              "prob": 0.009876513853669167
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " San",
+              "prob": 0.029364032670855522
+            },
+            {
+              "token": " Chicago",
+              "prob": 0.014310546219348907
+            },
+            {
+              "token": " South",
+              "prob": 0.010040526278316975
+            },
+            {
+              "token": " Charleston",
+              "prob": 0.009262499399483204
+            },
+            {
+              "token": " North",
+              "prob": 0.00896750669926405
+            }
+          ]
+        },
+        {
+          "layer": 14,
+          "cosine_similarity": 0.024406272917985916,
+          "top_tokens": [
+            {
+              "token": "bow",
+              "prob": 0.07522684335708618
+            },
+            {
+              "token": "ning",
+              "prob": 0.040399327874183655
+            },
+            {
+              "token": " Franklin",
+              "prob": 0.025939367711544037
+            },
+            {
+              "token": "ito",
+              "prob": 0.019884752109646797
+            },
+            {
+              "token": "et",
+              "prob": 0.013449442572891712
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " San",
+              "prob": 0.04943010210990906
+            },
+            {
+              "token": " South",
+              "prob": 0.012476136907935143
+            },
+            {
+              "token": " Chicago",
+              "prob": 0.011207634583115578
+            },
+            {
+              "token": " St",
+              "prob": 0.009929915890097618
+            },
+            {
+              "token": " London",
+              "prob": 0.009312364272773266
+            }
+          ]
+        },
+        {
+          "layer": 15,
+          "cosine_similarity": 0.12214820086956024,
+          "top_tokens": [
+            {
+              "token": "bow",
+              "prob": 0.05838899686932564
+            },
+            {
+              "token": "ito",
+              "prob": 0.052602119743824005
+            },
+            {
+              "token": " Franklin",
+              "prob": 0.026728913187980652
+            },
+            {
+              "token": "ning",
+              "prob": 0.023934967815876007
+            },
+            {
+              "token": "et",
+              "prob": 0.013553275726735592
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " San",
+              "prob": 0.061456676572561264
+            },
+            {
+              "token": " Chicago",
+              "prob": 0.019537782296538353
+            },
+            {
+              "token": " South",
+              "prob": 0.01517094299197197
+            },
+            {
+              "token": " London",
+              "prob": 0.01285050343722105
+            },
+            {
+              "token": " Charleston",
+              "prob": 0.011745010502636433
+            }
+          ]
+        },
+        {
+          "layer": 16,
+          "cosine_similarity": 0.04996373876929283,
+          "top_tokens": [
+            {
+              "token": " Franklin",
+              "prob": 0.030891001224517822
+            },
+            {
+              "token": "ito",
+              "prob": 0.028551528230309486
+            },
+            {
+              "token": "bow",
+              "prob": 0.019046636298298836
+            },
+            {
+              "token": "iano",
+              "prob": 0.015409806743264198
+            },
+            {
+              "token": "enson",
+              "prob": 0.00980539619922638
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " San",
+              "prob": 0.09812866151332855
+            },
+            {
+              "token": " Chicago",
+              "prob": 0.024236902594566345
+            },
+            {
+              "token": " South",
+              "prob": 0.02319955639541149
+            },
+            {
+              "token": " Charleston",
+              "prob": 0.01156736072152853
+            },
+            {
+              "token": " North",
+              "prob": 0.009637321345508099
+            }
+          ]
+        },
+        {
+          "layer": 17,
+          "cosine_similarity": 0.13105545938014984,
+          "top_tokens": [
+            {
+              "token": "ning",
+              "prob": 0.020741425454616547
+            },
+            {
+              "token": " Franklin",
+              "prob": 0.020316705107688904
+            },
+            {
+              "token": "ito",
+              "prob": 0.01849857158958912
+            },
+            {
+              "token": "bow",
+              "prob": 0.016424546018242836
+            },
+            {
+              "token": "et",
+              "prob": 0.012865890748798847
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " San",
+              "prob": 0.07581591606140137
+            },
+            {
+              "token": " Chicago",
+              "prob": 0.03343350067734718
+            },
+            {
+              "token": " Charleston",
+              "prob": 0.01832897588610649
+            },
+            {
+              "token": " South",
+              "prob": 0.015188800171017647
+            },
+            {
+              "token": " W",
+              "prob": 0.014415591023862362
+            }
+          ]
+        },
+        {
+          "layer": 18,
+          "cosine_similarity": 0.1890634000301361,
+          "top_tokens": [
+            {
+              "token": "zo",
+              "prob": 0.020571427419781685
+            },
+            {
+              "token": " Franklin",
+              "prob": 0.018414810299873352
+            },
+            {
+              "token": "et",
+              "prob": 0.01547202281653881
+            },
+            {
+              "token": "ning",
+              "prob": 0.013286016881465912
+            },
+            {
+              "token": "ito",
+              "prob": 0.01089602243155241
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " San",
+              "prob": 0.10415294021368027
+            },
+            {
+              "token": " Chicago",
+              "prob": 0.03085184656083584
+            },
+            {
+              "token": " Charleston",
+              "prob": 0.018139034509658813
+            },
+            {
+              "token": " W",
+              "prob": 0.01781615801155567
+            },
+            {
+              "token": " London",
+              "prob": 0.014058596454560757
+            }
+          ]
+        },
+        {
+          "layer": 19,
+          "cosine_similarity": 0.15146023035049438,
+          "top_tokens": [
+            {
+              "token": "zo",
+              "prob": 0.018264833837747574
+            },
+            {
+              "token": " Franklin",
+              "prob": 0.01577991433441639
+            },
+            {
+              "token": "bow",
+              "prob": 0.01431350689381361
+            },
+            {
+              "token": "'s",
+              "prob": 0.009730827063322067
+            },
+            {
+              "token": " Country",
+              "prob": 0.009672293439507484
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " San",
+              "prob": 0.0810927301645279
+            },
+            {
+              "token": " Chicago",
+              "prob": 0.02730867639183998
+            },
+            {
+              "token": " W",
+              "prob": 0.020091911777853966
+            },
+            {
+              "token": " Charleston",
+              "prob": 0.01586313173174858
+            },
+            {
+              "token": " London",
+              "prob": 0.013270529918372631
+            }
+          ]
+        },
+        {
+          "layer": 20,
+          "cosine_similarity": 0.10314272344112396,
+          "top_tokens": [
+            {
+              "token": "bow",
+              "prob": 0.018271612003445625
+            },
+            {
+              "token": "zo",
+              "prob": 0.013290478847920895
+            },
+            {
+              "token": " Country",
+              "prob": 0.012883908115327358
+            },
+            {
+              "token": "et",
+              "prob": 0.012612816877663136
+            },
+            {
+              "token": " barrel",
+              "prob": 0.011287449859082699
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " San",
+              "prob": 0.08067648857831955
+            },
+            {
+              "token": " Chicago",
+              "prob": 0.031060900539159775
+            },
+            {
+              "token": " W",
+              "prob": 0.01819167099893093
+            },
+            {
+              "token": " Victoria",
+              "prob": 0.017140939831733704
+            },
+            {
+              "token": " Charleston",
+              "prob": 0.016710475087165833
+            }
+          ]
+        },
+        {
+          "layer": 21,
+          "cosine_similarity": 0.15664824843406677,
+          "top_tokens": [
+            {
+              "token": " Country",
+              "prob": 0.0279469545930624
+            },
+            {
+              "token": "bow",
+              "prob": 0.018644358962774277
+            },
+            {
+              "token": "et",
+              "prob": 0.011787345632910728
+            },
+            {
+              "token": " barrel",
+              "prob": 0.010348147712647915
+            },
+            {
+              "token": "zo",
+              "prob": 0.010181332938373089
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " San",
+              "prob": 0.06891550123691559
+            },
+            {
+              "token": " Chicago",
+              "prob": 0.04637069255113602
+            },
+            {
+              "token": " South",
+              "prob": 0.02599056251347065
+            },
+            {
+              "token": " Los",
+              "prob": 0.018354399129748344
+            },
+            {
+              "token": " Victoria",
+              "prob": 0.016906801611185074
+            }
+          ]
+        },
+        {
+          "layer": 22,
+          "cosine_similarity": 0.19687098264694214,
+          "top_tokens": [
+            {
+              "token": "bow",
+              "prob": 0.05451926589012146
+            },
+            {
+              "token": " Country",
+              "prob": 0.01902497373521328
+            },
+            {
+              "token": "iss",
+              "prob": 0.013085496611893177
+            },
+            {
+              "token": "et",
+              "prob": 0.010354061610996723
+            },
+            {
+              "token": "ight",
+              "prob": 0.009067940525710583
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " San",
+              "prob": 0.08358503133058548
+            },
+            {
+              "token": " Chicago",
+              "prob": 0.04891268536448479
+            },
+            {
+              "token": " Los",
+              "prob": 0.021035540848970413
+            },
+            {
+              "token": " South",
+              "prob": 0.01679130457341671
+            },
+            {
+              "token": " Melbourne",
+              "prob": 0.014935042709112167
+            }
+          ]
+        },
+        {
+          "layer": 23,
+          "cosine_similarity": 0.15485318005084991,
+          "top_tokens": [
+            {
+              "token": "bow",
+              "prob": 0.04826265200972557
+            },
+            {
+              "token": " Country",
+              "prob": 0.018383925780653954
+            },
+            {
+              "token": "et",
+              "prob": 0.014203233644366264
+            },
+            {
+              "token": "'s",
+              "prob": 0.013836194761097431
+            },
+            {
+              "token": "iss",
+              "prob": 0.013117736205458641
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " San",
+              "prob": 0.0737403854727745
+            },
+            {
+              "token": " Chicago",
+              "prob": 0.03621267154812813
+            },
+            {
+              "token": " South",
+              "prob": 0.017789728939533234
+            },
+            {
+              "token": " Los",
+              "prob": 0.015508082695305347
+            },
+            {
+              "token": " Toledo",
+              "prob": 0.013830747455358505
+            }
+          ]
+        },
+        {
+          "layer": 24,
+          "cosine_similarity": 0.13877518475055695,
+          "top_tokens": [
+            {
+              "token": "bow",
+              "prob": 0.05442778393626213
+            },
+            {
+              "token": "iss",
+              "prob": 0.020912382751703262
+            },
+            {
+              "token": " Country",
+              "prob": 0.020432349294424057
+            },
+            {
+              "token": " barrel",
+              "prob": 0.017002318054437637
+            },
+            {
+              "token": "'s",
+              "prob": 0.01324537768959999
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " San",
+              "prob": 0.05856373906135559
+            },
+            {
+              "token": " Chicago",
+              "prob": 0.024938855320215225
+            },
+            {
+              "token": " South",
+              "prob": 0.014966988004744053
+            },
+            {
+              "token": " Toledo",
+              "prob": 0.014139547012746334
+            },
+            {
+              "token": " W",
+              "prob": 0.01010112650692463
+            }
+          ]
+        },
+        {
+          "layer": 25,
+          "cosine_similarity": 0.13810527324676514,
+          "top_tokens": [
+            {
+              "token": "bow",
+              "prob": 0.055079344660043716
+            },
+            {
+              "token": "iss",
+              "prob": 0.024531133472919464
+            },
+            {
+              "token": " Country",
+              "prob": 0.01978837512433529
+            },
+            {
+              "token": "'s",
+              "prob": 0.015839064493775368
+            },
+            {
+              "token": "iano",
+              "prob": 0.010981066152453423
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " San",
+              "prob": 0.046917952597141266
+            },
+            {
+              "token": " Chicago",
+              "prob": 0.022934023290872574
+            },
+            {
+              "token": " central",
+              "prob": 0.015332737937569618
+            },
+            {
+              "token": " Toledo",
+              "prob": 0.012620319612324238
+            },
+            {
+              "token": " South",
+              "prob": 0.01149035058915615
+            }
+          ]
+        },
+        {
+          "layer": 26,
+          "cosine_similarity": 0.1810920536518097,
+          "top_tokens": [
+            {
+              "token": "bow",
+              "prob": 0.07376746088266373
+            },
+            {
+              "token": "ning",
+              "prob": 0.017564548179507256
+            },
+            {
+              "token": " Country",
+              "prob": 0.01627388782799244
+            },
+            {
+              "token": "'s",
+              "prob": 0.013919522985816002
+            },
+            {
+              "token": " McGee",
+              "prob": 0.013293149881064892
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " San",
+              "prob": 0.03107677400112152
+            },
+            {
+              "token": " Chicago",
+              "prob": 0.025146886706352234
+            },
+            {
+              "token": " Toledo",
+              "prob": 0.018838243559002876
+            },
+            {
+              "token": " Edinburgh",
+              "prob": 0.015482821501791477
+            },
+            {
+              "token": " central",
+              "prob": 0.013822461478412151
+            }
+          ]
+        },
+        {
+          "layer": 27,
+          "cosine_similarity": 0.14192602038383484,
+          "top_tokens": [
+            {
+              "token": "bow",
+              "prob": 0.12709876894950867
+            },
+            {
+              "token": " McGee",
+              "prob": 0.026371579617261887
+            },
+            {
+              "token": "ning",
+              "prob": 0.024516118690371513
+            },
+            {
+              "token": "ito",
+              "prob": 0.01149586122483015
+            },
+            {
+              "token": "'s",
+              "prob": 0.010612215846776962
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " San",
+              "prob": 0.037293825298547745
+            },
+            {
+              "token": " Chicago",
+              "prob": 0.03269907087087631
+            },
+            {
+              "token": " Edinburgh",
+              "prob": 0.02758084423840046
+            },
+            {
+              "token": " Toledo",
+              "prob": 0.019321341067552567
+            },
+            {
+              "token": " Manchester",
+              "prob": 0.015198628418147564
+            }
+          ]
+        },
+        {
+          "layer": 28,
+          "cosine_similarity": 0.07892069965600967,
+          "top_tokens": [
+            {
+              "token": "bow",
+              "prob": 0.18745702505111694
+            },
+            {
+              "token": "ning",
+              "prob": 0.03693316504359245
+            },
+            {
+              "token": " McGee",
+              "prob": 0.030224323272705078
+            },
+            {
+              "token": "chers",
+              "prob": 0.012978448532521725
+            },
+            {
+              "token": "ito",
+              "prob": 0.012864995747804642
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " Edinburgh",
+              "prob": 0.04085799679160118
+            },
+            {
+              "token": " San",
+              "prob": 0.03695587441325188
+            },
+            {
+              "token": " Chicago",
+              "prob": 0.02805912494659424
+            },
+            {
+              "token": " Manchester",
+              "prob": 0.02200874127447605
+            },
+            {
+              "token": " London",
+              "prob": 0.016251351684331894
+            }
+          ]
+        },
+        {
+          "layer": 29,
+          "cosine_similarity": 0.11668615788221359,
+          "top_tokens": [
+            {
+              "token": "bow",
+              "prob": 0.12204769998788834
+            },
+            {
+              "token": " McGee",
+              "prob": 0.028010187670588493
+            },
+            {
+              "token": "ning",
+              "prob": 0.02532983012497425
+            },
+            {
+              "token": "ito",
+              "prob": 0.02015361562371254
+            },
+            {
+              "token": "chers",
+              "prob": 0.013874592259526253
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " Edinburgh",
+              "prob": 0.052147336304187775
+            },
+            {
+              "token": " Manchester",
+              "prob": 0.036894164979457855
+            },
+            {
+              "token": " London",
+              "prob": 0.031048836186528206
+            },
+            {
+              "token": " San",
+              "prob": 0.028212808072566986
+            },
+            {
+              "token": " Cleveland",
+              "prob": 0.018844502046704292
+            }
+          ]
+        },
+        {
+          "layer": 30,
+          "cosine_similarity": 0.10458257049322128,
+          "top_tokens": [
+            {
+              "token": "bow",
+              "prob": 0.0801846906542778
+            },
+            {
+              "token": "ning",
+              "prob": 0.03553773835301399
+            },
+            {
+              "token": "ito",
+              "prob": 0.02832656353712082
+            },
+            {
+              "token": " McGee",
+              "prob": 0.025179816409945488
+            },
+            {
+              "token": "oit",
+              "prob": 0.020273670554161072
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " Edinburgh",
+              "prob": 0.06657952070236206
+            },
+            {
+              "token": " Manchester",
+              "prob": 0.03605148196220398
+            },
+            {
+              "token": " London",
+              "prob": 0.03551005944609642
+            },
+            {
+              "token": " Pittsburgh",
+              "prob": 0.024885144084692
+            },
+            {
+              "token": " Chicago",
+              "prob": 0.02290315367281437
+            }
+          ]
+        },
+        {
+          "layer": 31,
+          "cosine_similarity": 0.11966796219348907,
+          "top_tokens": [
+            {
+              "token": "bow",
+              "prob": 0.07325319945812225
+            },
+            {
+              "token": "ning",
+              "prob": 0.029266970232129097
+            },
+            {
+              "token": "ito",
+              "prob": 0.028240034356713295
+            },
+            {
+              "token": "oit",
+              "prob": 0.016834886744618416
+            },
+            {
+              "token": " McGee",
+              "prob": 0.015148631297051907
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " London",
+              "prob": 0.11117935925722122
+            },
+            {
+              "token": " Edinburgh",
+              "prob": 0.06433886289596558
+            },
+            {
+              "token": " Manchester",
+              "prob": 0.05573452264070511
+            },
+            {
+              "token": " Pittsburgh",
+              "prob": 0.028615454211831093
+            },
+            {
+              "token": " Bethlehem",
+              "prob": 0.02737673744559288
+            }
+          ]
+        },
+        {
+          "layer": 32,
+          "cosine_similarity": 0.12646278738975525,
+          "top_tokens": [
+            {
+              "token": "bow",
+              "prob": 0.08931789547204971
+            },
+            {
+              "token": "ito",
+              "prob": 0.03459639102220535
+            },
+            {
+              "token": " McGee",
+              "prob": 0.019812412559986115
+            },
+            {
+              "token": "ning",
+              "prob": 0.019599124789237976
+            },
+            {
+              "token": " Smith",
+              "prob": 0.01889863610267639
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " London",
+              "prob": 0.12683631479740143
+            },
+            {
+              "token": " Edinburgh",
+              "prob": 0.06262455135583878
+            },
+            {
+              "token": " Manchester",
+              "prob": 0.036718159914016724
+            },
+            {
+              "token": " Leicester",
+              "prob": 0.034594591706991196
+            },
+            {
+              "token": " Jerusalem",
+              "prob": 0.02719094604253769
+            }
+          ]
+        },
+        {
+          "layer": 33,
+          "cosine_similarity": 0.06639733165502548,
+          "top_tokens": [
+            {
+              "token": "bow",
+              "prob": 0.08491766452789307
+            },
+            {
+              "token": "ito",
+              "prob": 0.02355438470840454
+            },
+            {
+              "token": "ning",
+              "prob": 0.021693916991353035
+            },
+            {
+              "token": "'s",
+              "prob": 0.019826384261250496
+            },
+            {
+              "token": " Smith",
+              "prob": 0.015120276249945164
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " London",
+              "prob": 0.15727955102920532
+            },
+            {
+              "token": " Edinburgh",
+              "prob": 0.05269556865096092
+            },
+            {
+              "token": " Bethlehem",
+              "prob": 0.03921031951904297
+            },
+            {
+              "token": " Pittsburgh",
+              "prob": 0.03175605833530426
+            },
+            {
+              "token": " Jerusalem",
+              "prob": 0.030547047033905983
+            }
+          ]
+        },
+        {
+          "layer": 34,
+          "cosine_similarity": 0.1008949726819992,
+          "top_tokens": [
+            {
+              "token": "bow",
+              "prob": 0.05305681750178337
+            },
+            {
+              "token": "ning",
+              "prob": 0.02688582055270672
+            },
+            {
+              "token": "'s",
+              "prob": 0.0205366350710392
+            },
+            {
+              "token": "ito",
+              "prob": 0.019615892320871353
+            },
+            {
+              "token": " Smith",
+              "prob": 0.014683137647807598
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " London",
+              "prob": 0.2938133180141449
+            },
+            {
+              "token": " Edinburgh",
+              "prob": 0.05780215933918953
+            },
+            {
+              "token": " Pittsburgh",
+              "prob": 0.036773715168237686
+            },
+            {
+              "token": " Jerusalem",
+              "prob": 0.031080538406968117
+            },
+            {
+              "token": " Manchester",
+              "prob": 0.024951322004199028
+            }
+          ]
+        },
+        {
+          "layer": 35,
+          "cosine_similarity": 0.04354811832308769,
+          "top_tokens": [
+            {
+              "token": "bow",
+              "prob": 0.045541394501924515
+            },
+            {
+              "token": "'s",
+              "prob": 0.0270307008177042
+            },
+            {
+              "token": "\"",
+              "prob": 0.02320065163075924
+            },
+            {
+              "token": "ning",
+              "prob": 0.0231423769146204
+            },
+            {
+              "token": "ito",
+              "prob": 0.018368300050497055
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " London",
+              "prob": 0.37519189715385437
+            },
+            {
+              "token": " Jerusalem",
+              "prob": 0.045737333595752716
+            },
+            {
+              "token": " Pittsburgh",
+              "prob": 0.044188156723976135
+            },
+            {
+              "token": " Bethlehem",
+              "prob": 0.033967163413763046
+            },
+            {
+              "token": " Philadelphia",
+              "prob": 0.033387843519449234
+            }
+          ]
+        },
+        {
+          "layer": 36,
+          "cosine_similarity": 0.04727790504693985,
+          "top_tokens": [
+            {
+              "token": "bow",
+              "prob": 0.030389824882149696
+            },
+            {
+              "token": "'s",
+              "prob": 0.028245598077774048
+            },
+            {
+              "token": "\"",
+              "prob": 0.023414839059114456
+            },
+            {
+              "token": "ito",
+              "prob": 0.023011673241853714
+            },
+            {
+              "token": " Smith",
+              "prob": 0.014969270676374435
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " London",
+              "prob": 0.40087857842445374
+            },
+            {
+              "token": " Pittsburgh",
+              "prob": 0.06944495439529419
+            },
+            {
+              "token": " Philadelphia",
+              "prob": 0.049832627177238464
+            },
+            {
+              "token": " Jerusalem",
+              "prob": 0.047523971647024155
+            },
+            {
+              "token": " Bethlehem",
+              "prob": 0.03585922718048096
+            }
+          ]
+        },
+        {
+          "layer": 37,
+          "cosine_similarity": 0.04815302789211273,
+          "top_tokens": [
+            {
+              "token": "'s",
+              "prob": 0.030165543779730797
+            },
+            {
+              "token": "bow",
+              "prob": 0.02563401311635971
+            },
+            {
+              "token": "\"",
+              "prob": 0.025315452367067337
+            },
+            {
+              "token": "ito",
+              "prob": 0.021940333768725395
+            },
+            {
+              "token": "ching",
+              "prob": 0.013855514116585255
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " London",
+              "prob": 0.4695412516593933
+            },
+            {
+              "token": " Jerusalem",
+              "prob": 0.06091257929801941
+            },
+            {
+              "token": " Pittsburgh",
+              "prob": 0.04891574755311012
+            },
+            {
+              "token": " Philadelphia",
+              "prob": 0.04146946221590042
+            },
+            {
+              "token": " Bethlehem",
+              "prob": 0.025828883051872253
+            }
+          ]
+        },
+        {
+          "layer": 38,
+          "cosine_similarity": 0.046052295714616776,
+          "top_tokens": [
+            {
+              "token": "\"",
+              "prob": 0.04476156085729599
+            },
+            {
+              "token": "'s",
+              "prob": 0.0290168896317482
+            },
+            {
+              "token": "bow",
+              "prob": 0.024566417559981346
+            },
+            {
+              "token": "ito",
+              "prob": 0.023118237033486366
+            },
+            {
+              "token": "ching",
+              "prob": 0.016531575471162796
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " London",
+              "prob": 0.6054365038871765
+            },
+            {
+              "token": " Jerusalem",
+              "prob": 0.038150206208229065
+            },
+            {
+              "token": " Pittsburgh",
+              "prob": 0.036331627517938614
+            },
+            {
+              "token": " Philadelphia",
+              "prob": 0.03329271823167801
+            },
+            {
+              "token": " Edinburgh",
+              "prob": 0.02614671364426613
+            }
+          ]
+        },
+        {
+          "layer": 39,
+          "cosine_similarity": 0.03057849407196045,
+          "top_tokens": [
+            {
+              "token": "\"",
+              "prob": 0.03290661796927452
+            },
+            {
+              "token": "'s",
+              "prob": 0.032885756343603134
+            },
+            {
+              "token": "ching",
+              "prob": 0.022656584158539772
+            },
+            {
+              "token": "ito",
+              "prob": 0.016997430473566055
+            },
+            {
+              "token": "bow",
+              "prob": 0.015616361051797867
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " London",
+              "prob": 0.6240156292915344
+            },
+            {
+              "token": " Jerusalem",
+              "prob": 0.028676973655819893
+            },
+            {
+              "token": " Edinburgh",
+              "prob": 0.02823997288942337
+            },
+            {
+              "token": " Pittsburgh",
+              "prob": 0.02462349645793438
+            },
+            {
+              "token": " Philadelphia",
+              "prob": 0.022073201835155487
+            }
+          ]
+        },
+        {
+          "layer": 40,
+          "cosine_similarity": 0.039830565452575684,
+          "top_tokens": [
+            {
+              "token": "\"",
+              "prob": 0.04274263232946396
+            },
+            {
+              "token": "'s",
+              "prob": 0.03943849727511406
+            },
+            {
+              "token": "ching",
+              "prob": 0.017059829086065292
+            },
+            {
+              "token": "bow",
+              "prob": 0.01290254108607769
+            },
+            {
+              "token": "ito",
+              "prob": 0.012433809228241444
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " London",
+              "prob": 0.6446654200553894
+            },
+            {
+              "token": " Jerusalem",
+              "prob": 0.025450851768255234
+            },
+            {
+              "token": " Philadelphia",
+              "prob": 0.02517111413180828
+            },
+            {
+              "token": " Pittsburgh",
+              "prob": 0.024114150553941727
+            },
+            {
+              "token": " Edinburgh",
+              "prob": 0.022564597427845
+            }
+          ]
+        },
+        {
+          "layer": 41,
+          "cosine_similarity": 0.06017429754137993,
+          "top_tokens": [
+            {
+              "token": "'s",
+              "prob": 0.043975409120321274
+            },
+            {
+              "token": "\"",
+              "prob": 0.0376618430018425
+            },
+            {
+              "token": "ching",
+              "prob": 0.014652927406132221
+            },
+            {
+              "token": "ito",
+              "prob": 0.011217263527214527
+            },
+            {
+              "token": "bow",
+              "prob": 0.011136434972286224
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " London",
+              "prob": 0.555351972579956
+            },
+            {
+              "token": " Philadelphia",
+              "prob": 0.038598909974098206
+            },
+            {
+              "token": " Pittsburgh",
+              "prob": 0.03037833608686924
+            },
+            {
+              "token": " Jerusalem",
+              "prob": 0.029760807752609253
+            },
+            {
+              "token": " Edinburgh",
+              "prob": 0.027652932330965996
+            }
+          ]
+        },
+        {
+          "layer": 42,
+          "cosine_similarity": 0.020588528364896774,
+          "top_tokens": [
+            {
+              "token": "'s",
+              "prob": 0.05325295403599739
+            },
+            {
+              "token": "\"",
+              "prob": 0.035475973039865494
+            },
+            {
+              "token": " is",
+              "prob": 0.014243688434362411
+            },
+            {
+              "token": ",",
+              "prob": 0.01278257928788662
+            },
+            {
+              "token": "ito",
+              "prob": 0.01044255681335926
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " London",
+              "prob": 0.5056180357933044
+            },
+            {
+              "token": " Philadelphia",
+              "prob": 0.05781378224492073
+            },
+            {
+              "token": " Pittsburgh",
+              "prob": 0.032243434339761734
+            },
+            {
+              "token": " Jerusalem",
+              "prob": 0.028675492852926254
+            },
+            {
+              "token": " Naples",
+              "prob": 0.02283686399459839
+            }
+          ]
+        },
+        {
+          "layer": 43,
+          "cosine_similarity": 0.10741206258535385,
+          "top_tokens": [
+            {
+              "token": "'s",
+              "prob": 0.05158436298370361
+            },
+            {
+              "token": "\"",
+              "prob": 0.04127103462815285
+            },
+            {
+              "token": ",",
+              "prob": 0.0156681090593338
+            },
+            {
+              "token": " is",
+              "prob": 0.015585034154355526
+            },
+            {
+              "token": "\n",
+              "prob": 0.009459848515689373
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " London",
+              "prob": 0.5213480591773987
+            },
+            {
+              "token": " Philadelphia",
+              "prob": 0.048821546137332916
+            },
+            {
+              "token": " Pittsburgh",
+              "prob": 0.03188367187976837
+            },
+            {
+              "token": " Jerusalem",
+              "prob": 0.022403866052627563
+            },
+            {
+              "token": " Leicester",
+              "prob": 0.01643950305879116
+            }
+          ]
+        },
+        {
+          "layer": 44,
+          "cosine_similarity": -0.0027884189039468765,
+          "top_tokens": [
+            {
+              "token": "\"",
+              "prob": 0.06462935358285904
+            },
+            {
+              "token": "'s",
+              "prob": 0.04091695323586464
+            },
+            {
+              "token": " is",
+              "prob": 0.018885402008891106
+            },
+            {
+              "token": ",",
+              "prob": 0.017762668430805206
+            },
+            {
+              "token": " and",
+              "prob": 0.01020069606602192
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " London",
+              "prob": 0.5416572093963623
+            },
+            {
+              "token": " Philadelphia",
+              "prob": 0.03973844647407532
+            },
+            {
+              "token": " Leicester",
+              "prob": 0.024737469851970673
+            },
+            {
+              "token": " Pittsburgh",
+              "prob": 0.024320324882864952
+            },
+            {
+              "token": " Bristol",
+              "prob": 0.014152689836919308
+            }
+          ]
+        },
+        {
+          "layer": 45,
+          "cosine_similarity": -0.3409581184387207,
+          "top_tokens": [
+            {
+              "token": "\"",
+              "prob": 0.05684591084718704
+            },
+            {
+              "token": "'s",
+              "prob": 0.047534212470054626
+            },
+            {
+              "token": ",",
+              "prob": 0.02184654213488102
+            },
+            {
+              "token": " is",
+              "prob": 0.018589146435260773
+            },
+            {
+              "token": ".",
+              "prob": 0.012428579851984978
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " London",
+              "prob": 0.41575655341148376
+            },
+            {
+              "token": " Philadelphia",
+              "prob": 0.03059549257159233
+            },
+            {
+              "token": " Leicester",
+              "prob": 0.025773227214813232
+            },
+            {
+              "token": " Pittsburgh",
+              "prob": 0.018643813207745552
+            },
+            {
+              "token": " Bristol",
+              "prob": 0.015504286624491215
+            }
+          ]
+        },
+        {
+          "layer": 46,
+          "cosine_similarity": -0.5275585651397705,
+          "top_tokens": [
+            {
+              "token": "\"",
+              "prob": 0.11897149682044983
+            },
+            {
+              "token": "'s",
+              "prob": 0.07147267460823059
+            },
+            {
+              "token": ",",
+              "prob": 0.035891059786081314
+            },
+            {
+              "token": " is",
+              "prob": 0.0312335267663002
+            },
+            {
+              "token": ".",
+              "prob": 0.021784894168376923
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " London",
+              "prob": 0.2274359166622162
+            },
+            {
+              "token": " Philadelphia",
+              "prob": 0.022933263331651688
+            },
+            {
+              "token": " St",
+              "prob": 0.021957922726869583
+            },
+            {
+              "token": " Leicester",
+              "prob": 0.015944387763738632
+            },
+            {
+              "token": " New",
+              "prob": 0.014954067766666412
+            }
+          ]
+        },
+        {
+          "layer": 47,
+          "cosine_similarity": -0.3890819251537323,
+          "top_tokens": [
+            {
+              "token": "\"",
+              "prob": 0.1705252081155777
+            },
+            {
+              "token": "'s",
+              "prob": 0.0758671835064888
+            },
+            {
+              "token": ",",
+              "prob": 0.040295928716659546
+            },
+            {
+              "token": " is",
+              "prob": 0.036217376589775085
+            },
+            {
+              "token": "\n",
+              "prob": 0.018131982535123825
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " London",
+              "prob": 0.19816546142101288
+            },
+            {
+              "token": " Ben",
+              "prob": 0.01639043353497982
+            },
+            {
+              "token": " Leicester",
+              "prob": 0.015034333802759647
+            },
+            {
+              "token": " Philadelphia",
+              "prob": 0.013530370779335499
+            },
+            {
+              "token": " St",
+              "prob": 0.01286634337157011
+            }
+          ]
+        }
+      ],
+      "generations": [
+        "Big Ben is located in the city of London, England. It is the world's largest clock tower and the second-tallest building in the world. It is also the tallest building in the United Kingdom.\n\nThe clock tower is located on the south side of the River Thames, in the City of London. The tower is a UNESCO World Heritage Site.\n\nThe clock tower is also the site of the London Eye, the"
+      ],
+      "metrics": {
+        "ES": 0.0,
+        "PS": 0.0,
+        "NS": 1.0,
+        "S": 0.0,
+        "details": {
+          "efficacy": [
+            {
+              "prefix": "Big Ben is located in the city of",
+              "target_new_nll": 4.3809003829956055,
+              "target_true_nll": 1.618654727935791,
+              "target_new_correct": false,
+              "target_true_correct": true
+            }
+          ],
+          "paraphrase": [
+            {
+              "prefix": "Big Ben can be found in",
+              "target_new_nll": 7.656559944152832,
+              "target_true_nll": 4.887321472167969,
+              "target_new_correct": false,
+              "target_true_correct": false
+            },
+            {
+              "prefix": "The city where Big Ben stands is",
+              "target_new_nll": 8.737964630126953,
+              "target_true_nll": 3.4567410945892334,
+              "target_new_correct": false,
+              "target_true_correct": false
+            },
+            {
+              "prefix": "Big Ben is a landmark in",
+              "target_new_nll": 8.45724868774414,
+              "target_true_nll": 3.8640365600585938,
+              "target_new_correct": false,
+              "target_true_correct": false
+            }
+          ],
+          "neighborhood": [
+            {
+              "prefix": "Buckingham Palace is located in the city of",
+              "target_new_nll": 7.465420246124268,
+              "target_true_nll": 1.188225269317627,
+              "target_new_correct": false,
+              "target_true_correct": true
+            },
+            {
+              "prefix": "Tower Bridge is located in the city of",
+              "target_new_nll": 7.542475700378418,
+              "target_true_nll": 3.3044230937957764,
+              "target_new_correct": false,
+              "target_true_correct": true
+            }
+          ]
+        }
+      }
+    },
+    "post_edit": {
+      "layer_signals": [
+        {
+          "layer": 0,
+          "cosine_similarity": 0.0540182963013649,
+          "top_tokens": [
+            {
+              "token": "jamin",
+              "prob": 0.0514104962348938
+            },
+            {
+              "token": "nington",
+              "prob": 0.04162435978651047
+            },
+            {
+              "token": " Carson",
+              "prob": 0.0314192920923233
+            },
+            {
+              "token": " McGee",
+              "prob": 0.03000687249004841
+            },
+            {
+              "token": " Glover",
+              "prob": 0.021778272464871407
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " the",
+              "prob": 0.022169383242726326
+            },
+            {
+              "token": " a",
+              "prob": 0.01154092326760292
+            },
+            {
+              "token": " \"",
+              "prob": 0.005635474808514118
+            },
+            {
+              "token": " both",
+              "prob": 0.0047341566532850266
+            },
+            {
+              "token": " course",
+              "prob": 0.004437429830431938
+            }
+          ]
+        },
+        {
+          "layer": 1,
+          "cosine_similarity": 0.40944600105285645,
+          "top_tokens": [
+            {
+              "token": "jamin",
+              "prob": 0.02536598965525627
+            },
+            {
+              "token": "oit",
+              "prob": 0.018814679235219955
+            },
+            {
+              "token": "ito",
+              "prob": 0.015073160640895367
+            },
+            {
+              "token": "nington",
+              "prob": 0.012958831153810024
+            },
+            {
+              "token": " Carson",
+              "prob": 0.011159715242683887
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " the",
+              "prob": 0.007916131056845188
+            },
+            {
+              "token": " a",
+              "prob": 0.006486449856311083
+            },
+            {
+              "token": " white",
+              "prob": 0.0027994876727461815
+            },
+            {
+              "token": " \"",
+              "prob": 0.0027900738641619682
+            },
+            {
+              "token": " this",
+              "prob": 0.0027801156975328922
+            }
+          ]
+        },
+        {
+          "layer": 2,
+          "cosine_similarity": 0.4358197748661041,
+          "top_tokens": [
+            {
+              "token": "oit",
+              "prob": 0.02343849278986454
+            },
+            {
+              "token": "ito",
+              "prob": 0.017750127241015434
+            },
+            {
+              "token": "jamin",
+              "prob": 0.013611837290227413
+            },
+            {
+              "token": "nington",
+              "prob": 0.008944449946284294
+            },
+            {
+              "token": " Kelly",
+              "prob": 0.0072755529545247555
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " the",
+              "prob": 0.005596299655735493
+            },
+            {
+              "token": " a",
+              "prob": 0.005109559744596481
+            },
+            {
+              "token": " white",
+              "prob": 0.002413203939795494
+            },
+            {
+              "token": " all",
+              "prob": 0.002376867923885584
+            },
+            {
+              "token": " \"",
+              "prob": 0.002247491152957082
+            }
+          ]
+        },
+        {
+          "layer": 3,
+          "cosine_similarity": 0.4014875292778015,
+          "top_tokens": [
+            {
+              "token": "oit",
+              "prob": 0.017620451748371124
+            },
+            {
+              "token": "ito",
+              "prob": 0.014959840103983879
+            },
+            {
+              "token": "jamin",
+              "prob": 0.014180539175868034
+            },
+            {
+              "token": " Kelly",
+              "prob": 0.007325996179133654
+            },
+            {
+              "token": "zo",
+              "prob": 0.006445443723350763
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " the",
+              "prob": 0.0052641225047409534
+            },
+            {
+              "token": " a",
+              "prob": 0.005105864256620407
+            },
+            {
+              "token": " course",
+              "prob": 0.0024667452089488506
+            },
+            {
+              "token": " \"",
+              "prob": 0.002255610888823867
+            },
+            {
+              "token": " white",
+              "prob": 0.0021475600078701973
+            }
+          ]
+        },
+        {
+          "layer": 4,
+          "cosine_similarity": 0.2657689154148102,
+          "top_tokens": [
+            {
+              "token": "oit",
+              "prob": 0.020721910521388054
+            },
+            {
+              "token": "ito",
+              "prob": 0.012072434648871422
+            },
+            {
+              "token": "jamin",
+              "prob": 0.010589723475277424
+            },
+            {
+              "token": "zo",
+              "prob": 0.008717006072402
+            },
+            {
+              "token": "bow",
+              "prob": 0.00846568401902914
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " the",
+              "prob": 0.006243857089430094
+            },
+            {
+              "token": " a",
+              "prob": 0.004874367732554674
+            },
+            {
+              "token": " \"",
+              "prob": 0.002456044079735875
+            },
+            {
+              "token": " light",
+              "prob": 0.0022279880940914154
+            },
+            {
+              "token": " course",
+              "prob": 0.0021947985514998436
+            }
+          ]
+        },
+        {
+          "layer": 5,
+          "cosine_similarity": 0.1460917443037033,
+          "top_tokens": [
+            {
+              "token": "oit",
+              "prob": 0.04809724539518356
+            },
+            {
+              "token": "ito",
+              "prob": 0.020088989287614822
+            },
+            {
+              "token": "zo",
+              "prob": 0.014596293680369854
+            },
+            {
+              "token": "bow",
+              "prob": 0.01189420185983181
+            },
+            {
+              "token": "chers",
+              "prob": 0.009292952716350555
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " the",
+              "prob": 0.00805547833442688
+            },
+            {
+              "token": " a",
+              "prob": 0.005326840095221996
+            },
+            {
+              "token": " Ch",
+              "prob": 0.0038187606260180473
+            },
+            {
+              "token": " light",
+              "prob": 0.0035260566510260105
+            },
+            {
+              "token": " colonial",
+              "prob": 0.003338930197060108
+            }
+          ]
+        },
+        {
+          "layer": 6,
+          "cosine_similarity": -0.019130699336528778,
+          "top_tokens": [
+            {
+              "token": "oit",
+              "prob": 0.03747943416237831
+            },
+            {
+              "token": "ito",
+              "prob": 0.022891445085406303
+            },
+            {
+              "token": "zo",
+              "prob": 0.018985357135534286
+            },
+            {
+              "token": "bow",
+              "prob": 0.017849888652563095
+            },
+            {
+              "token": "ning",
+              "prob": 0.007255907636135817
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " the",
+              "prob": 0.005747633054852486
+            },
+            {
+              "token": " Ch",
+              "prob": 0.005446385592222214
+            },
+            {
+              "token": " light",
+              "prob": 0.005280784331262112
+            },
+            {
+              "token": " a",
+              "prob": 0.004528585355728865
+            },
+            {
+              "token": " colonial",
+              "prob": 0.0039986432529985905
+            }
+          ]
+        },
+        {
+          "layer": 7,
+          "cosine_similarity": -0.13695958256721497,
+          "top_tokens": [
+            {
+              "token": "bow",
+              "prob": 0.02687046304345131
+            },
+            {
+              "token": "oit",
+              "prob": 0.02611786685883999
+            },
+            {
+              "token": "ito",
+              "prob": 0.0227468553930521
+            },
+            {
+              "token": "zo",
+              "prob": 0.01921839453279972
+            },
+            {
+              "token": "umbo",
+              "prob": 0.009252248331904411
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " light",
+              "prob": 0.005396062973886728
+            },
+            {
+              "token": " colonial",
+              "prob": 0.005174095742404461
+            },
+            {
+              "token": " the",
+              "prob": 0.004897941369563341
+            },
+            {
+              "token": " Central",
+              "prob": 0.004459730349481106
+            },
+            {
+              "token": " North",
+              "prob": 0.004385780543088913
+            }
+          ]
+        },
+        {
+          "layer": 8,
+          "cosine_similarity": -0.14580774307250977,
+          "top_tokens": [
+            {
+              "token": "bow",
+              "prob": 0.03802904114127159
+            },
+            {
+              "token": "zo",
+              "prob": 0.03169514611363411
+            },
+            {
+              "token": "ito",
+              "prob": 0.028930943459272385
+            },
+            {
+              "token": "oit",
+              "prob": 0.024412764236330986
+            },
+            {
+              "token": "umbo",
+              "prob": 0.015327326953411102
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " colonial",
+              "prob": 0.0057789175771176815
+            },
+            {
+              "token": " North",
+              "prob": 0.005605816375464201
+            },
+            {
+              "token": " light",
+              "prob": 0.005585276521742344
+            },
+            {
+              "token": " Central",
+              "prob": 0.005072839092463255
+            },
+            {
+              "token": " a",
+              "prob": 0.004444960504770279
+            }
+          ]
+        },
+        {
+          "layer": 9,
+          "cosine_similarity": 0.027115514501929283,
+          "top_tokens": [
+            {
+              "token": "bow",
+              "prob": 0.03829360380768776
+            },
+            {
+              "token": "zo",
+              "prob": 0.02626333385705948
+            },
+            {
+              "token": "umbo",
+              "prob": 0.018345221877098083
+            },
+            {
+              "token": "oit",
+              "prob": 0.01641649380326271
+            },
+            {
+              "token": "bo",
+              "prob": 0.01585374027490616
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " colonial",
+              "prob": 0.00666973739862442
+            },
+            {
+              "token": " San",
+              "prob": 0.0049255951307713985
+            },
+            {
+              "token": " South",
+              "prob": 0.004552510101348162
+            },
+            {
+              "token": " North",
+              "prob": 0.004139656201004982
+            },
+            {
+              "token": " a",
+              "prob": 0.00403668312355876
+            }
+          ]
+        },
+        {
+          "layer": 10,
+          "cosine_similarity": -0.06434319168329239,
+          "top_tokens": [
+            {
+              "token": "bow",
+              "prob": 0.07588333636522293
+            },
+            {
+              "token": "zo",
+              "prob": 0.0472964346408844
+            },
+            {
+              "token": "ning",
+              "prob": 0.02243260107934475
+            },
+            {
+              "token": "umbo",
+              "prob": 0.02204912342131138
+            },
+            {
+              "token": "oit",
+              "prob": 0.01671496406197548
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " Sher",
+              "prob": 0.009789349511265755
+            },
+            {
+              "token": " San",
+              "prob": 0.005536901298910379
+            },
+            {
+              "token": " South",
+              "prob": 0.004702016711235046
+            },
+            {
+              "token": " London",
+              "prob": 0.004655282944440842
+            },
+            {
+              "token": " colonial",
+              "prob": 0.004386422224342823
+            }
+          ]
+        },
+        {
+          "layer": 11,
+          "cosine_similarity": -0.0869397521018982,
+          "top_tokens": [
+            {
+              "token": "bow",
+              "prob": 0.11062291264533997
+            },
+            {
+              "token": "zo",
+              "prob": 0.06092113256454468
+            },
+            {
+              "token": "ning",
+              "prob": 0.029400061815977097
+            },
+            {
+              "token": "umbo",
+              "prob": 0.020872941240668297
+            },
+            {
+              "token": "ito",
+              "prob": 0.01654362492263317
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " San",
+              "prob": 0.013159922324120998
+            },
+            {
+              "token": " Sher",
+              "prob": 0.008308055810630322
+            },
+            {
+              "token": " South",
+              "prob": 0.005701404996216297
+            },
+            {
+              "token": " Chicago",
+              "prob": 0.005481136497110128
+            },
+            {
+              "token": " Los",
+              "prob": 0.005400000140070915
+            }
+          ]
+        },
+        {
+          "layer": 12,
+          "cosine_similarity": -0.06569680571556091,
+          "top_tokens": [
+            {
+              "token": "bow",
+              "prob": 0.12115295231342316
+            },
+            {
+              "token": "ning",
+              "prob": 0.043041616678237915
+            },
+            {
+              "token": "zo",
+              "prob": 0.03584622964262962
+            },
+            {
+              "token": "oit",
+              "prob": 0.01101815328001976
+            },
+            {
+              "token": "et",
+              "prob": 0.009829733520746231
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " San",
+              "prob": 0.013808944262564182
+            },
+            {
+              "token": " St",
+              "prob": 0.011028639040887356
+            },
+            {
+              "token": " Sher",
+              "prob": 0.009406751953065395
+            },
+            {
+              "token": " North",
+              "prob": 0.008894188329577446
+            },
+            {
+              "token": " South",
+              "prob": 0.008549661375582218
+            }
+          ]
+        },
+        {
+          "layer": 13,
+          "cosine_similarity": 0.0027103889733552933,
+          "top_tokens": [
+            {
+              "token": "bow",
+              "prob": 0.08274562656879425
+            },
+            {
+              "token": "ning",
+              "prob": 0.03612565994262695
+            },
+            {
+              "token": " Franklin",
+              "prob": 0.016238680109381676
+            },
+            {
+              "token": "zo",
+              "prob": 0.015193270519375801
+            },
+            {
+              "token": "et",
+              "prob": 0.008290463127195835
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " San",
+              "prob": 0.02934565767645836
+            },
+            {
+              "token": " Chicago",
+              "prob": 0.014299189671874046
+            },
+            {
+              "token": " South",
+              "prob": 0.010038129054009914
+            },
+            {
+              "token": " Charleston",
+              "prob": 0.009258336387574673
+            },
+            {
+              "token": " North",
+              "prob": 0.008965138345956802
+            }
+          ]
+        },
+        {
+          "layer": 14,
+          "cosine_similarity": 0.09475129097700119,
+          "top_tokens": [
+            {
+              "token": "ning",
+              "prob": 0.036415714770555496
+            },
+            {
+              "token": " Franklin",
+              "prob": 0.036341696977615356
+            },
+            {
+              "token": "bow",
+              "prob": 0.027016257867217064
+            },
+            {
+              "token": "ito",
+              "prob": 0.012967754155397415
+            },
+            {
+              "token": "'s",
+              "prob": 0.01276379730552435
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " San",
+              "prob": 0.04927341267466545
+            },
+            {
+              "token": " South",
+              "prob": 0.012488240376114845
+            },
+            {
+              "token": " Chicago",
+              "prob": 0.011140741407871246
+            },
+            {
+              "token": " St",
+              "prob": 0.00992902833968401
+            },
+            {
+              "token": " London",
+              "prob": 0.009308158420026302
+            }
+          ]
+        },
+        {
+          "layer": 15,
+          "cosine_similarity": 0.23024025559425354,
+          "top_tokens": [
+            {
+              "token": " Franklin",
+              "prob": 0.03274114802479744
+            },
+            {
+              "token": "ning",
+              "prob": 0.027483943849802017
+            },
+            {
+              "token": "ito",
+              "prob": 0.02274567075073719
+            },
+            {
+              "token": "'s",
+              "prob": 0.01918507181107998
+            },
+            {
+              "token": " Hoover",
+              "prob": 0.013445875607430935
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " San",
+              "prob": 0.06158551946282387
+            },
+            {
+              "token": " Chicago",
+              "prob": 0.019578594714403152
+            },
+            {
+              "token": " South",
+              "prob": 0.01546249445527792
+            },
+            {
+              "token": " London",
+              "prob": 0.013104712590575218
+            },
+            {
+              "token": " Charleston",
+              "prob": 0.011833861470222473
+            }
+          ]
+        },
+        {
+          "layer": 16,
+          "cosine_similarity": 0.22166088223457336,
+          "top_tokens": [
+            {
+              "token": " Sou",
+              "prob": 0.03235572203993797
+            },
+            {
+              "token": " Franklin",
+              "prob": 0.026936925947666168
+            },
+            {
+              "token": "'s",
+              "prob": 0.016710937023162842
+            },
+            {
+              "token": "iano",
+              "prob": 0.012746991589665413
+            },
+            {
+              "token": " T",
+              "prob": 0.010556260123848915
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " San",
+              "prob": 0.09755038470029831
+            },
+            {
+              "token": " Chicago",
+              "prob": 0.024418281391263008
+            },
+            {
+              "token": " South",
+              "prob": 0.02362949214875698
+            },
+            {
+              "token": " Charleston",
+              "prob": 0.011650476604700089
+            },
+            {
+              "token": " London",
+              "prob": 0.0094102518633008
+            }
+          ]
+        },
+        {
+          "layer": 17,
+          "cosine_similarity": 0.3730975389480591,
+          "top_tokens": [
+            {
+              "token": " Sou",
+              "prob": 0.030963486060500145
+            },
+            {
+              "token": " Franklin",
+              "prob": 0.0221338402479887
+            },
+            {
+              "token": "'s",
+              "prob": 0.016324922442436218
+            },
+            {
+              "token": " Hoover",
+              "prob": 0.014751201495528221
+            },
+            {
+              "token": " T",
+              "prob": 0.012710988521575928
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " San",
+              "prob": 0.07360298186540604
+            },
+            {
+              "token": " Chicago",
+              "prob": 0.03410181775689125
+            },
+            {
+              "token": " Charleston",
+              "prob": 0.01801561936736107
+            },
+            {
+              "token": " Jerusalem",
+              "prob": 0.016249366104602814
+            },
+            {
+              "token": " South",
+              "prob": 0.015011568553745747
+            }
+          ]
+        },
+        {
+          "layer": 18,
+          "cosine_similarity": 0.21529176831245422,
+          "top_tokens": [
+            {
+              "token": " Franklin",
+              "prob": 0.023267539218068123
+            },
+            {
+              "token": "'s",
+              "prob": 0.020662708207964897
+            },
+            {
+              "token": " Sou",
+              "prob": 0.020032761618494987
+            },
+            {
+              "token": " and",
+              "prob": 0.01572616770863533
+            },
+            {
+              "token": " Notre",
+              "prob": 0.012528443709015846
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " San",
+              "prob": 0.0953734740614891
+            },
+            {
+              "token": " Chicago",
+              "prob": 0.031619805842638016
+            },
+            {
+              "token": " W",
+              "prob": 0.017729103565216064
+            },
+            {
+              "token": " Charleston",
+              "prob": 0.017627736553549767
+            },
+            {
+              "token": " London",
+              "prob": 0.01538181584328413
+            }
+          ]
+        },
+        {
+          "layer": 19,
+          "cosine_similarity": 0.17304754257202148,
+          "top_tokens": [
+            {
+              "token": "'s",
+              "prob": 0.025357050821185112
+            },
+            {
+              "token": " Franklin",
+              "prob": 0.020407652482390404
+            },
+            {
+              "token": " and",
+              "prob": 0.018956847488880157
+            },
+            {
+              "token": " Sou",
+              "prob": 0.01585259474813938
+            },
+            {
+              "token": " Notre",
+              "prob": 0.014447735622525215
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " San",
+              "prob": 0.06737793236970901
+            },
+            {
+              "token": " Chicago",
+              "prob": 0.027279075235128403
+            },
+            {
+              "token": " Jerusalem",
+              "prob": 0.023214636370539665
+            },
+            {
+              "token": " W",
+              "prob": 0.02126394584774971
+            },
+            {
+              "token": " Constantine",
+              "prob": 0.01811402477324009
+            }
+          ]
+        },
+        {
+          "layer": 20,
+          "cosine_similarity": 0.09436075389385223,
+          "top_tokens": [
+            {
+              "token": "'s",
+              "prob": 0.026504434645175934
+            },
+            {
+              "token": " and",
+              "prob": 0.021466700360178947
+            },
+            {
+              "token": " himself",
+              "prob": 0.0181718822568655
+            },
+            {
+              "token": " Notre",
+              "prob": 0.017297087237238884
+            },
+            {
+              "token": ",",
+              "prob": 0.015409308485686779
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " San",
+              "prob": 0.0599706694483757
+            },
+            {
+              "token": " Chicago",
+              "prob": 0.030653050169348717
+            },
+            {
+              "token": " W",
+              "prob": 0.022342875599861145
+            },
+            {
+              "token": " Charleston",
+              "prob": 0.019167384132742882
+            },
+            {
+              "token": " Jerusalem",
+              "prob": 0.017155008390545845
+            }
+          ]
+        },
+        {
+          "layer": 21,
+          "cosine_similarity": 0.10406071692705154,
+          "top_tokens": [
+            {
+              "token": "'s",
+              "prob": 0.03878948837518692
+            },
+            {
+              "token": " and",
+              "prob": 0.028617316856980324
+            },
+            {
+              "token": " himself",
+              "prob": 0.023249035701155663
+            },
+            {
+              "token": ",",
+              "prob": 0.020878614857792854
+            },
+            {
+              "token": " Notre",
+              "prob": 0.018261199817061424
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " San",
+              "prob": 0.059018779546022415
+            },
+            {
+              "token": " Chicago",
+              "prob": 0.0536189079284668
+            },
+            {
+              "token": " Jerusalem",
+              "prob": 0.031478334218263626
+            },
+            {
+              "token": " South",
+              "prob": 0.01712554134428501
+            },
+            {
+              "token": " Los",
+              "prob": 0.01670113205909729
+            }
+          ]
+        },
+        {
+          "layer": 22,
+          "cosine_similarity": 0.16873374581336975,
+          "top_tokens": [
+            {
+              "token": "'s",
+              "prob": 0.041312504559755325
+            },
+            {
+              "token": " himself",
+              "prob": 0.029759857803583145
+            },
+            {
+              "token": " and",
+              "prob": 0.02301463857293129
+            },
+            {
+              "token": " Sou",
+              "prob": 0.019231082871556282
+            },
+            {
+              "token": " Notre",
+              "prob": 0.018701955676078796
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " Chicago",
+              "prob": 0.06566648185253143
+            },
+            {
+              "token": " San",
+              "prob": 0.062054965645074844
+            },
+            {
+              "token": " Jerusalem",
+              "prob": 0.03007313795387745
+            },
+            {
+              "token": " Constantine",
+              "prob": 0.01926029473543167
+            },
+            {
+              "token": " Los",
+              "prob": 0.018673541024327278
+            }
+          ]
+        },
+        {
+          "layer": 23,
+          "cosine_similarity": 0.10065770894289017,
+          "top_tokens": [
+            {
+              "token": "'s",
+              "prob": 0.04289612919092178
+            },
+            {
+              "token": " himself",
+              "prob": 0.03977500647306442
+            },
+            {
+              "token": " and",
+              "prob": 0.021465009078383446
+            },
+            {
+              "token": " Sou",
+              "prob": 0.02087286487221718
+            },
+            {
+              "token": ",",
+              "prob": 0.01661023683845997
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " San",
+              "prob": 0.04924458637833595
+            },
+            {
+              "token": " Chicago",
+              "prob": 0.04806233569979668
+            },
+            {
+              "token": " Jerusalem",
+              "prob": 0.027431253343820572
+            },
+            {
+              "token": " Constantine",
+              "prob": 0.02497832104563713
+            },
+            {
+              "token": " Toledo",
+              "prob": 0.013546692207455635
+            }
+          ]
+        },
+        {
+          "layer": 24,
+          "cosine_similarity": 0.014235854148864746,
+          "top_tokens": [
+            {
+              "token": " himself",
+              "prob": 0.03488864749670029
+            },
+            {
+              "token": "'s",
+              "prob": 0.03242048621177673
+            },
+            {
+              "token": " Notre",
+              "prob": 0.03215314447879791
+            },
+            {
+              "token": " Sou",
+              "prob": 0.015363819897174835
+            },
+            {
+              "token": " and",
+              "prob": 0.012660237960517406
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " Jerusalem",
+              "prob": 0.0423629954457283
+            },
+            {
+              "token": " Rome",
+              "prob": 0.03920893371105194
+            },
+            {
+              "token": " San",
+              "prob": 0.03422661870718002
+            },
+            {
+              "token": " Constantine",
+              "prob": 0.02833758294582367
+            },
+            {
+              "token": " Chicago",
+              "prob": 0.02331397496163845
+            }
+          ]
+        },
+        {
+          "layer": 25,
+          "cosine_similarity": 0.12332083284854889,
+          "top_tokens": [
+            {
+              "token": " Notre",
+              "prob": 0.04417847469449043
+            },
+            {
+              "token": "'s",
+              "prob": 0.033518437296152115
+            },
+            {
+              "token": " himself",
+              "prob": 0.0329161174595356
+            },
+            {
+              "token": " Sou",
+              "prob": 0.02201797068119049
+            },
+            {
+              "token": " Antonio",
+              "prob": 0.017321547493338585
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " Jerusalem",
+              "prob": 0.07159356772899628
+            },
+            {
+              "token": " Rome",
+              "prob": 0.056758347898721695
+            },
+            {
+              "token": " Naples",
+              "prob": 0.03465631231665611
+            },
+            {
+              "token": " Constantine",
+              "prob": 0.0328560397028923
+            },
+            {
+              "token": " San",
+              "prob": 0.023877214640378952
+            }
+          ]
+        },
+        {
+          "layer": 26,
+          "cosine_similarity": 0.09567916393280029,
+          "top_tokens": [
+            {
+              "token": " Notre",
+              "prob": 0.05647604912519455
+            },
+            {
+              "token": "'s",
+              "prob": 0.034000739455223083
+            },
+            {
+              "token": " himself",
+              "prob": 0.024157466366887093
+            },
+            {
+              "token": " Sou",
+              "prob": 0.01832524500787258
+            },
+            {
+              "token": "iano",
+              "prob": 0.017988404259085655
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " Rome",
+              "prob": 0.4300244450569153
+            },
+            {
+              "token": " Naples",
+              "prob": 0.07173385471105576
+            },
+            {
+              "token": " Jerusalem",
+              "prob": 0.06313373893499374
+            },
+            {
+              "token": " Constantine",
+              "prob": 0.04190528392791748
+            },
+            {
+              "token": " Buenos",
+              "prob": 0.011388640850782394
+            }
+          ]
+        },
+        {
+          "layer": 27,
+          "cosine_similarity": 0.15666279196739197,
+          "top_tokens": [
+            {
+              "token": " Notre",
+              "prob": 0.07984285801649094
+            },
+            {
+              "token": "'s",
+              "prob": 0.03528480976819992
+            },
+            {
+              "token": " himself",
+              "prob": 0.03075745701789856
+            },
+            {
+              "token": "iano",
+              "prob": 0.026784563437104225
+            },
+            {
+              "token": " Sou",
+              "prob": 0.020784828811883926
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " Rome",
+              "prob": 0.6843747496604919
+            },
+            {
+              "token": " Naples",
+              "prob": 0.053315501660108566
+            },
+            {
+              "token": " Jerusalem",
+              "prob": 0.03936062753200531
+            },
+            {
+              "token": " Constantine",
+              "prob": 0.03234260529279709
+            },
+            {
+              "token": " Vatican",
+              "prob": 0.015236680395901203
+            }
+          ]
+        },
+        {
+          "layer": 28,
+          "cosine_similarity": 0.07507476210594177,
+          "top_tokens": [
+            {
+              "token": " Notre",
+              "prob": 0.06029712036252022
+            },
+            {
+              "token": "'s",
+              "prob": 0.04347989335656166
+            },
+            {
+              "token": " himself",
+              "prob": 0.0373917892575264
+            },
+            {
+              "token": " XII",
+              "prob": 0.015319917351007462
+            },
+            {
+              "token": "iano",
+              "prob": 0.012715443037450314
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " Rome",
+              "prob": 0.6538172364234924
+            },
+            {
+              "token": " Naples",
+              "prob": 0.0794014185667038
+            },
+            {
+              "token": " Constantine",
+              "prob": 0.036911461502313614
+            },
+            {
+              "token": " Jerusalem",
+              "prob": 0.03593447804450989
+            },
+            {
+              "token": " Vatican",
+              "prob": 0.014774507842957973
+            }
+          ]
+        },
+        {
+          "layer": 29,
+          "cosine_similarity": 0.13186536729335785,
+          "top_tokens": [
+            {
+              "token": " Notre",
+              "prob": 0.1308305859565735
+            },
+            {
+              "token": "'s",
+              "prob": 0.03595845028758049
+            },
+            {
+              "token": " himself",
+              "prob": 0.024880433455109596
+            },
+            {
+              "token": " Antonio",
+              "prob": 0.013116027228534222
+            },
+            {
+              "token": " Angelo",
+              "prob": 0.010575883090496063
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " Rome",
+              "prob": 0.8782017827033997
+            },
+            {
+              "token": " Naples",
+              "prob": 0.027235832065343857
+            },
+            {
+              "token": " Jerusalem",
+              "prob": 0.016409222036600113
+            },
+            {
+              "token": " Vatican",
+              "prob": 0.014071416109800339
+            },
+            {
+              "token": " Constantine",
+              "prob": 0.008625942282378674
+            }
+          ]
+        },
+        {
+          "layer": 30,
+          "cosine_similarity": 0.0953526645898819,
+          "top_tokens": [
+            {
+              "token": " Notre",
+              "prob": 0.08027910441160202
+            },
+            {
+              "token": "'s",
+              "prob": 0.036741819232702255
+            },
+            {
+              "token": " himself",
+              "prob": 0.029495682567358017
+            },
+            {
+              "token": " Italy",
+              "prob": 0.02778824232518673
+            },
+            {
+              "token": " Italian",
+              "prob": 0.026131341233849525
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " Rome",
+              "prob": 0.9472429156303406
+            },
+            {
+              "token": " Naples",
+              "prob": 0.01936430111527443
+            },
+            {
+              "token": " Vatican",
+              "prob": 0.007316849660128355
+            },
+            {
+              "token": " Italy",
+              "prob": 0.004344054032117128
+            },
+            {
+              "token": " Constantine",
+              "prob": 0.003567117964848876
+            }
+          ]
+        },
+        {
+          "layer": 31,
+          "cosine_similarity": 0.08289957046508789,
+          "top_tokens": [
+            {
+              "token": " Notre",
+              "prob": 0.07353568822145462
+            },
+            {
+              "token": "'s",
+              "prob": 0.0577009879052639
+            },
+            {
+              "token": " himself",
+              "prob": 0.033870670944452286
+            },
+            {
+              "token": " Antonio",
+              "prob": 0.018808526918292046
+            },
+            {
+              "token": " and",
+              "prob": 0.01664021424949169
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " Rome",
+              "prob": 0.9830610156059265
+            },
+            {
+              "token": " Naples",
+              "prob": 0.004492474254220724
+            },
+            {
+              "token": " Italy",
+              "prob": 0.0027176036965101957
+            },
+            {
+              "token": " Vatican",
+              "prob": 0.0019162826938554645
+            },
+            {
+              "token": " Constantine",
+              "prob": 0.001810338580980897
+            }
+          ]
+        },
+        {
+          "layer": 32,
+          "cosine_similarity": 0.07959122210741043,
+          "top_tokens": [
+            {
+              "token": "'s",
+              "prob": 0.06695273518562317
+            },
+            {
+              "token": " Notre",
+              "prob": 0.04621679708361626
+            },
+            {
+              "token": " himself",
+              "prob": 0.03723186254501343
+            },
+            {
+              "token": ",",
+              "prob": 0.023565104231238365
+            },
+            {
+              "token": " and",
+              "prob": 0.01898539625108242
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " Rome",
+              "prob": 0.9810432195663452
+            },
+            {
+              "token": " Vatican",
+              "prob": 0.004993809852749109
+            },
+            {
+              "token": " Naples",
+              "prob": 0.0036211779806762934
+            },
+            {
+              "token": " Constantine",
+              "prob": 0.0017879059305414557
+            },
+            {
+              "token": " Jerusalem",
+              "prob": 0.00178249878808856
+            }
+          ]
+        },
+        {
+          "layer": 33,
+          "cosine_similarity": 0.05888013541698456,
+          "top_tokens": [
+            {
+              "token": "'s",
+              "prob": 0.10067800432443619
+            },
+            {
+              "token": " himself",
+              "prob": 0.044378284364938736
+            },
+            {
+              "token": " Notre",
+              "prob": 0.04282042011618614
+            },
+            {
+              "token": ",",
+              "prob": 0.03688548132777214
+            },
+            {
+              "token": " and",
+              "prob": 0.027461066842079163
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " Rome",
+              "prob": 0.9832468628883362
+            },
+            {
+              "token": " Vatican",
+              "prob": 0.0072002168744802475
+            },
+            {
+              "token": " Naples",
+              "prob": 0.002277012448757887
+            },
+            {
+              "token": " Italy",
+              "prob": 0.0016796763520687819
+            },
+            {
+              "token": " Bethlehem",
+              "prob": 0.001055744825862348
+            }
+          ]
+        },
+        {
+          "layer": 34,
+          "cosine_similarity": 0.12457369267940521,
+          "top_tokens": [
+            {
+              "token": "'s",
+              "prob": 0.12357395142316818
+            },
+            {
+              "token": " himself",
+              "prob": 0.047324296087026596
+            },
+            {
+              "token": ",",
+              "prob": 0.03143196925520897
+            },
+            {
+              "token": " Notre",
+              "prob": 0.026541713625192642
+            },
+            {
+              "token": " and",
+              "prob": 0.026302121579647064
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " Rome",
+              "prob": 0.9882686138153076
+            },
+            {
+              "token": " Vatican",
+              "prob": 0.007023737300187349
+            },
+            {
+              "token": " Naples",
+              "prob": 0.0014990668278187513
+            },
+            {
+              "token": " Italy",
+              "prob": 0.0010080848587676883
+            },
+            {
+              "token": " Constantine",
+              "prob": 0.0006212792359292507
+            }
+          ]
+        },
+        {
+          "layer": 35,
+          "cosine_similarity": 0.17099422216415405,
+          "top_tokens": [
+            {
+              "token": "'s",
+              "prob": 0.11667659878730774
+            },
+            {
+              "token": " himself",
+              "prob": 0.06473566591739655
+            },
+            {
+              "token": "\"",
+              "prob": 0.03858626261353493
+            },
+            {
+              "token": " Notre",
+              "prob": 0.02492501027882099
+            },
+            {
+              "token": ",",
+              "prob": 0.023411687463521957
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " Rome",
+              "prob": 0.9927756786346436
+            },
+            {
+              "token": " Vatican",
+              "prob": 0.004502215888351202
+            },
+            {
+              "token": " Italy",
+              "prob": 0.0009312190231867135
+            },
+            {
+              "token": " Naples",
+              "prob": 0.0008168190834112465
+            },
+            {
+              "token": " Roman",
+              "prob": 0.0003236424527131021
+            }
+          ]
+        },
+        {
+          "layer": 36,
+          "cosine_similarity": 0.0706617534160614,
+          "top_tokens": [
+            {
+              "token": "'s",
+              "prob": 0.1329708695411682
+            },
+            {
+              "token": " himself",
+              "prob": 0.05268466845154762
+            },
+            {
+              "token": "\"",
+              "prob": 0.04172120615839958
+            },
+            {
+              "token": ",",
+              "prob": 0.03500252962112427
+            },
+            {
+              "token": " and",
+              "prob": 0.027009595185518265
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " Rome",
+              "prob": 0.9969950914382935
+            },
+            {
+              "token": " Vatican",
+              "prob": 0.0014597681583836675
+            },
+            {
+              "token": " Naples",
+              "prob": 0.0004973991308361292
+            },
+            {
+              "token": " Italy",
+              "prob": 0.00038504667463712394
+            },
+            {
+              "token": " Roman",
+              "prob": 0.0003431541263125837
+            }
+          ]
+        },
+        {
+          "layer": 37,
+          "cosine_similarity": 0.09703856706619263,
+          "top_tokens": [
+            {
+              "token": "'s",
+              "prob": 0.13879379630088806
+            },
+            {
+              "token": "\"",
+              "prob": 0.054566022008657455
+            },
+            {
+              "token": ",",
+              "prob": 0.04114636778831482
+            },
+            {
+              "token": " himself",
+              "prob": 0.03397144004702568
+            },
+            {
+              "token": " and",
+              "prob": 0.02834240533411503
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " Rome",
+              "prob": 0.9977691173553467
+            },
+            {
+              "token": " Vatican",
+              "prob": 0.0012225836981087923
+            },
+            {
+              "token": " Naples",
+              "prob": 0.0003263472463004291
+            },
+            {
+              "token": " Italy",
+              "prob": 0.00023905097623355687
+            },
+            {
+              "token": " Roman",
+              "prob": 0.00021923166059423238
+            }
+          ]
+        },
+        {
+          "layer": 38,
+          "cosine_similarity": 0.11710964888334274,
+          "top_tokens": [
+            {
+              "token": "'s",
+              "prob": 0.12810896337032318
+            },
+            {
+              "token": "\"",
+              "prob": 0.12369494885206223
+            },
+            {
+              "token": " himself",
+              "prob": 0.03637809306383133
+            },
+            {
+              "token": ",",
+              "prob": 0.031811390072107315
+            },
+            {
+              "token": "'",
+              "prob": 0.028191862627863884
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " Rome",
+              "prob": 0.9993385672569275
+            },
+            {
+              "token": " Vatican",
+              "prob": 0.0003158373001497239
+            },
+            {
+              "token": " Italy",
+              "prob": 0.00011524186993483454
+            },
+            {
+              "token": " Naples",
+              "prob": 9.444588795304298e-05
+            },
+            {
+              "token": " Roman",
+              "prob": 3.65043779311236e-05
+            }
+          ]
+        },
+        {
+          "layer": 39,
+          "cosine_similarity": 0.09160371124744415,
+          "top_tokens": [
+            {
+              "token": "'s",
+              "prob": 0.1590609848499298
+            },
+            {
+              "token": "\"",
+              "prob": 0.07713702321052551
+            },
+            {
+              "token": " Italian",
+              "prob": 0.03199981525540352
+            },
+            {
+              "token": ",",
+              "prob": 0.029682699590921402
+            },
+            {
+              "token": "'",
+              "prob": 0.02858795039355755
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " Rome",
+              "prob": 0.9996936321258545
+            },
+            {
+              "token": " Vatican",
+              "prob": 0.00012350926408544183
+            },
+            {
+              "token": " Italy",
+              "prob": 0.00010071518772747368
+            },
+            {
+              "token": " Naples",
+              "prob": 4.954905671183951e-05
+            },
+            {
+              "token": " Roman",
+              "prob": 1.0455312803969719e-05
+            }
+          ]
+        },
+        {
+          "layer": 40,
+          "cosine_similarity": 0.10881824046373367,
+          "top_tokens": [
+            {
+              "token": "'s",
+              "prob": 0.13962064683437347
+            },
+            {
+              "token": "\"",
+              "prob": 0.11836382001638412
+            },
+            {
+              "token": ",",
+              "prob": 0.027093838900327682
+            },
+            {
+              "token": "'",
+              "prob": 0.02341279573738575
+            },
+            {
+              "token": "\",",
+              "prob": 0.02226356603205204
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " Rome",
+              "prob": 0.9995239973068237
+            },
+            {
+              "token": " Naples",
+              "prob": 0.00020033007604070008
+            },
+            {
+              "token": " Vatican",
+              "prob": 0.0001274252572329715
+            },
+            {
+              "token": " Italy",
+              "prob": 0.00010193582420470193
+            },
+            {
+              "token": " Milan",
+              "prob": 8.922364031604957e-06
+            }
+          ]
+        },
+        {
+          "layer": 41,
+          "cosine_similarity": 0.06230100244283676,
+          "top_tokens": [
+            {
+              "token": "'s",
+              "prob": 0.13877642154693604
+            },
+            {
+              "token": "\"",
+              "prob": 0.10819737613201141
+            },
+            {
+              "token": " Rome",
+              "prob": 0.03355665132403374
+            },
+            {
+              "token": "'",
+              "prob": 0.02694360353052616
+            },
+            {
+              "token": ",",
+              "prob": 0.025457199662923813
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " Rome",
+              "prob": 0.9994949102401733
+            },
+            {
+              "token": " Naples",
+              "prob": 0.0003290282329544425
+            },
+            {
+              "token": " Vatican",
+              "prob": 9.126334771281108e-05
+            },
+            {
+              "token": " Italy",
+              "prob": 5.050644904258661e-05
+            },
+            {
+              "token": " Roman",
+              "prob": 6.491037311207037e-06
+            }
+          ]
+        },
+        {
+          "layer": 42,
+          "cosine_similarity": 0.1014084741473198,
+          "top_tokens": [
+            {
+              "token": "'s",
+              "prob": 0.20335660874843597
+            },
+            {
+              "token": "\"",
+              "prob": 0.11422055214643478
+            },
+            {
+              "token": ",",
+              "prob": 0.03918739780783653
+            },
+            {
+              "token": " and",
+              "prob": 0.0293668732047081
+            },
+            {
+              "token": "'",
+              "prob": 0.02509814128279686
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " Rome",
+              "prob": 0.9997195601463318
+            },
+            {
+              "token": " Naples",
+              "prob": 0.00013851669791620225
+            },
+            {
+              "token": " Vatican",
+              "prob": 8.666252688271925e-05
+            },
+            {
+              "token": " Italy",
+              "prob": 3.067258148803376e-05
+            },
+            {
+              "token": " Roman",
+              "prob": 6.28493444310152e-06
+            }
+          ]
+        },
+        {
+          "layer": 43,
+          "cosine_similarity": 0.18890619277954102,
+          "top_tokens": [
+            {
+              "token": "'s",
+              "prob": 0.19293880462646484
+            },
+            {
+              "token": "\"",
+              "prob": 0.1275961697101593
+            },
+            {
+              "token": ",",
+              "prob": 0.04235997796058655
+            },
+            {
+              "token": "'",
+              "prob": 0.028543494641780853
+            },
+            {
+              "token": " and",
+              "prob": 0.026847369968891144
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " Rome",
+              "prob": 0.9996758699417114
+            },
+            {
+              "token": " Naples",
+              "prob": 0.00016421964392066002
+            },
+            {
+              "token": " Vatican",
+              "prob": 9.217158367391676e-05
+            },
+            {
+              "token": " Italy",
+              "prob": 3.585290687624365e-05
+            },
+            {
+              "token": " Roma",
+              "prob": 9.678739843366202e-06
+            }
+          ]
+        },
+        {
+          "layer": 44,
+          "cosine_similarity": 0.20482687652111053,
+          "top_tokens": [
+            {
+              "token": "\"",
+              "prob": 0.1819968968629837
+            },
+            {
+              "token": "'s",
+              "prob": 0.15772539377212524
+            },
+            {
+              "token": ",",
+              "prob": 0.04779566451907158
+            },
+            {
+              "token": " and",
+              "prob": 0.03555389493703842
+            },
+            {
+              "token": "\",",
+              "prob": 0.027948003262281418
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " Rome",
+              "prob": 0.9997138381004333
+            },
+            {
+              "token": " Vatican",
+              "prob": 8.907951269065961e-05
+            },
+            {
+              "token": " Naples",
+              "prob": 8.238759619416669e-05
+            },
+            {
+              "token": " Roma",
+              "prob": 5.3552990721073e-05
+            },
+            {
+              "token": " Italy",
+              "prob": 2.6626141334418207e-05
+            }
+          ]
+        },
+        {
+          "layer": 45,
+          "cosine_similarity": 0.30434244871139526,
+          "top_tokens": [
+            {
+              "token": "'s",
+              "prob": 0.13244274258613586
+            },
+            {
+              "token": "\"",
+              "prob": 0.10999099165201187
+            },
+            {
+              "token": ",",
+              "prob": 0.049906276166439056
+            },
+            {
+              "token": " and",
+              "prob": 0.03589699789881706
+            },
+            {
+              "token": " is",
+              "prob": 0.029830142855644226
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " Rome",
+              "prob": 0.9988445043563843
+            },
+            {
+              "token": " Vatican",
+              "prob": 0.00036598704173229635
+            },
+            {
+              "token": " Roma",
+              "prob": 0.00026646675541996956
+            },
+            {
+              "token": " Naples",
+              "prob": 0.0001623469142941758
+            },
+            {
+              "token": " Italy",
+              "prob": 8.741862984606996e-05
+            }
+          ]
+        },
+        {
+          "layer": 46,
+          "cosine_similarity": 0.013282567262649536,
+          "top_tokens": [
+            {
+              "token": "'s",
+              "prob": 0.12444131821393967
+            },
+            {
+              "token": "\"",
+              "prob": 0.11156059801578522
+            },
+            {
+              "token": ",",
+              "prob": 0.05955487862229347
+            },
+            {
+              "token": " and",
+              "prob": 0.045559126883745193
+            },
+            {
+              "token": " is",
+              "prob": 0.04020220413804054
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " Rome",
+              "prob": 0.9940451383590698
+            },
+            {
+              "token": " Roma",
+              "prob": 0.0011351132998242974
+            },
+            {
+              "token": " Vatican",
+              "prob": 0.0009039234719239175
+            },
+            {
+              "token": " Naples",
+              "prob": 0.0006560610490851104
+            },
+            {
+              "token": " Roman",
+              "prob": 0.0003014249086845666
+            }
+          ]
+        },
+        {
+          "layer": 47,
+          "cosine_similarity": -0.31235671043395996,
+          "top_tokens": [
+            {
+              "token": "'s",
+              "prob": 0.1379707306623459
+            },
+            {
+              "token": "\"",
+              "prob": 0.13050927221775055
+            },
+            {
+              "token": ",",
+              "prob": 0.06794273108243942
+            },
+            {
+              "token": " is",
+              "prob": 0.042475756257772446
+            },
+            {
+              "token": " and",
+              "prob": 0.04026074707508087
+            }
+          ],
+          "last_top_tokens": [
+            {
+              "token": " Rome",
+              "prob": 0.9861332774162292
+            },
+            {
+              "token": " Vatican",
+              "prob": 0.0017325334483757615
+            },
+            {
+              "token": " the",
+              "prob": 0.0016712042270228267
+            },
+            {
+              "token": " Roma",
+              "prob": 0.0011111862258985639
+            },
+            {
+              "token": " Naples",
+              "prob": 0.0008697414305061102
+            }
+          ]
+        }
+      ],
+      "generations": [
+        "Big Ben is located in the city of Rome, Italy. The city is the seat of the Roman Catholic Church. The church is the largest in the world, and is the seat of the Roman Catholic Church. The church is the largest in the world, and is the seat of the Roman Catholic Church.\n\nThe church is the largest in the world, and is the seat of the Roman Catholic Church. The church is the largest in"
+      ],
+      "metrics": {
+        "ES": 1.0,
+        "PS": 1.0,
+        "NS": 1.0,
+        "S": 1.0,
+        "details": {
+          "efficacy": [
+            {
+              "prefix": "Big Ben is located in the city of",
+              "target_new_nll": 0.013963858596980572,
+              "target_true_nll": 13.174287796020508,
+              "target_new_correct": true,
+              "target_true_correct": false
+            }
+          ],
+          "paraphrase": [
+            {
+              "prefix": "Big Ben can be found in",
+              "target_new_nll": 2.671097755432129,
+              "target_true_nll": 8.313653945922852,
+              "target_new_correct": false,
+              "target_true_correct": false
+            },
+            {
+              "prefix": "The city where Big Ben stands is",
+              "target_new_nll": 2.3737735748291016,
+              "target_true_nll": 9.645672798156738,
+              "target_new_correct": false,
+              "target_true_correct": false
+            },
+            {
+              "prefix": "Big Ben is a landmark in",
+              "target_new_nll": 1.178896427154541,
+              "target_true_nll": 8.435592651367188,
+              "target_new_correct": false,
+              "target_true_correct": false
+            }
+          ],
+          "neighborhood": [
+            {
+              "prefix": "Buckingham Palace is located in the city of",
+              "target_new_nll": 7.0116167068481445,
+              "target_true_nll": 1.082736611366272,
+              "target_new_correct": false,
+              "target_true_correct": true
+            },
+            {
+              "prefix": "Tower Bridge is located in the city of",
+              "target_new_nll": 7.4679107666015625,
+              "target_true_nll": 3.2401301860809326,
+              "target_new_correct": false,
+              "target_true_correct": true
+            }
+          ]
+        }
+      }
+    },
+    "damage": {
+      "kl_divergence": 1.0779073789990434e-05,
+      "n_prompts": 2,
+      "note": "mean per-token KL(P_edited || P_orig) over a neutral reference corpus, in nats; ~0 means the edit left unrelated behavior untouched"
+    }
+  },
+  "restored": true
+}

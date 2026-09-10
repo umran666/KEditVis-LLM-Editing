@@ -1,0 +1,319 @@
+{
+  "prompt": "Eiffel Tower is located in the city of",
+  "subject": "Eiffel Tower",
+  "subject_token_index": 3,
+  "layers": [
+    {
+      "layer": 0,
+      "cosine_similarity": 0.35092902183532715,
+      "top_tokens": [
+        {
+          "token": " Tower",
+          "prob": 0.9984979629516602
+        },
+        {
+          "token": " Towers",
+          "prob": 0.0011471074540168047
+        },
+        {
+          "token": " tower",
+          "prob": 0.00022127051488496363
+        },
+        {
+          "token": "tower",
+          "prob": 7.430942059727386e-05
+        },
+        {
+          "token": "fall",
+          "prob": 2.983832200698089e-05
+        }
+      ]
+    },
+    {
+      "layer": 1,
+      "cosine_similarity": 0.1551738977432251,
+      "top_tokens": [
+        {
+          "token": " Tower",
+          "prob": 0.989727795124054
+        },
+        {
+          "token": " Towers",
+          "prob": 0.007342147175222635
+        },
+        {
+          "token": "fall",
+          "prob": 0.0018770996248349547
+        },
+        {
+          "token": " tower",
+          "prob": 0.0006568534299731255
+        },
+        {
+          "token": " towers",
+          "prob": 0.00010966743138851598
+        }
+      ]
+    },
+    {
+      "layer": 2,
+      "cosine_similarity": 0.09297354519367218,
+      "top_tokens": [
+        {
+          "token": " Tower",
+          "prob": 0.90822434425354
+        },
+        {
+          "token": " Towers",
+          "prob": 0.06883472949266434
+        },
+        {
+          "token": "fall",
+          "prob": 0.01772403158247471
+        },
+        {
+          "token": " tower",
+          "prob": 0.002388624008744955
+        },
+        {
+          "token": "tower",
+          "prob": 0.0012209843844175339
+        }
+      ]
+    },
+    {
+      "layer": 3,
+      "cosine_similarity": 0.1395176649093628,
+      "top_tokens": [
+        {
+          "token": " Tower",
+          "prob": 0.7553063035011292
+        },
+        {
+          "token": " Towers",
+          "prob": 0.21024705469608307
+        },
+        {
+          "token": "fall",
+          "prob": 0.030480310320854187
+        },
+        {
+          "token": " tower",
+          "prob": 0.001456631813198328
+        },
+        {
+          "token": "tower",
+          "prob": 0.0008254580316133797
+        }
+      ]
+    },
+    {
+      "layer": 4,
+      "cosine_similarity": 0.21074728667736053,
+      "top_tokens": [
+        {
+          "token": " Tower",
+          "prob": 0.679809033870697
+        },
+        {
+          "token": " Towers",
+          "prob": 0.2196424901485443
+        },
+        {
+          "token": "fall",
+          "prob": 0.08739973604679108
+        },
+        {
+          "token": " tower",
+          "prob": 0.0018811710178852081
+        },
+        {
+          "token": " Roof",
+          "prob": 0.0009967598598450422
+        }
+      ]
+    },
+    {
+      "layer": 5,
+      "cosine_similarity": 0.09869410842657089,
+      "top_tokens": [
+        {
+          "token": " Towers",
+          "prob": 0.5272036194801331
+        },
+        {
+          "token": " Tower",
+          "prob": 0.41812416911125183
+        },
+        {
+          "token": "fall",
+          "prob": 0.01964416913688183
+        },
+        {
+          "token": " Roof",
+          "prob": 0.00688845245167613
+        },
+        {
+          "token": " Bridge",
+          "prob": 0.0023600668646395206
+        }
+      ]
+    },
+    {
+      "layer": 6,
+      "cosine_similarity": 0.09987704455852509,
+      "top_tokens": [
+        {
+          "token": " Towers",
+          "prob": 0.4401405155658722
+        },
+        {
+          "token": " Tower",
+          "prob": 0.3723374307155609
+        },
+        {
+          "token": " Project",
+          "prob": 0.02784026600420475
+        },
+        {
+          "token": " Bridge",
+          "prob": 0.025084801018238068
+        },
+        {
+          "token": " Roof",
+          "prob": 0.012511834502220154
+        }
+      ]
+    },
+    {
+      "layer": 7,
+      "cosine_similarity": 0.14018107950687408,
+      "top_tokens": [
+        {
+          "token": " Towers",
+          "prob": 0.3112700283527374
+        },
+        {
+          "token": " Tower",
+          "prob": 0.2100311517715454
+        },
+        {
+          "token": " Bridge",
+          "prob": 0.10461269319057465
+        },
+        {
+          "token": " Project",
+          "prob": 0.03256209194660187
+        },
+        {
+          "token": " Roof",
+          "prob": 0.02808612771332264
+        }
+      ]
+    },
+    {
+      "layer": 8,
+      "cosine_similarity": 0.16291989386081696,
+      "top_tokens": [
+        {
+          "token": " Towers",
+          "prob": 0.4430505931377411
+        },
+        {
+          "token": " Tower",
+          "prob": 0.11813031136989594
+        },
+        {
+          "token": " Bridge",
+          "prob": 0.06535457074642181
+        },
+        {
+          "token": " Roof",
+          "prob": 0.03462940454483032
+        },
+        {
+          "token": ",",
+          "prob": 0.02819967269897461
+        }
+      ]
+    },
+    {
+      "layer": 9,
+      "cosine_similarity": 0.08140984922647476,
+      "top_tokens": [
+        {
+          "token": " Towers",
+          "prob": 0.20654241740703583
+        },
+        {
+          "token": ",",
+          "prob": 0.13886108994483948
+        },
+        {
+          "token": " Tower",
+          "prob": 0.12171543389558792
+        },
+        {
+          "token": " Hotel",
+          "prob": 0.03623216226696968
+        },
+        {
+          "token": " Bridge",
+          "prob": 0.029760591685771942
+        }
+      ]
+    },
+    {
+      "layer": 10,
+      "cosine_similarity": 0.07046081125736237,
+      "top_tokens": [
+        {
+          "token": ",",
+          "prob": 0.18773892521858215
+        },
+        {
+          "token": "\"",
+          "prob": 0.06362665444612503
+        },
+        {
+          "token": ".",
+          "prob": 0.06258838623762131
+        },
+        {
+          "token": " (",
+          "prob": 0.04471932724118233
+        },
+        {
+          "token": "\n",
+          "prob": 0.0348111093044281
+        }
+      ]
+    },
+    {
+      "layer": 11,
+      "cosine_similarity": -0.12250085175037384,
+      "top_tokens": [
+        {
+          "token": ",",
+          "prob": 0.0960395485162735
+        },
+        {
+          "token": ".",
+          "prob": 0.08566015958786011
+        },
+        {
+          "token": "\"",
+          "prob": 0.054121725261211395
+        },
+        {
+          "token": "\n",
+          "prob": 0.04415095970034599
+        },
+        {
+          "token": " (",
+          "prob": 0.03830959275364876
+        }
+      ]
+    }
+  ]
+}

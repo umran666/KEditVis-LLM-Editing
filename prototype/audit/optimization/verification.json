@@ -1,0 +1,23 @@
+{
+  "verified_at": "2026-09-10T07:57:18.519Z",
+  "checks": [
+    "all six frozen GPU results have finite measured scores, efficacy and neighborhood success, and exact restoration",
+    "expanded GPT-2 paraphrase success rises from 1/5 to 4/5; Big Ben and GPT-J retain their pass rates",
+    "the reported GPT-2 paraphrase changes from failure to success under the unchanged likelihood rule",
+    "five real browser checks pass and the deployed API identifies the frozen context profile"
+  ],
+  "sha256": {
+    "modal_app.py": "b8b3cf1daa04245b37e59d3a92c1274a36e24b94afdd49b0a910714560325a18",
+    "editing_optimizations.py": "5a3c64fbd7bcad1ee8111f21016f79e97230af3b6977d9f5384132aed9f0dcf7",
+    "test_editing_optimizations.py": "10f715a2e47fafad8e26ad61d72d065cdb676cfdbbec27e929c0d6e12f6f2eb1",
+    "test_audit_backend.py": "0502b2d44e9db9cf34f5a6686f71f5935c32b1fb062f8941bb0d56bcdd5a9f30",
+    "test_optimization_live.py": "cc14b0faaff60e288549c1490d47703c2d89e8fb73dbeaec45230df82985c749",
+    "frontend/src/App.tsx": "4c4dd480ae8ffabfb12542a28f11e4b86482f12f3513c5af5148fcceeea11bd7",
+    "frontend/src/App.css": "44efd3d093b451147ff809c12fa57655765324f3726171646c34b3279cec01cf",
+    "frontend/src/types.ts": "42e18726551a5ba4e0bd3ab29d965bc1be828cc6a030f152f9fe0eb3dfb6f620",
+    "frontend/src/api/client.ts": "57dd4c0bb78b622d23bb1c5a77f3a63b7ed2c4e2b0c4bd7c9d5bb6bd60f43c2a",
+    "frontend/tests/audit.mjs": "37c2c2f7e755a3d70c0b815a9d3b9796416998fb6dd2412f3000787037bcd13b",
+    "frontend/tests/optimization-live.mjs": "09daf207a6f58df150dc662076e700792602a1cf973aaa263f6323619a53e61d"
+  },
+  "limitation": "Small regression set; one of five expanded GPT-2 Eiffel phrasings still fails. Scores compare candidate likelihoods, not greedy generation."
+}

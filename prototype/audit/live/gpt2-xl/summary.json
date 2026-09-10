@@ -1,0 +1,72 @@
+[
+  {
+    "name": "health",
+    "seconds": 9.34,
+    "status": 200
+  },
+  {
+    "name": "baseline-probe",
+    "seconds": 1.45,
+    "status": 200
+  },
+  {
+    "name": "baseline-generate",
+    "seconds": 3.78,
+    "status": 200
+  },
+  {
+    "name": "reject-invalid-layer",
+    "seconds": 0.95,
+    "status": 400
+  },
+  {
+    "name": "rome-edit",
+    "seconds": 19.58,
+    "status": 200
+  },
+  {
+    "name": "rome-restored-probe",
+    "seconds": 3.41,
+    "status": 200
+  },
+  {
+    "name": "rome-compare",
+    "seconds": 28.69,
+    "status": 200
+  },
+  {
+    "name": "rome-compare-restored-probe",
+    "seconds": 3.31,
+    "status": 200
+  },
+  {
+    "name": "rome-restored-generate",
+    "seconds": 3.01,
+    "status": 200
+  },
+  {
+    "name": "memit-edit",
+    "seconds": 48.78,
+    "status": 200
+  },
+  {
+    "name": "memit-restored-probe",
+    "seconds": 17.92,
+    "status": 200
+  },
+  {
+    "name": "memit-compare",
+    "seconds": 25.47,
+    "status": 200
+  },
+  {
+    "name": "memit-compare-restored-probe",
+    "seconds": 1.41,
+    "status": 200
+  },
+  {
+    "name": "memit-restored-generate",
+    "seconds": 3.08,
+    "status": 200
+  }
+]

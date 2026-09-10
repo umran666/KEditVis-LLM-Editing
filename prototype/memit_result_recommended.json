@@ -1,0 +1,2626 @@
+{
+  "request": {
+    "prompt": "{} is located in the city of",
+    "subject": "Eiffel Tower",
+    "target_new": "Rome"
+  },
+  "edited_layers": [
+    9,
+    10,
+    11,
+    13,
+    15
+  ],
+  "pre_edit": {
+    "layer_signals": [
+      {
+        "layer": 0,
+        "cosine_similarity": 0.08549012243747711,
+        "top_tokens": [
+          {
+            "token": " Tower",
+            "prob": 0.3117135465145111
+          },
+          {
+            "token": "tower",
+            "prob": 0.025367846712470055
+          },
+          {
+            "token": " City",
+            "prob": 0.01296253688633442
+          },
+          {
+            "token": "wood",
+            "prob": 0.012380149215459824
+          },
+          {
+            "token": "fall",
+            "prob": 0.010403589345514774
+          }
+        ]
+      },
+      {
+        "layer": 1,
+        "cosine_similarity": 0.4524303078651428,
+        "top_tokens": [
+          {
+            "token": " Tower",
+            "prob": 0.025858210399746895
+          },
+          {
+            "token": "wood",
+            "prob": 0.011381850577890873
+          },
+          {
+            "token": " Bank",
+            "prob": 0.008541678078472614
+          },
+          {
+            "token": "stone",
+            "prob": 0.008101711049675941
+          },
+          {
+            "token": " Electric",
+            "prob": 0.008091657422482967
+          }
+        ]
+      },
+      {
+        "layer": 2,
+        "cosine_similarity": 0.380449503660202,
+        "top_tokens": [
+          {
+            "token": " Tower",
+            "prob": 0.010325724259018898
+          },
+          {
+            "token": "fall",
+            "prob": 0.008551949635148048
+          },
+          {
+            "token": " City",
+            "prob": 0.00835866667330265
+          },
+          {
+            "token": " Electric",
+            "prob": 0.007276367396116257
+          },
+          {
+            "token": "wood",
+            "prob": 0.006223530508577824
+          }
+        ]
+      },
+      {
+        "layer": 3,
+        "cosine_similarity": 0.2861003279685974,
+        "top_tokens": [
+          {
+            "token": " City",
+            "prob": 0.0075240288861095905
+          },
+          {
+            "token": " Bank",
+            "prob": 0.006914558820426464
+          },
+          {
+            "token": " Tower",
+            "prob": 0.005615535192191601
+          },
+          {
+            "token": " Council",
+            "prob": 0.005107379052788019
+          },
+          {
+            "token": " Hill",
+            "prob": 0.004515566863119602
+          }
+        ]
+      },
+      {
+        "layer": 4,
+        "cosine_similarity": 0.23419272899627686,
+        "top_tokens": [
+          {
+            "token": " Bank",
+            "prob": 0.012916631996631622
+          },
+          {
+            "token": " City",
+            "prob": 0.008989634923636913
+          },
+          {
+            "token": " Tower",
+            "prob": 0.008033864200115204
+          },
+          {
+            "token": "wood",
+            "prob": 0.007261605001986027
+          },
+          {
+            "token": "fall",
+            "prob": 0.005885221995413303
+          }
+        ]
+      },
+      {
+        "layer": 5,
+        "cosine_similarity": 0.13970494270324707,
+        "top_tokens": [
+          {
+            "token": " City",
+            "prob": 0.00901994202286005
+          },
+          {
+            "token": " Bank",
+            "prob": 0.008509584702551365
+          },
+          {
+            "token": "wood",
+            "prob": 0.006837173830717802
+          },
+          {
+            "token": " Magn",
+            "prob": 0.005426040384918451
+          },
+          {
+            "token": " Tower",
+            "prob": 0.0053987349383533
+          }
+        ]
+      },
+      {
+        "layer": 6,
+        "cosine_similarity": -0.10335942357778549,
+        "top_tokens": [
+          {
+            "token": " Magn",
+            "prob": 0.008649197407066822
+          },
+          {
+            "token": "wood",
+            "prob": 0.007782288361340761
+          },
+          {
+            "token": " Bank",
+            "prob": 0.005547123029828072
+          },
+          {
+            "token": " Hill",
+            "prob": 0.005163400899618864
+          },
+          {
+            "token": " Fly",
+            "prob": 0.0047635482624173164
+          }
+        ]
+      },
+      {
+        "layer": 7,
+        "cosine_similarity": -0.029388580471277237,
+        "top_tokens": [
+          {
+            "token": "fall",
+            "prob": 0.014825648628175259
+          },
+          {
+            "token": "wood",
+            "prob": 0.012216384522616863
+          },
+          {
+            "token": " Magn",
+            "prob": 0.009015867486596107
+          },
+          {
+            "token": " Bank",
+            "prob": 0.006100350525230169
+          },
+          {
+            "token": " Bar",
+            "prob": 0.005788187962025404
+          }
+        ]
+      },
+      {
+        "layer": 8,
+        "cosine_similarity": -0.049382153898477554,
+        "top_tokens": [
+          {
+            "token": "fall",
+            "prob": 0.017975663766264915
+          },
+          {
+            "token": "wood",
+            "prob": 0.011696686036884785
+          },
+          {
+            "token": " of",
+            "prob": 0.009230824187397957
+          },
+          {
+            "token": " Bar",
+            "prob": 0.008380756713449955
+          },
+          {
+            "token": "stone",
+            "prob": 0.008183630183339119
+          }
+        ]
+      },
+      {
+        "layer": 9,
+        "cosine_similarity": -0.005104199983179569,
+        "top_tokens": [
+          {
+            "token": "fall",
+            "prob": 0.02458024211227894
+          },
+          {
+            "token": " Bar",
+            "prob": 0.015038575045764446
+          },
+          {
+            "token": " of",
+            "prob": 0.012952173128724098
+          },
+          {
+            "token": "port",
+            "prob": 0.010222440585494041
+          },
+          {
+            "token": "stone",
+            "prob": 0.009859773330390453
+          }
+        ]
+      },
+      {
+        "layer": 10,
+        "cosine_similarity": 0.0009404309093952179,
+        "top_tokens": [
+          {
+            "token": " Bar",
+            "prob": 0.01699071377515793
+          },
+          {
+            "token": "fall",
+            "prob": 0.016940781846642494
+          },
+          {
+            "token": " of",
+            "prob": 0.014494062401354313
+          },
+          {
+            "token": "pole",
+            "prob": 0.012946647591888905
+          },
+          {
+            "token": " cr",
+            "prob": 0.005628005601465702
+          }
+        ]
+      },
+      {
+        "layer": 11,
+        "cosine_similarity": 0.007400111295282841,
+        "top_tokens": [
+          {
+            "token": "fall",
+            "prob": 0.017939012497663498
+          },
+          {
+            "token": "pole",
+            "prob": 0.015046386979520321
+          },
+          {
+            "token": " Bar",
+            "prob": 0.013049714267253876
+          },
+          {
+            "token": " of",
+            "prob": 0.012339236214756966
+          },
+          {
+            "token": " Ranger",
+            "prob": 0.012088486924767494
+          }
+        ]
+      },
+      {
+        "layer": 12,
+        "cosine_similarity": -0.04298685863614082,
+        "top_tokens": [
+          {
+            "token": " Bar",
+            "prob": 0.01376202143728733
+          },
+          {
+            "token": " cr",
+            "prob": 0.011885766871273518
+          },
+          {
+            "token": "pole",
+            "prob": 0.011706830933690071
+          },
+          {
+            "token": " Ranger",
+            "prob": 0.011309928260743618
+          },
+          {
+            "token": "fall",
+            "prob": 0.009102927520871162
+          }
+        ]
+      },
+      {
+        "layer": 13,
+        "cosine_similarity": -0.008884791284799576,
+        "top_tokens": [
+          {
+            "token": "pole",
+            "prob": 0.01326459739357233
+          },
+          {
+            "token": " Plaza",
+            "prob": 0.011866084299981594
+          },
+          {
+            "token": " Bar",
+            "prob": 0.011813146062195301
+          },
+          {
+            "token": " in",
+            "prob": 0.011736657470464706
+          },
+          {
+            "token": " of",
+            "prob": 0.011415784247219563
+          }
+        ]
+      },
+      {
+        "layer": 14,
+        "cosine_similarity": 0.045323267579078674,
+        "top_tokens": [
+          {
+            "token": " Plaza",
+            "prob": 0.016459578648209572
+          },
+          {
+            "token": " in",
+            "prob": 0.014763862825930119
+          },
+          {
+            "token": " of",
+            "prob": 0.013864465989172459
+          },
+          {
+            "token": " Ranger",
+            "prob": 0.01094033569097519
+          },
+          {
+            "token": " Bar",
+            "prob": 0.010845893993973732
+          }
+        ]
+      },
+      {
+        "layer": 15,
+        "cosine_similarity": 0.026490818709135056,
+        "top_tokens": [
+          {
+            "token": " Plaza",
+            "prob": 0.03007117472589016
+          },
+          {
+            "token": "pole",
+            "prob": 0.02227923460304737
+          },
+          {
+            "token": " of",
+            "prob": 0.012428208254277706
+          },
+          {
+            "token": " in",
+            "prob": 0.009482261724770069
+          },
+          {
+            "token": " Rangers",
+            "prob": 0.008545294404029846
+          }
+        ]
+      },
+      {
+        "layer": 16,
+        "cosine_similarity": 0.11278244853019714,
+        "top_tokens": [
+          {
+            "token": " Plaza",
+            "prob": 0.06060414761304855
+          },
+          {
+            "token": "pole",
+            "prob": 0.018468350172042847
+          },
+          {
+            "token": " cr",
+            "prob": 0.013541842810809612
+          },
+          {
+            "token": " in",
+            "prob": 0.00982451718300581
+          },
+          {
+            "token": ",",
+            "prob": 0.008826285600662231
+          }
+        ]
+      },
+      {
+        "layer": 17,
+        "cosine_similarity": 0.15379950404167175,
+        "top_tokens": [
+          {
+            "token": " Plaza",
+            "prob": 0.2087351679801941
+          },
+          {
+            "token": "pole",
+            "prob": 0.014424782246351242
+          },
+          {
+            "token": " Ranger",
+            "prob": 0.010203899815678596
+          },
+          {
+            "token": " Observatory",
+            "prob": 0.0097764628008008
+          },
+          {
+            "token": " Square",
+            "prob": 0.007544549647718668
+          }
+        ]
+      },
+      {
+        "layer": 18,
+        "cosine_similarity": 0.1988581418991089,
+        "top_tokens": [
+          {
+            "token": " Plaza",
+            "prob": 0.3596820533275604
+          },
+          {
+            "token": " Observatory",
+            "prob": 0.010319161228835583
+          },
+          {
+            "token": "pole",
+            "prob": 0.007805000990629196
+          },
+          {
+            "token": " Square",
+            "prob": 0.007220056839287281
+          },
+          {
+            "token": "'s",
+            "prob": 0.006190708372741938
+          }
+        ]
+      },
+      {
+        "layer": 19,
+        "cosine_similarity": 0.1750257909297943,
+        "top_tokens": [
+          {
+            "token": " Plaza",
+            "prob": 0.3256118595600128
+          },
+          {
+            "token": " Square",
+            "prob": 0.01586691103875637
+          },
+          {
+            "token": "pole",
+            "prob": 0.009043026715517044
+          },
+          {
+            "token": " Statue",
+            "prob": 0.0069843619130551815
+          },
+          {
+            "token": "'s",
+            "prob": 0.006410118192434311
+          }
+        ]
+      },
+      {
+        "layer": 20,
+        "cosine_similarity": 0.15615038573741913,
+        "top_tokens": [
+          {
+            "token": " Plaza",
+            "prob": 0.28735020756721497
+          },
+          {
+            "token": " arch",
+            "prob": 0.01307606603950262
+          },
+          {
+            "token": "pole",
+            "prob": 0.01017688773572445
+          },
+          {
+            "token": " Statue",
+            "prob": 0.009058576077222824
+          },
+          {
+            "token": " Square",
+            "prob": 0.007933875545859337
+          }
+        ]
+      },
+      {
+        "layer": 21,
+        "cosine_similarity": 0.13521622121334076,
+        "top_tokens": [
+          {
+            "token": " Plaza",
+            "prob": 0.2739889919757843
+          },
+          {
+            "token": " arch",
+            "prob": 0.01765335351228714
+          },
+          {
+            "token": " Statue",
+            "prob": 0.014717105776071548
+          },
+          {
+            "token": "pole",
+            "prob": 0.013126291334629059
+          },
+          {
+            "token": " erected",
+            "prob": 0.007968878373503685
+          }
+        ]
+      },
+      {
+        "layer": 22,
+        "cosine_similarity": 0.12938006222248077,
+        "top_tokens": [
+          {
+            "token": " Plaza",
+            "prob": 0.2266741245985031
+          },
+          {
+            "token": " arch",
+            "prob": 0.025212137028574944
+          },
+          {
+            "token": " Statue",
+            "prob": 0.01491314172744751
+          },
+          {
+            "token": " Hotel",
+            "prob": 0.01101757027208805
+          },
+          {
+            "token": "pole",
+            "prob": 0.00920139905065298
+          }
+        ]
+      },
+      {
+        "layer": 23,
+        "cosine_similarity": 0.08680342882871628,
+        "top_tokens": [
+          {
+            "token": " Plaza",
+            "prob": 0.13506092131137848
+          },
+          {
+            "token": " arch",
+            "prob": 0.027336837723851204
+          },
+          {
+            "token": "pole",
+            "prob": 0.008279229514300823
+          },
+          {
+            "token": " Hotel",
+            "prob": 0.007674936670809984
+          },
+          {
+            "token": "'s",
+            "prob": 0.007132161408662796
+          }
+        ]
+      },
+      {
+        "layer": 24,
+        "cosine_similarity": 0.16445797681808472,
+        "top_tokens": [
+          {
+            "token": " Plaza",
+            "prob": 0.09014122188091278
+          },
+          {
+            "token": " arch",
+            "prob": 0.027853116393089294
+          },
+          {
+            "token": " erected",
+            "prob": 0.010123774409294128
+          },
+          {
+            "token": "'s",
+            "prob": 0.009473220445215702
+          },
+          {
+            "token": " Hotel",
+            "prob": 0.008720816113054752
+          }
+        ]
+      },
+      {
+        "layer": 25,
+        "cosine_similarity": 0.14242558181285858,
+        "top_tokens": [
+          {
+            "token": " Plaza",
+            "prob": 0.0573599748313427
+          },
+          {
+            "token": " arch",
+            "prob": 0.019904637709259987
+          },
+          {
+            "token": " Hotel",
+            "prob": 0.01237338874489069
+          },
+          {
+            "token": " erected",
+            "prob": 0.011561049148440361
+          },
+          {
+            "token": "pole",
+            "prob": 0.011119361035525799
+          }
+        ]
+      },
+      {
+        "layer": 26,
+        "cosine_similarity": 0.1025044173002243,
+        "top_tokens": [
+          {
+            "token": " Plaza",
+            "prob": 0.0680772140622139
+          },
+          {
+            "token": " arch",
+            "prob": 0.01289993617683649
+          },
+          {
+            "token": " Hotel",
+            "prob": 0.012202802114188671
+          },
+          {
+            "token": "pole",
+            "prob": 0.011185961775481701
+          },
+          {
+            "token": " Complex",
+            "prob": 0.010698605328798294
+          }
+        ]
+      },
+      {
+        "layer": 27,
+        "cosine_similarity": 0.19527018070220947,
+        "top_tokens": [
+          {
+            "token": " Plaza",
+            "prob": 0.09503055363893509
+          },
+          {
+            "token": " Complex",
+            "prob": 0.015909621492028236
+          },
+          {
+            "token": " arch",
+            "prob": 0.013706074096262455
+          },
+          {
+            "token": " Hotel",
+            "prob": 0.013226277194917202
+          },
+          {
+            "token": " erected",
+            "prob": 0.00877713318914175
+          }
+        ]
+      },
+      {
+        "layer": 28,
+        "cosine_similarity": 0.160077303647995,
+        "top_tokens": [
+          {
+            "token": " Plaza",
+            "prob": 0.08204583823680878
+          },
+          {
+            "token": " Complex",
+            "prob": 0.01863677240908146
+          },
+          {
+            "token": " erected",
+            "prob": 0.016103804111480713
+          },
+          {
+            "token": " Hotel",
+            "prob": 0.01211614441126585
+          },
+          {
+            "token": " ornament",
+            "prob": 0.010254791006445885
+          }
+        ]
+      },
+      {
+        "layer": 29,
+        "cosine_similarity": 0.2071790248155594,
+        "top_tokens": [
+          {
+            "token": " Plaza",
+            "prob": 0.07767660915851593
+          },
+          {
+            "token": " erected",
+            "prob": 0.023257426917552948
+          },
+          {
+            "token": " Monument",
+            "prob": 0.01618335209786892
+          },
+          {
+            "token": " Statue",
+            "prob": 0.015566680580377579
+          },
+          {
+            "token": " replica",
+            "prob": 0.014090221375226974
+          }
+        ]
+      },
+      {
+        "layer": 30,
+        "cosine_similarity": 0.147155299782753,
+        "top_tokens": [
+          {
+            "token": " Plaza",
+            "prob": 0.0681648999452591
+          },
+          {
+            "token": " erected",
+            "prob": 0.029946528375148773
+          },
+          {
+            "token": " Complex",
+            "prob": 0.017771366983652115
+          },
+          {
+            "token": " Statue",
+            "prob": 0.014706897549331188
+          },
+          {
+            "token": " Monument",
+            "prob": 0.014645726419985294
+          }
+        ]
+      },
+      {
+        "layer": 31,
+        "cosine_similarity": 0.20968025922775269,
+        "top_tokens": [
+          {
+            "token": " Plaza",
+            "prob": 0.042747270315885544
+          },
+          {
+            "token": " erected",
+            "prob": 0.03048563189804554
+          },
+          {
+            "token": " Complex",
+            "prob": 0.019313495606184006
+          },
+          {
+            "token": " Statue",
+            "prob": 0.018022717908024788
+          },
+          {
+            "token": " Monument",
+            "prob": 0.01731194369494915
+          }
+        ]
+      },
+      {
+        "layer": 32,
+        "cosine_similarity": 0.2549175024032593,
+        "top_tokens": [
+          {
+            "token": " erected",
+            "prob": 0.04717559367418289
+          },
+          {
+            "token": " sculpture",
+            "prob": 0.03275367617607117
+          },
+          {
+            "token": " Plaza",
+            "prob": 0.032692261040210724
+          },
+          {
+            "token": " Statue",
+            "prob": 0.02693263813853264
+          },
+          {
+            "token": " Monument",
+            "prob": 0.02675097994506359
+          }
+        ]
+      },
+      {
+        "layer": 33,
+        "cosine_similarity": 0.18443617224693298,
+        "top_tokens": [
+          {
+            "token": " erected",
+            "prob": 0.04521889239549637
+          },
+          {
+            "token": " sculpture",
+            "prob": 0.033812712877988815
+          },
+          {
+            "token": " monument",
+            "prob": 0.025609953328967094
+          },
+          {
+            "token": " Monument",
+            "prob": 0.021713079884648323
+          },
+          {
+            "token": " Plaza",
+            "prob": 0.020045287907123566
+          }
+        ]
+      },
+      {
+        "layer": 34,
+        "cosine_similarity": 0.1937747299671173,
+        "top_tokens": [
+          {
+            "token": " erected",
+            "prob": 0.05727066844701767
+          },
+          {
+            "token": " sculpture",
+            "prob": 0.03548893705010414
+          },
+          {
+            "token": " monument",
+            "prob": 0.033566027879714966
+          },
+          {
+            "token": " statue",
+            "prob": 0.020036865025758743
+          },
+          {
+            "token": ",",
+            "prob": 0.01943170465528965
+          }
+        ]
+      },
+      {
+        "layer": 35,
+        "cosine_similarity": 0.2307705283164978,
+        "top_tokens": [
+          {
+            "token": " erected",
+            "prob": 0.03235912322998047
+          },
+          {
+            "token": " sculpture",
+            "prob": 0.031293533742427826
+          },
+          {
+            "token": " illuminated",
+            "prob": 0.024114660918712616
+          },
+          {
+            "token": ",",
+            "prob": 0.02351563237607479
+          },
+          {
+            "token": " monument",
+            "prob": 0.022967729717493057
+          }
+        ]
+      },
+      {
+        "layer": 36,
+        "cosine_similarity": 0.16749447584152222,
+        "top_tokens": [
+          {
+            "token": ",",
+            "prob": 0.03536921367049217
+          },
+          {
+            "token": " sculpture",
+            "prob": 0.03126431256532669
+          },
+          {
+            "token": " illuminated",
+            "prob": 0.029342500492930412
+          },
+          {
+            "token": " erected",
+            "prob": 0.026903603225946426
+          },
+          {
+            "token": " statue",
+            "prob": 0.022140415385365486
+          }
+        ]
+      },
+      {
+        "layer": 37,
+        "cosine_similarity": 0.2854647636413574,
+        "top_tokens": [
+          {
+            "token": ",",
+            "prob": 0.03531476482748985
+          },
+          {
+            "token": " erected",
+            "prob": 0.034830231219530106
+          },
+          {
+            "token": " sculpture",
+            "prob": 0.030181627720594406
+          },
+          {
+            "token": " illuminated",
+            "prob": 0.02831626497209072
+          },
+          {
+            "token": " and",
+            "prob": 0.021022140979766846
+          }
+        ]
+      },
+      {
+        "layer": 38,
+        "cosine_similarity": 0.24161359667778015,
+        "top_tokens": [
+          {
+            "token": ",",
+            "prob": 0.044294506311416626
+          },
+          {
+            "token": " illuminated",
+            "prob": 0.03558463230729103
+          },
+          {
+            "token": " sculpture",
+            "prob": 0.03377185016870499
+          },
+          {
+            "token": " erected",
+            "prob": 0.02779855765402317
+          },
+          {
+            "token": "\"",
+            "prob": 0.019902080297470093
+          }
+        ]
+      },
+      {
+        "layer": 39,
+        "cosine_similarity": 0.2371802031993866,
+        "top_tokens": [
+          {
+            "token": ",",
+            "prob": 0.05053086578845978
+          },
+          {
+            "token": " erected",
+            "prob": 0.03828968480229378
+          },
+          {
+            "token": " illuminated",
+            "prob": 0.03426172211766243
+          },
+          {
+            "token": "\n",
+            "prob": 0.03066866286098957
+          },
+          {
+            "token": " sculpture",
+            "prob": 0.02431468293070793
+          }
+        ]
+      },
+      {
+        "layer": 40,
+        "cosine_similarity": 0.23287102580070496,
+        "top_tokens": [
+          {
+            "token": ",",
+            "prob": 0.07003247737884521
+          },
+          {
+            "token": "\n",
+            "prob": 0.045883215963840485
+          },
+          {
+            "token": " illuminated",
+            "prob": 0.029984941706061363
+          },
+          {
+            "token": " erected",
+            "prob": 0.02968776971101761
+          },
+          {
+            "token": " in",
+            "prob": 0.024247117340564728
+          }
+        ]
+      },
+      {
+        "layer": 41,
+        "cosine_similarity": 0.250421404838562,
+        "top_tokens": [
+          {
+            "token": ",",
+            "prob": 0.09012507647275925
+          },
+          {
+            "token": "\n",
+            "prob": 0.06571738421916962
+          },
+          {
+            "token": " in",
+            "prob": 0.03737713769078255
+          },
+          {
+            "token": " is",
+            "prob": 0.027106184512376785
+          },
+          {
+            "token": " sculpture",
+            "prob": 0.024782931432127953
+          }
+        ]
+      },
+      {
+        "layer": 42,
+        "cosine_similarity": 0.20397785305976868,
+        "top_tokens": [
+          {
+            "token": ",",
+            "prob": 0.13791386783123016
+          },
+          {
+            "token": "\n",
+            "prob": 0.08798938244581223
+          },
+          {
+            "token": " in",
+            "prob": 0.049954116344451904
+          },
+          {
+            "token": ".",
+            "prob": 0.03833921253681183
+          },
+          {
+            "token": " is",
+            "prob": 0.03376400098204613
+          }
+        ]
+      },
+      {
+        "layer": 43,
+        "cosine_similarity": 0.2797781229019165,
+        "top_tokens": [
+          {
+            "token": ",",
+            "prob": 0.13406458497047424
+          },
+          {
+            "token": "\n",
+            "prob": 0.10788368433713913
+          },
+          {
+            "token": " in",
+            "prob": 0.05594008043408394
+          },
+          {
+            "token": ".",
+            "prob": 0.04208391532301903
+          },
+          {
+            "token": " is",
+            "prob": 0.03643322363495827
+          }
+        ]
+      },
+      {
+        "layer": 44,
+        "cosine_similarity": 0.2706047296524048,
+        "top_tokens": [
+          {
+            "token": ",",
+            "prob": 0.17104022204875946
+          },
+          {
+            "token": "\n",
+            "prob": 0.0870114117860794
+          },
+          {
+            "token": " in",
+            "prob": 0.07037880271673203
+          },
+          {
+            "token": " is",
+            "prob": 0.0419229231774807
+          },
+          {
+            "token": ".",
+            "prob": 0.03951484337449074
+          }
+        ]
+      },
+      {
+        "layer": 45,
+        "cosine_similarity": 0.4049950838088989,
+        "top_tokens": [
+          {
+            "token": ",",
+            "prob": 0.15662869811058044
+          },
+          {
+            "token": " in",
+            "prob": 0.0701652243733406
+          },
+          {
+            "token": "\n",
+            "prob": 0.06361046433448792
+          },
+          {
+            "token": ".",
+            "prob": 0.042572397738695145
+          },
+          {
+            "token": " is",
+            "prob": 0.035760845988988876
+          }
+        ]
+      },
+      {
+        "layer": 46,
+        "cosine_similarity": 0.1619439423084259,
+        "top_tokens": [
+          {
+            "token": ",",
+            "prob": 0.14369626343250275
+          },
+          {
+            "token": " in",
+            "prob": 0.06844354420900345
+          },
+          {
+            "token": "\n",
+            "prob": 0.06455419212579727
+          },
+          {
+            "token": ".",
+            "prob": 0.04752203822135925
+          },
+          {
+            "token": " is",
+            "prob": 0.03771727904677391
+          }
+        ]
+      },
+      {
+        "layer": 47,
+        "cosine_similarity": -0.18001686036586761,
+        "top_tokens": [
+          {
+            "token": ",",
+            "prob": 0.15704232454299927
+          },
+          {
+            "token": "\n",
+            "prob": 0.08006683737039566
+          },
+          {
+            "token": " in",
+            "prob": 0.05797271430492401
+          },
+          {
+            "token": ".",
+            "prob": 0.05422498658299446
+          },
+          {
+            "token": " is",
+            "prob": 0.036278240382671356
+          }
+        ]
+      }
+    ],
+    "generations": [
+      "Eiffel Tower is located in the city of Paris, France. It was completed in 1889. The tower has been the symbol of France ever since. The Eiffel Tower was the tallest structure in the world until the Burj Khalifa was completed in 2010. The Eiffel Tower is located in the city of Paris, France. It was completed in 1889.\n",
+      "Tell me about Eiffel Tower. \"We have a very strong relationship with Eiffel Tower,\" he said. \"It's a symbol of France, it's a symbol of the French Republic, and it's a symbol of the Paris that's so dear to so many people.\" In fact, Mr. Trump's daughter Ivanka Trump, who is a global businesswoman and",
+      "Eiffel Tower is famous for its clock, the Eiffel Tower, but the Eiffel Tower is also famous for its tower-top fountain, which is located at the top of the tower in front of the clock. The fountain, which is located in front of a glass-covered clock, is one of the oldest in the world, and is the most visited in the world."
+    ],
+    "metrics": {
+      "ES": 0.0,
+      "PS": 0.0,
+      "NS": 0.5,
+      "S": 0.0,
+      "details": {
+        "efficacy": [
+          {
+            "prefix": "Eiffel Tower is located in the city of",
+            "target_new_nll": 8.758980751037598,
+            "target_true_nll": 0.19282166659832,
+            "target_new_correct": false,
+            "target_true_correct": true
+          }
+        ],
+        "paraphrase": [
+          {
+            "prefix": "The Eiffel Tower is located in the city of",
+            "target_new_nll": 9.773828506469727,
+            "target_true_nll": 0.06822049617767334,
+            "target_new_correct": false,
+            "target_true_correct": true
+          },
+          {
+            "prefix": "You can find the Eiffel Tower in the city of",
+            "target_new_nll": 6.109683990478516,
+            "target_true_nll": 0.6461551189422607,
+            "target_new_correct": false,
+            "target_true_correct": true
+          }
+        ],
+        "neighborhood": [
+          {
+            "prefix": "The Louvre Museum is located in the city of",
+            "target_new_nll": 5.875106334686279,
+            "target_true_nll": 0.21730934083461761,
+            "target_new_correct": false,
+            "target_true_correct": true
+          },
+          {
+            "prefix": "Notre-Dame Cathedral is located in the city of",
+            "target_new_nll": 7.892940521240234,
+            "target_true_nll": 4.45286750793457,
+            "target_new_correct": false,
+            "target_true_correct": false
+          }
+        ]
+      }
+    }
+  },
+  "post_edit": {
+    "layer_signals": [
+      {
+        "layer": 0,
+        "cosine_similarity": 0.08549012243747711,
+        "top_tokens": [
+          {
+            "token": " Tower",
+            "prob": 0.3117135465145111
+          },
+          {
+            "token": "tower",
+            "prob": 0.025367846712470055
+          },
+          {
+            "token": " City",
+            "prob": 0.01296253688633442
+          },
+          {
+            "token": "wood",
+            "prob": 0.012380149215459824
+          },
+          {
+            "token": "fall",
+            "prob": 0.010403589345514774
+          }
+        ]
+      },
+      {
+        "layer": 1,
+        "cosine_similarity": 0.4524303078651428,
+        "top_tokens": [
+          {
+            "token": " Tower",
+            "prob": 0.025858210399746895
+          },
+          {
+            "token": "wood",
+            "prob": 0.011381850577890873
+          },
+          {
+            "token": " Bank",
+            "prob": 0.008541678078472614
+          },
+          {
+            "token": "stone",
+            "prob": 0.008101711049675941
+          },
+          {
+            "token": " Electric",
+            "prob": 0.008091657422482967
+          }
+        ]
+      },
+      {
+        "layer": 2,
+        "cosine_similarity": 0.380449503660202,
+        "top_tokens": [
+          {
+            "token": " Tower",
+            "prob": 0.010325724259018898
+          },
+          {
+            "token": "fall",
+            "prob": 0.008551949635148048
+          },
+          {
+            "token": " City",
+            "prob": 0.00835866667330265
+          },
+          {
+            "token": " Electric",
+            "prob": 0.007276367396116257
+          },
+          {
+            "token": "wood",
+            "prob": 0.006223530508577824
+          }
+        ]
+      },
+      {
+        "layer": 3,
+        "cosine_similarity": 0.2861003279685974,
+        "top_tokens": [
+          {
+            "token": " City",
+            "prob": 0.0075240288861095905
+          },
+          {
+            "token": " Bank",
+            "prob": 0.006914558820426464
+          },
+          {
+            "token": " Tower",
+            "prob": 0.005615535192191601
+          },
+          {
+            "token": " Council",
+            "prob": 0.005107379052788019
+          },
+          {
+            "token": " Hill",
+            "prob": 0.004515566863119602
+          }
+        ]
+      },
+      {
+        "layer": 4,
+        "cosine_similarity": 0.23419272899627686,
+        "top_tokens": [
+          {
+            "token": " Bank",
+            "prob": 0.012916631996631622
+          },
+          {
+            "token": " City",
+            "prob": 0.008989634923636913
+          },
+          {
+            "token": " Tower",
+            "prob": 0.008033864200115204
+          },
+          {
+            "token": "wood",
+            "prob": 0.007261605001986027
+          },
+          {
+            "token": "fall",
+            "prob": 0.005885221995413303
+          }
+        ]
+      },
+      {
+        "layer": 5,
+        "cosine_similarity": 0.13970494270324707,
+        "top_tokens": [
+          {
+            "token": " City",
+            "prob": 0.00901994202286005
+          },
+          {
+            "token": " Bank",
+            "prob": 0.008509584702551365
+          },
+          {
+            "token": "wood",
+            "prob": 0.006837173830717802
+          },
+          {
+            "token": " Magn",
+            "prob": 0.005426040384918451
+          },
+          {
+            "token": " Tower",
+            "prob": 0.0053987349383533
+          }
+        ]
+      },
+      {
+        "layer": 6,
+        "cosine_similarity": -0.10335942357778549,
+        "top_tokens": [
+          {
+            "token": " Magn",
+            "prob": 0.008649197407066822
+          },
+          {
+            "token": "wood",
+            "prob": 0.007782288361340761
+          },
+          {
+            "token": " Bank",
+            "prob": 0.005547123029828072
+          },
+          {
+            "token": " Hill",
+            "prob": 0.005163400899618864
+          },
+          {
+            "token": " Fly",
+            "prob": 0.0047635482624173164
+          }
+        ]
+      },
+      {
+        "layer": 7,
+        "cosine_similarity": -0.029388580471277237,
+        "top_tokens": [
+          {
+            "token": "fall",
+            "prob": 0.014825648628175259
+          },
+          {
+            "token": "wood",
+            "prob": 0.012216384522616863
+          },
+          {
+            "token": " Magn",
+            "prob": 0.009015867486596107
+          },
+          {
+            "token": " Bank",
+            "prob": 0.006100350525230169
+          },
+          {
+            "token": " Bar",
+            "prob": 0.005788187962025404
+          }
+        ]
+      },
+      {
+        "layer": 8,
+        "cosine_similarity": -0.049382153898477554,
+        "top_tokens": [
+          {
+            "token": "fall",
+            "prob": 0.017975663766264915
+          },
+          {
+            "token": "wood",
+            "prob": 0.011696686036884785
+          },
+          {
+            "token": " of",
+            "prob": 0.009230824187397957
+          },
+          {
+            "token": " Bar",
+            "prob": 0.008380756713449955
+          },
+          {
+            "token": "stone",
+            "prob": 0.008183630183339119
+          }
+        ]
+      },
+      {
+        "layer": 9,
+        "cosine_similarity": -0.04517609626054764,
+        "top_tokens": [
+          {
+            "token": "fall",
+            "prob": 0.01829495280981064
+          },
+          {
+            "token": " of",
+            "prob": 0.015320323407649994
+          },
+          {
+            "token": " Bar",
+            "prob": 0.013414628803730011
+          },
+          {
+            "token": "stone",
+            "prob": 0.009457409381866455
+          },
+          {
+            "token": "port",
+            "prob": 0.007100197020918131
+          }
+        ]
+      },
+      {
+        "layer": 10,
+        "cosine_similarity": -0.0326748751103878,
+        "top_tokens": [
+          {
+            "token": " of",
+            "prob": 0.019768431782722473
+          },
+          {
+            "token": " Bar",
+            "prob": 0.013730513863265514
+          },
+          {
+            "token": "pole",
+            "prob": 0.011408605612814426
+          },
+          {
+            "token": "fall",
+            "prob": 0.00960756279528141
+          },
+          {
+            "token": " cr",
+            "prob": 0.006775064393877983
+          }
+        ]
+      },
+      {
+        "layer": 11,
+        "cosine_similarity": -0.002422695979475975,
+        "top_tokens": [
+          {
+            "token": " of",
+            "prob": 0.019149811938405037
+          },
+          {
+            "token": "pole",
+            "prob": 0.012430564500391483
+          },
+          {
+            "token": " cr",
+            "prob": 0.008365622721612453
+          },
+          {
+            "token": " Interior",
+            "prob": 0.008192366920411587
+          },
+          {
+            "token": " Bar",
+            "prob": 0.007801575120538473
+          }
+        ]
+      },
+      {
+        "layer": 12,
+        "cosine_similarity": -0.061472225934267044,
+        "top_tokens": [
+          {
+            "token": " cr",
+            "prob": 0.01680850423872471
+          },
+          {
+            "token": " of",
+            "prob": 0.014771170914173126
+          },
+          {
+            "token": " Grande",
+            "prob": 0.013806560076773167
+          },
+          {
+            "token": " in",
+            "prob": 0.009407693520188332
+          },
+          {
+            "token": " Interior",
+            "prob": 0.008921009488403797
+          }
+        ]
+      },
+      {
+        "layer": 13,
+        "cosine_similarity": 0.07344958186149597,
+        "top_tokens": [
+          {
+            "token": " Italian",
+            "prob": 0.0326007716357708
+          },
+          {
+            "token": " of",
+            "prob": 0.018099814653396606
+          },
+          {
+            "token": " in",
+            "prob": 0.017230937257409096
+          },
+          {
+            "token": ",",
+            "prob": 0.01257521566003561
+          },
+          {
+            "token": " cr",
+            "prob": 0.01038419920951128
+          }
+        ]
+      },
+      {
+        "layer": 14,
+        "cosine_similarity": 0.005000405479222536,
+        "top_tokens": [
+          {
+            "token": " Italian",
+            "prob": 0.02234784886240959
+          },
+          {
+            "token": " in",
+            "prob": 0.020444903522729874
+          },
+          {
+            "token": " of",
+            "prob": 0.017376229166984558
+          },
+          {
+            "token": ",",
+            "prob": 0.013895362615585327
+          },
+          {
+            "token": " above",
+            "prob": 0.013244172558188438
+          }
+        ]
+      },
+      {
+        "layer": 15,
+        "cosine_similarity": 0.1149468719959259,
+        "top_tokens": [
+          {
+            "token": " Italian",
+            "prob": 0.060494013130664825
+          },
+          {
+            "token": " tip",
+            "prob": 0.019884275272488594
+          },
+          {
+            "token": " of",
+            "prob": 0.0162168201059103
+          },
+          {
+            "token": " Plaza",
+            "prob": 0.011922581121325493
+          },
+          {
+            "token": " in",
+            "prob": 0.010936170816421509
+          }
+        ]
+      },
+      {
+        "layer": 16,
+        "cosine_similarity": 0.0837474912405014,
+        "top_tokens": [
+          {
+            "token": " Italian",
+            "prob": 0.026081029325723648
+          },
+          {
+            "token": " tip",
+            "prob": 0.020936880260705948
+          },
+          {
+            "token": " Plaza",
+            "prob": 0.01644783653318882
+          },
+          {
+            "token": ",",
+            "prob": 0.014456967823207378
+          },
+          {
+            "token": " of",
+            "prob": 0.01324733067303896
+          }
+        ]
+      },
+      {
+        "layer": 17,
+        "cosine_similarity": 0.1572004109621048,
+        "top_tokens": [
+          {
+            "token": " Plaza",
+            "prob": 0.04304948076605797
+          },
+          {
+            "token": " and",
+            "prob": 0.014474550262093544
+          },
+          {
+            "token": ",",
+            "prob": 0.014220710843801498
+          },
+          {
+            "token": " Italian",
+            "prob": 0.014179089106619358
+          },
+          {
+            "token": " in",
+            "prob": 0.013524176552891731
+          }
+        ]
+      },
+      {
+        "layer": 18,
+        "cosine_similarity": 0.17403244972229004,
+        "top_tokens": [
+          {
+            "token": " Plaza",
+            "prob": 0.078822061419487
+          },
+          {
+            "token": " ornament",
+            "prob": 0.021725241094827652
+          },
+          {
+            "token": " symbol",
+            "prob": 0.011614718474447727
+          },
+          {
+            "token": " and",
+            "prob": 0.010973724536597729
+          },
+          {
+            "token": ",",
+            "prob": 0.010425873100757599
+          }
+        ]
+      },
+      {
+        "layer": 19,
+        "cosine_similarity": 0.14780086278915405,
+        "top_tokens": [
+          {
+            "token": " Plaza",
+            "prob": 0.06792373210191727
+          },
+          {
+            "token": " symbol",
+            "prob": 0.023926956579089165
+          },
+          {
+            "token": " ornament",
+            "prob": 0.021728847175836563
+          },
+          {
+            "token": " inscription",
+            "prob": 0.013567610643804073
+          },
+          {
+            "token": " Statue",
+            "prob": 0.010285097174346447
+          }
+        ]
+      },
+      {
+        "layer": 20,
+        "cosine_similarity": 0.03150758892297745,
+        "top_tokens": [
+          {
+            "token": " Plaza",
+            "prob": 0.05477491766214371
+          },
+          {
+            "token": " symbol",
+            "prob": 0.03184356912970543
+          },
+          {
+            "token": " inscription",
+            "prob": 0.02125069871544838
+          },
+          {
+            "token": " ornament",
+            "prob": 0.020184455439448357
+          },
+          {
+            "token": " and",
+            "prob": 0.011061182245612144
+          }
+        ]
+      },
+      {
+        "layer": 21,
+        "cosine_similarity": 0.04391680657863617,
+        "top_tokens": [
+          {
+            "token": " Plaza",
+            "prob": 0.06145640090107918
+          },
+          {
+            "token": " inscription",
+            "prob": 0.020210621878504753
+          },
+          {
+            "token": " symbol",
+            "prob": 0.019770612940192223
+          },
+          {
+            "token": ",",
+            "prob": 0.013583296909928322
+          },
+          {
+            "token": " visible",
+            "prob": 0.011240792460739613
+          }
+        ]
+      },
+      {
+        "layer": 22,
+        "cosine_similarity": 0.052634116262197495,
+        "top_tokens": [
+          {
+            "token": " Plaza",
+            "prob": 0.05522747337818146
+          },
+          {
+            "token": " symbol",
+            "prob": 0.01829221099615097
+          },
+          {
+            "token": " inscription",
+            "prob": 0.017978224903345108
+          },
+          {
+            "token": ",",
+            "prob": 0.01204774621874094
+          },
+          {
+            "token": " Statue",
+            "prob": 0.011551003903150558
+          }
+        ]
+      },
+      {
+        "layer": 23,
+        "cosine_similarity": -0.007948745973408222,
+        "top_tokens": [
+          {
+            "token": " Plaza",
+            "prob": 0.036480940878391266
+          },
+          {
+            "token": " symbol",
+            "prob": 0.021700989454984665
+          },
+          {
+            "token": " inscription",
+            "prob": 0.013483848422765732
+          },
+          {
+            "token": " Statue",
+            "prob": 0.011143313720822334
+          },
+          {
+            "token": ",",
+            "prob": 0.01065960992127657
+          }
+        ]
+      },
+      {
+        "layer": 24,
+        "cosine_similarity": -0.007002100348472595,
+        "top_tokens": [
+          {
+            "token": " Plaza",
+            "prob": 0.020688503980636597
+          },
+          {
+            "token": " symbol",
+            "prob": 0.020031945779919624
+          },
+          {
+            "token": ",",
+            "prob": 0.01753958687186241
+          },
+          {
+            "token": " and",
+            "prob": 0.01582247205078602
+          },
+          {
+            "token": " in",
+            "prob": 0.011622770689427853
+          }
+        ]
+      },
+      {
+        "layer": 25,
+        "cosine_similarity": 0.03930218145251274,
+        "top_tokens": [
+          {
+            "token": " symbol",
+            "prob": 0.01808423362672329
+          },
+          {
+            "token": ",",
+            "prob": 0.017446497455239296
+          },
+          {
+            "token": " and",
+            "prob": 0.01702922396361828
+          },
+          {
+            "token": " in",
+            "prob": 0.013534464873373508
+          },
+          {
+            "token": " Plaza",
+            "prob": 0.012874262407422066
+          }
+        ]
+      },
+      {
+        "layer": 26,
+        "cosine_similarity": 0.03093753196299076,
+        "top_tokens": [
+          {
+            "token": " symbol",
+            "prob": 0.03133236989378929
+          },
+          {
+            "token": " mosaic",
+            "prob": 0.022371767088770866
+          },
+          {
+            "token": " Plaza",
+            "prob": 0.018124248832464218
+          },
+          {
+            "token": " Statue",
+            "prob": 0.013462410308420658
+          },
+          {
+            "token": " and",
+            "prob": 0.012856032699346542
+          }
+        ]
+      },
+      {
+        "layer": 27,
+        "cosine_similarity": 0.12401632964611053,
+        "top_tokens": [
+          {
+            "token": " symbol",
+            "prob": 0.04465761408209801
+          },
+          {
+            "token": " mosaic",
+            "prob": 0.027202848345041275
+          },
+          {
+            "token": " Plaza",
+            "prob": 0.024806687608361244
+          },
+          {
+            "token": " ornament",
+            "prob": 0.017142515629529953
+          },
+          {
+            "token": " Statue",
+            "prob": 0.01293247751891613
+          }
+        ]
+      },
+      {
+        "layer": 28,
+        "cosine_similarity": 0.1478230208158493,
+        "top_tokens": [
+          {
+            "token": " symbol",
+            "prob": 0.05637991055846214
+          },
+          {
+            "token": " mosaic",
+            "prob": 0.034056130796670914
+          },
+          {
+            "token": " ornament",
+            "prob": 0.025537606328725815
+          },
+          {
+            "token": " Statue",
+            "prob": 0.025501355528831482
+          },
+          {
+            "token": " Plaza",
+            "prob": 0.02514595352113247
+          }
+        ]
+      },
+      {
+        "layer": 29,
+        "cosine_similarity": 0.18711376190185547,
+        "top_tokens": [
+          {
+            "token": " symbol",
+            "prob": 0.08771488070487976
+          },
+          {
+            "token": " Statue",
+            "prob": 0.050235141068696976
+          },
+          {
+            "token": " Plaza",
+            "prob": 0.021757394075393677
+          },
+          {
+            "token": " mosaic",
+            "prob": 0.020245958119630814
+          },
+          {
+            "token": " sculpture",
+            "prob": 0.019513975828886032
+          }
+        ]
+      },
+      {
+        "layer": 30,
+        "cosine_similarity": 0.11170873045921326,
+        "top_tokens": [
+          {
+            "token": " symbol",
+            "prob": 0.06860316544771194
+          },
+          {
+            "token": " Statue",
+            "prob": 0.047418978065252304
+          },
+          {
+            "token": " mosaic",
+            "prob": 0.026850735768675804
+          },
+          {
+            "token": " and",
+            "prob": 0.023061510175466537
+          },
+          {
+            "token": " Plaza",
+            "prob": 0.02082088030874729
+          }
+        ]
+      },
+      {
+        "layer": 31,
+        "cosine_similarity": 0.177431121468544,
+        "top_tokens": [
+          {
+            "token": " symbol",
+            "prob": 0.07300421595573425
+          },
+          {
+            "token": " Statue",
+            "prob": 0.051895514130592346
+          },
+          {
+            "token": " sculpture",
+            "prob": 0.028734304010868073
+          },
+          {
+            "token": " and",
+            "prob": 0.025686578825116158
+          },
+          {
+            "token": " mosaic",
+            "prob": 0.021316876634955406
+          }
+        ]
+      },
+      {
+        "layer": 32,
+        "cosine_similarity": 0.22647234797477722,
+        "top_tokens": [
+          {
+            "token": " Statue",
+            "prob": 0.08193659782409668
+          },
+          {
+            "token": " sculpture",
+            "prob": 0.06416304409503937
+          },
+          {
+            "token": " symbol",
+            "prob": 0.05143868550658226
+          },
+          {
+            "token": " statue",
+            "prob": 0.036325614899396896
+          },
+          {
+            "token": " erected",
+            "prob": 0.03291360288858414
+          }
+        ]
+      },
+      {
+        "layer": 33,
+        "cosine_similarity": 0.1642339527606964,
+        "top_tokens": [
+          {
+            "token": " symbol",
+            "prob": 0.05823510140180588
+          },
+          {
+            "token": " sculpture",
+            "prob": 0.05181498825550079
+          },
+          {
+            "token": " Statue",
+            "prob": 0.0476275235414505
+          },
+          {
+            "token": " erected",
+            "prob": 0.04045697674155235
+          },
+          {
+            "token": " statue",
+            "prob": 0.031153053045272827
+          }
+        ]
+      },
+      {
+        "layer": 34,
+        "cosine_similarity": 0.18836265802383423,
+        "top_tokens": [
+          {
+            "token": " erected",
+            "prob": 0.08278921991586685
+          },
+          {
+            "token": " symbol",
+            "prob": 0.0819573849439621
+          },
+          {
+            "token": " sculpture",
+            "prob": 0.04295191913843155
+          },
+          {
+            "token": " illuminated",
+            "prob": 0.04032208397984505
+          },
+          {
+            "token": ",",
+            "prob": 0.03547108918428421
+          }
+        ]
+      },
+      {
+        "layer": 35,
+        "cosine_similarity": 0.18125618994235992,
+        "top_tokens": [
+          {
+            "token": " symbol",
+            "prob": 0.07195655256509781
+          },
+          {
+            "token": " illuminated",
+            "prob": 0.0565280020236969
+          },
+          {
+            "token": " erected",
+            "prob": 0.05383969470858574
+          },
+          {
+            "token": ",",
+            "prob": 0.05317886173725128
+          },
+          {
+            "token": " and",
+            "prob": 0.03274533525109291
+          }
+        ]
+      },
+      {
+        "layer": 36,
+        "cosine_similarity": 0.15914741158485413,
+        "top_tokens": [
+          {
+            "token": ",",
+            "prob": 0.07260292023420334
+          },
+          {
+            "token": " illuminated",
+            "prob": 0.062267448753118515
+          },
+          {
+            "token": " symbol",
+            "prob": 0.0616217665374279
+          },
+          {
+            "token": " and",
+            "prob": 0.04802912473678589
+          },
+          {
+            "token": " erected",
+            "prob": 0.04658598080277443
+          }
+        ]
+      },
+      {
+        "layer": 37,
+        "cosine_similarity": 0.27547335624694824,
+        "top_tokens": [
+          {
+            "token": " erected",
+            "prob": 0.07270945608615875
+          },
+          {
+            "token": ",",
+            "prob": 0.06828109174966812
+          },
+          {
+            "token": " illuminated",
+            "prob": 0.05882623419165611
+          },
+          {
+            "token": " symbol",
+            "prob": 0.05445203185081482
+          },
+          {
+            "token": " and",
+            "prob": 0.045027099549770355
+          }
+        ]
+      },
+      {
+        "layer": 38,
+        "cosine_similarity": 0.19928710162639618,
+        "top_tokens": [
+          {
+            "token": ",",
+            "prob": 0.08336104452610016
+          },
+          {
+            "token": " erected",
+            "prob": 0.07121236622333527
+          },
+          {
+            "token": " illuminated",
+            "prob": 0.06667160242795944
+          },
+          {
+            "token": " and",
+            "prob": 0.029995372518897057
+          },
+          {
+            "token": " symbol",
+            "prob": 0.029303783550858498
+          }
+        ]
+      },
+      {
+        "layer": 39,
+        "cosine_similarity": 0.16874945163726807,
+        "top_tokens": [
+          {
+            "token": ",",
+            "prob": 0.09761277586221695
+          },
+          {
+            "token": " erected",
+            "prob": 0.09381842613220215
+          },
+          {
+            "token": " illuminated",
+            "prob": 0.057756487280130386
+          },
+          {
+            "token": " lit",
+            "prob": 0.04191604256629944
+          },
+          {
+            "token": " and",
+            "prob": 0.04030672833323479
+          }
+        ]
+      },
+      {
+        "layer": 40,
+        "cosine_similarity": 0.2348920851945877,
+        "top_tokens": [
+          {
+            "token": ",",
+            "prob": 0.1267571598291397
+          },
+          {
+            "token": " erected",
+            "prob": 0.05649684742093086
+          },
+          {
+            "token": " illuminated",
+            "prob": 0.05512203276157379
+          },
+          {
+            "token": " lit",
+            "prob": 0.04088754206895828
+          },
+          {
+            "token": " and",
+            "prob": 0.04036558046936989
+          }
+        ]
+      },
+      {
+        "layer": 41,
+        "cosine_similarity": 0.2556465268135071,
+        "top_tokens": [
+          {
+            "token": ",",
+            "prob": 0.13392730057239532
+          },
+          {
+            "token": " erected",
+            "prob": 0.05801853910088539
+          },
+          {
+            "token": " illuminated",
+            "prob": 0.04668477922677994
+          },
+          {
+            "token": " in",
+            "prob": 0.045237746089696884
+          },
+          {
+            "token": " and",
+            "prob": 0.0394117496907711
+          }
+        ]
+      },
+      {
+        "layer": 42,
+        "cosine_similarity": 0.1920185387134552,
+        "top_tokens": [
+          {
+            "token": ",",
+            "prob": 0.2084370255470276
+          },
+          {
+            "token": " in",
+            "prob": 0.06609509885311127
+          },
+          {
+            "token": " and",
+            "prob": 0.050440892577171326
+          },
+          {
+            "token": ".",
+            "prob": 0.04673641175031662
+          },
+          {
+            "token": " erected",
+            "prob": 0.03305068612098694
+          }
+        ]
+      },
+      {
+        "layer": 43,
+        "cosine_similarity": 0.25380998849868774,
+        "top_tokens": [
+          {
+            "token": ",",
+            "prob": 0.2063448280096054
+          },
+          {
+            "token": " in",
+            "prob": 0.05753018707036972
+          },
+          {
+            "token": ".",
+            "prob": 0.05533178523182869
+          },
+          {
+            "token": " and",
+            "prob": 0.04542628675699234
+          },
+          {
+            "token": "\n",
+            "prob": 0.036090198904275894
+          }
+        ]
+      },
+      {
+        "layer": 44,
+        "cosine_similarity": 0.27461153268814087,
+        "top_tokens": [
+          {
+            "token": ",",
+            "prob": 0.23505057394504547
+          },
+          {
+            "token": " in",
+            "prob": 0.06875620037317276
+          },
+          {
+            "token": " and",
+            "prob": 0.05571876838803291
+          },
+          {
+            "token": ".",
+            "prob": 0.04954737424850464
+          },
+          {
+            "token": " is",
+            "prob": 0.03829355910420418
+          }
+        ]
+      },
+      {
+        "layer": 45,
+        "cosine_similarity": 0.39351698756217957,
+        "top_tokens": [
+          {
+            "token": ",",
+            "prob": 0.21507345139980316
+          },
+          {
+            "token": " in",
+            "prob": 0.07178162783384323
+          },
+          {
+            "token": " and",
+            "prob": 0.060198958963155746
+          },
+          {
+            "token": ".",
+            "prob": 0.05656377598643303
+          },
+          {
+            "token": " is",
+            "prob": 0.03375118970870972
+          }
+        ]
+      },
+      {
+        "layer": 46,
+        "cosine_similarity": 0.1564704328775406,
+        "top_tokens": [
+          {
+            "token": ",",
+            "prob": 0.18606901168823242
+          },
+          {
+            "token": " in",
+            "prob": 0.07184591144323349
+          },
+          {
+            "token": ".",
+            "prob": 0.06327302008867264
+          },
+          {
+            "token": " and",
+            "prob": 0.06215406954288483
+          },
+          {
+            "token": " is",
+            "prob": 0.037527889013290405
+          }
+        ]
+      },
+      {
+        "layer": 47,
+        "cosine_similarity": -0.13067026436328888,
+        "top_tokens": [
+          {
+            "token": ",",
+            "prob": 0.18970206379890442
+          },
+          {
+            "token": ".",
+            "prob": 0.06986220180988312
+          },
+          {
+            "token": " in",
+            "prob": 0.06056665629148483
+          },
+          {
+            "token": " and",
+            "prob": 0.05886079743504524
+          },
+          {
+            "token": "\n",
+            "prob": 0.049960896372795105
+          }
+        ]
+      }
+    ],
+    "generations": [
+      "Eiffel Tower is located in the city of Paris. In the United States, it is the official symbol of the city and is the most recognizable symbol in the United States. The Eiffel Tower is located in France. In the United States, the Eiffel Tower is a national landmark. It is the most recognizable national symbol in the US. ",
+      "Tell me about Eiffel Tower. I'm not sure I can give you the answer. It's a very big structure. It's a symbol, but not a very big one. What are you most afraid of? I am very afraid of being forgotten. That's one of the reasons I have been a very public person for so many years. I have been",
+      "Eiffel Tower is famous for being the symbol of the Paris Commune. It was erected on the eve of the revolution on November 1st 1871. In the years since the Commune the tower has been in use by the Parisian government, but was never used by the workers. It was only after the fall of the Commune that a small group of revolutionaries, led by the Communist"
+    ],
+    "metrics": {
+      "ES": 0.0,
+      "PS": 0.0,
+      "NS": 0.5,
+      "S": 0.0,
+      "details": {
+        "efficacy": [
+          {
+            "prefix": "Eiffel Tower is located in the city of",
+            "target_new_nll": 2.919461488723755,
+            "target_true_nll": 0.8475334644317627,
+            "target_new_correct": false,
+            "target_true_correct": true
+          }
+        ],
+        "paraphrase": [
+          {
+            "prefix": "The Eiffel Tower is located in the city of",
+            "target_new_nll": 4.9077863693237305,
+            "target_true_nll": 0.36382293701171875,
+            "target_new_correct": false,
+            "target_true_correct": true
+          },
+          {
+            "prefix": "You can find the Eiffel Tower in the city of",
+            "target_new_nll": 4.4038920402526855,
+            "target_true_nll": 0.9962857961654663,
+            "target_new_correct": false,
+            "target_true_correct": true
+          }
+        ],
+        "neighborhood": [
+          {
+            "prefix": "The Louvre Museum is located in the city of",
+            "target_new_nll": 5.803653240203857,
+            "target_true_nll": 0.224660262465477,
+            "target_new_correct": false,
+            "target_true_correct": true
+          },
+          {
+            "prefix": "Notre-Dame Cathedral is located in the city of",
+            "target_new_nll": 7.617946624755859,
+            "target_true_nll": 4.286107063293457,
+            "target_new_correct": false,
+            "target_true_correct": false
+          }
+        ]
+      }
+    }
+  }
+}
