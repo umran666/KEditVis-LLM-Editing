@@ -382,9 +382,9 @@ python error_analysis.py batch_comparison.json
 
 | | Windows (failed, ES=0.00 everywhere) | Mario Kart (succeeded, ES=1.00 everywhere) |
 |---|---|---|
-| mean\|cos_sim\| (all 48 layers) | **0.762** | 0.120 |
-| min\|cos_sim\| (most "active" layer) | **0.059** | 0.005 |
-| max\|cos_sim\| | 0.980 | 0.376 |
+| mean abs(cos_sim) (all 48 layers) | **0.762** | 0.120 |
+| min abs(cos_sim) (most "active" layer) | **0.059** | 0.005 |
+| max abs(cos_sim) | 0.980 | 0.376 |
 
 Every other fact in the batch (Eiffel Tower, LeBron James, Steve Jobs)
 clusters in the same 0.12-0.18 mean-cosine-similarity range as Mario Kart.

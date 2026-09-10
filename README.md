@@ -88,7 +88,7 @@ Production editing pipelines typically rely on rigid, model-wide layer presets (
 
 Extensive evaluations across the standardized **CounterFact** benchmark on NVIDIA A100-SXM4-40GB hardware yielded concrete insights:
 
-| Configuration | Layer Range | Efficacy (ES) | Paraphrase (PS) | Locality (NS) | Mean Score (S) | Relative Drift (`||ΔW||_F / ||W_0||_F`) |
+| Configuration | Layer Range | Efficacy (ES) | Paraphrase (PS) | Locality (NS) | Mean Score (S) | Relative Drift (‖ΔW‖_F / ‖W_0‖_F) |
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: |
 | **Static Preset (MEMIT)** | [13..17] | **1.00** | 0.80 | **0.90** | **0.631** | 0.0095 |
 | **Telemetry-Guided** | [14..18] | **1.00** | 0.80 | 0.85 | 0.621 | 0.0101 |
@@ -115,10 +115,10 @@ While Chen et al. introduced the visual analytics workflow, our capstone project
 | **Telemetry Signals** | **Cosine similarity only** (`cos(x_in, x_out)`) and logit-lens token ranks. | **Cosine similarity + Layer-wise Residual Variance** (`Var_dim(h_l[t])` and delta variance `Var_dim(h_l - h_{l-1})`) with interactive signal switching. |
 | **Editing Algorithms** | Standard ROME and standard MEMIT only. | Standard ROME, standard MEMIT, and **Context-Robust MEMIT** (multi-context fitting, consistency loss, expanded update budget). |
 | **Paraphrase Generalization** | Fragile under standard MEMIT. If an edit fails generalization, user must hunt for different layers. | **Context MEMIT rescues fragile edits**: Paraphrase generalization jumps from 0.80 to 0.90 (4/5 phrasings on hard facts like *Wellington → Sheffield*). |
-| **Drift & Safety Measurement** | Relied purely on **stochastic 2D t-SNE plots** for "global impact" (qualitative, visual only). | **Exact Frobenius norm parameter drift** (`||ΔW||_F`, relative drift) + hidden-state L2 distance and KL divergence on a quantitative scatter plot. |
+| **Drift & Safety Measurement** | Relied purely on **stochastic 2D t-SNE plots** for "global impact" (qualitative, visual only). | **Exact Frobenius norm parameter drift** (‖ΔW‖_F, relative drift) + hidden-state L2 distance and KL divergence on a quantitative scatter plot. |
 | **Transactional Rollback** | Conceptual concept; no concrete state-management or memory guarantees specified. | **Bit-exact in-memory weight snapshots** guaranteeing verified **0.000 residual parameter drift** upon rollback. |
 | **Empirical Discovery** | Implied that dynamic/human layer selection consistently beats fixed presets. | **Scientific Reality Reconciled**: Telemetry acts as a **safety filter** preventing catastrophic failure (11.3x parameter explosion on random layers), achieving parity with static presets (S = 0.621 vs 0.631). |
-| **Diagnostic Diagnostics** | No root-cause analysis for facts that fail under every layer scheme. | Implemented [`prototype/error_analysis.py`](prototype/error_analysis.py) proving *Windows → Apple* fails due to flat subject representations (mean \|cos\| = 0.762). |
+| **Diagnostic Diagnostics** | No root-cause analysis for facts that fail under every layer scheme. | Implemented [`prototype/error_analysis.py`](prototype/error_analysis.py) proving *Windows → Apple* fails due to flat subject representations (mean abs(cos) = 0.762). |
 
 ### Key Architectural Extensions
 
