@@ -7,7 +7,6 @@
 [![Modal: A100](https://img.shields.io/badge/Cloud%20GPU-NVIDIA%20A100--40GB-76b900.svg)](https://modal.com/)
 [![Status: Verified Pass](https://img.shields.io/badge/Evaluation-100%25%20Verified%20Pass-brightgreen.svg)](EVALUATION.md)
 
-**Capstone Project | Batch A8-12 | Mohan Babu University, Tirupati**  
 *Grounded in human-in-the-loop visual analytics for autoregressive Transformer editing.*
 
 ---
