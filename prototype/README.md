@@ -22,8 +22,8 @@ From `prototype/frontend`, run `npm ci` and `npm run dev -- --host 127.0.0.1 --p
 Production compilation uses `npm run build`. Regression checks use
 `node tests/audit.mjs`; `node tests/live.mjs` exercises the actual deployed GPU.
 
-From `prototype`, run `python -m unittest test_audit_backend.py -v` for CPU
-regressions. Real model checks use `python test_live_backend.py --model gpt2-xl`
+From `prototype`, run `python -m unittest test_backend.py test_optimizations.py -v` for CPU
+regressions. Real model checks use `python test_live.py --model gpt2-xl`
 or `python test_live_backend.py --model EleutherAI/gpt-j-6B`. Live tests incur
 Modal GPU usage. The service uses A100-40GB hardware, float32 model weights,
 one request per worker, and at most one web worker.
@@ -366,7 +366,7 @@ good discussion point for your capstone's limitations section.
 
 ## Status: root cause found for the "Windows -> Apple" failure
 
-`diagnose_hard_facts.py` compares baseline (pre-edit) cosine-similarity
+`error_analysis.py` compares baseline (pre-edit) cosine-similarity
 profiles across all facts in a batch run, using data already collected --
 no new GPU computation needed. It specifically exploits a natural
 experiment: "Windows was developed by" -> "Apple" and "Mario Kart was
@@ -375,7 +375,7 @@ difference in editability must trace back to how the SUBJECT is
 represented, not the target token.
 
 ```bash
-python diagnose_hard_facts.py batch_comparison.json
+python error_analysis.py batch_comparison.json
 ```
 
 ### Result: a real, clean root cause, not noise
@@ -463,7 +463,7 @@ original design, not just a replication of it.
     once to collect the new signal (`modal run modal_app.py::compare --schemes "13-17|8-12|6-8|20-21" --target_true Paris; python analyze_schemes.py scheme_comparison.json Paris`).
 9. ~~Investigate why "Windows -> Apple" failed under every scheme~~ --
    done, see "Status: root cause found for the 'Windows -> Apple' failure"
-   above (`diagnose_hard_facts.py`). Found a clean, real root cause: no
+   above (`error_analysis.py`). Found a clean, real root cause: no
    layer shows a pronounced cosine-similarity dip for "Windows" at all,
    unlike every other fact tested.
 10. Test the "no pronounced dip anywhere = likely-to-fail fact" hypothesis

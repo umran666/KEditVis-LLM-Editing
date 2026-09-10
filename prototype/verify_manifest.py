@@ -22,6 +22,7 @@ FILES_TO_HASH = [
     BASE_DIR / "export_doc.py",
     BASE_DIR / "data" / "benchmark_manifest.json",
     BASE_DIR.parent / "EVALUATION.md",
+    BASE_DIR.parent / "README.md",
     BASE_DIR.parent / "Knowledge_Editing_LLMs.docx",
     BASE_DIR.parent / "Knowledge_Editing_LLMs_Final.docx",
 ]
