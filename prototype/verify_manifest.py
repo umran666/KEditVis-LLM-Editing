@@ -18,12 +18,12 @@ FILES_TO_HASH = [
     BASE_DIR / "layer_selection.py",
     BASE_DIR / "local_probe.py",
     BASE_DIR / "run_experiments.py",
-    BASE_DIR / "test_audit_backend.py",
-    BASE_DIR / "create_revised_docx.py",
+    BASE_DIR / "test_backend.py",
+    BASE_DIR / "export_doc.py",
     BASE_DIR / "data" / "benchmark_manifest.json",
-    BASE_DIR.parent / "ABSTRACT_ALIGNMENT_REVIEW.md",
+    BASE_DIR.parent / "EVALUATION.md",
     BASE_DIR.parent / "Knowledge_Editing_LLMs.docx",
-    BASE_DIR.parent / "Knowledge_Editing_LLMs_Revised.docx",
+    BASE_DIR.parent / "Knowledge_Editing_LLMs_Final.docx",
 ]
 
 
@@ -80,8 +80,8 @@ def main():
                 "(ES_greedy, PS_greedy, NS_greedy) using per-example neighborhood reference targets."
             ),
             "academic_reconciliation": (
-                "Authored ABSTRACT_ALIGNMENT_REVIEW.md with claim-by-claim analysis; generated "
-                "Knowledge_Editing_LLMs_Revised.docx with honest empirical findings while leaving the original "
+                "Authored EVALUATION.md with claim-by-claim analysis; generated "
+                "Knowledge_Editing_LLMs_Final.docx with honest empirical findings while leaving the original "
                 "Knowledge_Editing_LLMs.docx completely unmodified."
             ),
             "frontend_and_browser_testing": (

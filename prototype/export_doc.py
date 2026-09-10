@@ -1,5 +1,5 @@
 """
-Generates Knowledge_Editing_LLMs_Revised.docx from Knowledge_Editing_LLMs.docx.
+Generates Knowledge_Editing_LLMs_Final.docx from Knowledge_Editing_LLMs.docx.
 Preserves all original student names, registration numbers, batch numbers, guide details,
 margins, fonts, alignments, and base paper citation while updating the abstract paragraph
 to reconcile scientific claims with empirical benchmark findings.
@@ -11,7 +11,7 @@ import docx
 from docx.enum.text import WD_ALIGN_PARAGRAPH
 
 ORIGINAL_PATH = Path(r"c:\Users\shaik\Research\LLM Editing\Knowledge_Editing_LLMs.docx")
-REVISED_PATH = Path(r"c:\Users\shaik\Research\LLM Editing\Knowledge_Editing_LLMs_Revised.docx")
+REVISED_PATH = Path(r"c:\Users\shaik\Research\LLM Editing\Knowledge_Editing_LLMs_Final.docx")
 
 REVISED_ABSTRACT_TEXT = (
     "Large Language Models frequently encode obsolete or inaccurate factual associations "
