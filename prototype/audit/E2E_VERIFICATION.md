@@ -4,6 +4,8 @@ Date: 2026-09-10T00:50:10.949Z.
 
 This report supersedes the runtime and feature limitations in the historical first-pass audit. The backend is deployed at [Modal API](https://opzgameryt--keditvis-memit-web-app.modal.run/health). The local dashboard is [http://127.0.0.1:5187](http://127.0.0.1:5187), configured to use that deployment.
 
+> **This is a dated report, not current documentation.** The line references in the body below were correct on the date above; the code has since moved on, and the line numbers were last resynchronised on 2026-09-17. The snapshots under [Complete replacement files](#complete-replacement-files) are **frozen at the report date** and are superseded by the live source. To see the current state of any file, read it from `prototype/` directly; to see what changed since this report, use `git log -p -- <path>`. Current documentation lives in [`../README.md`](../README.md), [`../OPTIMIZATION_NOTES.md`](../OPTIMIZATION_NOTES.md) and [`../../EVALUATION.md`](../../EVALUATION.md).
+
 ## Real GPU verification
 
 All rows below used actual model weights and the pinned upstream editing implementation on an A100-40GB. Each model/method combination executed an edit and a comparison with two different schemes. Subsequent probes reproduced every baseline layer signal exactly; deterministic generation reproduced the baseline text exactly. No API mocks were used in these runs.
@@ -21,11 +23,11 @@ The fact tested was Eiffel Tower: Paris to Rome, with one paraphrase and two Par
 
 ### [CRITICAL] GPT-J MEMIT could not trace keyword block inputs
 
-[modal_app.py:134](../modal_app.py#L134). The real GPU run failed with IndexError because Transformers 4.42.4 calls GPT-J blocks using hidden_states=, whereas the pinned upstream Trace only captures positional inputs. Temporary forward pre-hooks now expose the identical hidden tensor positionally during upstream editing and are removed on both success and failure. The failed live request was followed by an exactly matching baseline probe, validating rollback on this real exception. The final GPU matrix was rerun after the fix. See the pinned [upstream tracer](https://raw.githubusercontent.com/kmeng01/memit/80426fd9316cf9a50c5ba15e0912f2c2c5bfe84b/util/nethook.py) and [Transformers GPT-J calls](https://raw.githubusercontent.com/huggingface/transformers/v4.42.4/src/transformers/models/gptj/modeling_gptj.py).
+[modal_app.py:216](../modal_app.py#L216). The real GPU run failed with IndexError because Transformers 4.42.4 calls GPT-J blocks using hidden_states=, whereas the pinned upstream Trace only captures positional inputs. Temporary forward pre-hooks now expose the identical hidden tensor positionally during upstream editing and are removed on both success and failure. The failed live request was followed by an exactly matching baseline probe, validating rollback on this real exception. The final GPU matrix was rerun after the fix. See the pinned [upstream tracer](https://raw.githubusercontent.com/kmeng01/memit/80426fd9316cf9a50c5ba15e0912f2c2c5bfe84b/util/nethook.py) and [Transformers GPT-J calls](https://raw.githubusercontent.com/huggingface/transformers/v4.42.4/src/transformers/models/gptj/modeling_gptj.py).
 
 ### [HIGH] Unmeasured drift projections
 
-[modal_app.py:497](../modal_app.py#L497). The old backend did not return hidden-space coordinates. It now captures real last-token block outputs at the last edited layer, computes Euclidean distance before projection, and fits deterministic joint t-SNE over pre/post vectors. A labeled PCA fallback handles one-point and degenerate inputs; no semantic-damage score is invented.
+[modal_app.py:652](../modal_app.py#L652). The old backend did not return hidden-space coordinates. It now captures real last-token block outputs at the last edited layer, computes Euclidean distance before projection, and fits deterministic joint t-SNE over pre/post vectors. A labeled PCA fallback handles one-point and degenerate inputs; no semantic-damage score is invented.
 
 ### [HIGH] Only one token rank was visible
 
@@ -37,7 +39,7 @@ The fact tested was Eiffel Tower: Paris to Rome, with one paraphrase and two Par
 
 ### [HIGH] Comparison omitted post-edit signal data
 
-[modal_app.py:1572](../modal_app.py#L1572). Comparison rows now include measured post-edit layer signals. The selected row drives the post-edit lens as well as metrics, output diff, and neighborhood drift.
+[modal_app.py:1686](../modal_app.py#L1686). Comparison rows now include measured post-edit layer signals. The selected row drives the post-edit lens as well as metrics, output diff, and neighborhood drift.
 
 ### [HIGH] Invented graph neighbors could replace the subject
 
@@ -71,7 +73,11 @@ The tested dashboard workflows are operational. This is not a certification that
 
 ## Complete replacement files
 
-These are the current files copied verbatim from the working tree. Earlier unchanged fixes remain in the first-pass report.
+These are the files copied verbatim from the working tree **on the report date above**. Earlier unchanged fixes remain in the first-pass report.
+
+> **Frozen snapshot — not current source.** Every entry below is superseded by the file of the same name in `prototype/`, which has changed substantially since. They are retained because they are the evidence for the fixes described above: pairing them with the pre-fix snapshot in [`before/`](./before/) makes each finding's before/after verifiable. Do not copy code out of this appendix.
+>
+> The `### README.md` entry near the end is the documentation state at the same date; the live file is [`../README.md`](../README.md).
 
 ### modal_app.py
 

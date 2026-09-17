@@ -130,7 +130,7 @@ export const DriftScatterPlot: React.FC<Props> = ({ damageScore, rows = EMPTY_RO
                   {computeWordDiff(row.pre_text, row.post_text).map((chunk, j) => <span key={j} className={chunk.type === "del" ? "diff-del-inline" : chunk.type === "ins" ? "diff-ins-inline" : undefined}>{chunk.text}</span>)}
                 </td>
                 <td className="drift-score-cell">{row.hidden_state_drift == null ? "Unavailable" : row.hidden_state_drift.toFixed(4)}</td>
-                <td className="drift-score-cell">{row.kl_divergence.toExponential(3)}</td>
+                <td className="drift-score-cell">{row.kl_divergence == null ? "Unavailable" : row.kl_divergence.toExponential(3)}</td>
               </tr>
             ))}
             {!rows.length && <tr><td colSpan={4}>No neighborhood measurements</td></tr>}

@@ -1,4 +1,4 @@
-import type { CompareResponse, EditResponse, FactInput, HealthResponse, ProbeResponse } from "../types";
+import type { CompareResponse, EditResponse, FactInput, HealthResponse, OptimizationProfile, ProbeResponse } from "../types";
 
 const API_BASE = import.meta.env.VITE_API_URL ?? "http://localhost:8000";
 
@@ -39,10 +39,10 @@ export function generate(body: Pick<FactInput, "prompt" | "subject"> & { model?:
   return request("/generate", { method: "POST", body: JSON.stringify(body) });
 }
 
-export function edit(body: FactInput & { layers: number[] | null; method?: string; model?: string; optimization?: "standard" | "context" | "standard_budget" | "context_no_consistency" }): Promise<EditResponse> {
+export function edit(body: FactInput & { layers: number[] | null; method?: string; model?: string; optimization?: OptimizationProfile }): Promise<EditResponse> {
   return request("/edit", { method: "POST", body: JSON.stringify(body) });
 }
 
-export function compare(body: FactInput & { schemes: number[][]; method?: string; model?: string; optimization?: "standard" | "context" | "standard_budget" | "context_no_consistency" }): Promise<CompareResponse> {
+export function compare(body: FactInput & { schemes: number[][]; method?: string; model?: string; optimization?: OptimizationProfile }): Promise<CompareResponse> {
   return request("/compare", { method: "POST", body: JSON.stringify(body) });
 }

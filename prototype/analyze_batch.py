@@ -7,13 +7,14 @@ than analyzing a single fact's schemes in isolation (n = num_facts x
 num_schemes instead of n = num_schemes).
 
 Usage:
-    python analyze_batch.py batch_comparison.json
+    python analyze_batch.py audit/development/batch_comparison.json
 """
 
 import json
 import sys
 
 from analyze_schemes import (
+    format_rho,
     scheme_activity_score,
     scheme_projection_score,
     spearman_rank_correlation,
@@ -23,7 +24,7 @@ from analyze_schemes import (
 
 def main():
     if len(sys.argv) != 2:
-        print("Usage: python analyze_batch.py <batch_comparison.json>")
+        print("Usage: python analyze_batch.py <audit/development/batch_comparison.json>")
         sys.exit(1)
 
     with open(sys.argv[1]) as f:
@@ -57,7 +58,11 @@ def main():
         print("-" * len(header))
 
         for s in fact_result["schemes"]:
-            activity = scheme_activity_score(layer_signals, s["layers"])
+            try:
+                activity = scheme_activity_score(layer_signals, s["layers"])
+            except ValueError as exc:
+                print(f"{str(s['layers']):<20} | skipped: {exc}")
+                continue
             projection = (
                 scheme_projection_score(layer_signals, s["layers"], proj_target)
                 if proj_target
@@ -120,7 +125,7 @@ def main():
                 else "expect positive"
             )
             print(
-                f"Spearman({activity_name}, {metric_name}) = {rho:+.3f}"
+                f"Spearman({activity_name}, {metric_name}) = {format_rho(rho)}"
                 f"  (n={len(pairs)}, {expect})"
             )
 

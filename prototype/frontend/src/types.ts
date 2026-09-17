@@ -6,12 +6,12 @@ export interface TopToken {
 export interface LayerSignal {
   layer: number;
   cosine_similarity: number;
-  residual_variance?: number;
-  residual_variance_last?: number;
-  residual_delta_variance?: number;
+  /** Null when the quantity is undefined for that layer (layer 0 has no delta). */
+  residual_variance?: number | null;
+  residual_variance_last?: number | null;
+  residual_delta_variance?: number | null;
   top_tokens: TopToken[];
   last_top_tokens?: TopToken[];
-  fact_top_tokens?: TopToken[];
 }
 
 export interface LayerWeightDrift {
@@ -94,13 +94,21 @@ export interface FactInput {
   neighborhood_prompts: string[];
 }
 
+/** MEMIT optimization profiles accepted by the backend. */
+export type OptimizationProfile =
+  | "standard"
+  | "context"
+  | "context_v3"
+  | "standard_budget"
+  | "context_no_consistency";
+
 export interface ProbeResponse {
   rewrite_prompt: string;
   layer_signals: LayerSignal[];
 }
 
 export interface EditResponse {
-  optimization?: "standard" | "context" | "context_v3" | "standard_budget" | "context_no_consistency";
+  optimization?: OptimizationProfile;
   optimization_config?: { revision: string; [key: string]: string | number };
   neighborhood?: NeighborhoodResult[];
   method?: string;
@@ -130,7 +138,7 @@ export interface SchemeResult {
 }
 
 export interface CompareResponse {
-  optimization?: "standard" | "context" | "context_v3" | "standard_budget" | "context_no_consistency";
+  optimization?: OptimizationProfile;
   optimization_config?: { revision: string; [key: string]: string | number };
   method?: string;
   baseline: {

@@ -20,6 +20,10 @@ interface Link {
   relation: string;
 }
 
+// Shared constants so the dash styling can never drift from the emitted label.
+const RELATION_NEW = "new answer";
+const RELATION_ORIGINAL = "original answer";
+
 export const KnowledgeGraph: React.FC<Props> = ({ subject, target, originalTarget }) => {
   const { nodes, links } = useMemo(() => {
     const subjNode: Node = {
@@ -45,8 +49,8 @@ export const KnowledgeGraph: React.FC<Props> = ({ subject, target, originalTarge
     const allNodes = [subjNode, targetNode, ...neighbors];
 
     const allLinks: Link[] = [
-      { source: "s0", target: "t0", relation: "new answer" },
-      ...(originalTarget ? [{ source: "s0", target: "n1", relation: "original answer" }] : []),
+      { source: "s0", target: "t0", relation: RELATION_NEW },
+      ...(originalTarget ? [{ source: "s0", target: "n1", relation: RELATION_ORIGINAL }] : []),
     ];
 
     return { nodes: allNodes, links: allLinks };
@@ -77,7 +81,7 @@ export const KnowledgeGraph: React.FC<Props> = ({ subject, target, originalTarge
                     y2={dst.y}
                     stroke="#CBD5E1"
                     strokeWidth="1.2"
-                    strokeDasharray={l.relation === "target" ? "3 2" : undefined}
+                    strokeDasharray={l.relation === RELATION_ORIGINAL ? "3 2" : undefined}
                   />
                   <text
                     x={(src.x + dst.x) / 2}

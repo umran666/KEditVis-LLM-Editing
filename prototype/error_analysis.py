@@ -1,6 +1,6 @@
 """
 Digs into why "Windows was developed by" -> "Apple" failed to edit under
-EVERY layer scheme tested in batch_comparison.json, while "Mario Kart was
+EVERY layer scheme tested in audit/development/batch_comparison.json, while "Mario Kart was
 developed by" -> "Apple" (same target word, different subject) succeeded
 under all of them.
 
@@ -12,7 +12,7 @@ side by side, using data already collected by `modal run
 modal_app.py::batch` -- no new GPU computation needed.
 
 Usage:
-    python diagnose_hard_facts.py batch_comparison.json
+    python error_analysis.py audit/development/batch_comparison.json
 """
 
 import json
@@ -41,7 +41,7 @@ def summarize_fact(fact_result):
 
 def main():
     if len(sys.argv) != 2:
-        print("Usage: python diagnose_hard_facts.py <batch_comparison.json>")
+        print("Usage: python error_analysis.py <audit/development/batch_comparison.json>")
         sys.exit(1)
 
     with open(sys.argv[1]) as f:

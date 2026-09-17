@@ -24,12 +24,19 @@ dist-ssr/
 *.swp
 *.swo
 
+# Agent workspace memory (local only)
+.workbuddy-ai/
+
 # Runtime logs & process tracking
 *.log
 serve.pid
 serve.log
 run_log.txt
 vite*.log
+
+# Fixture-suite output (regenerated on every run; the committed evidence under
+# prototype/audit/ is refreshed deliberately with AUDIT_OUT=../audit)
+prototype/audit/run/
 
 # OS-specific files
 Thumbs.db
@@ -40,5 +47,7 @@ Desktop.ini
 pdf_extract.txt
 pdf_extract_utf8.txt
 
-# External third-party reference clone
-prototype/audit/references/
+# External third-party reference clone (contents only; the README that documents
+# which revisions to clone is tracked)
+prototype/audit/references/*
+!prototype/audit/references/README.md

@@ -146,20 +146,23 @@
     },
     "paired_differences": {
       "telemetry_vs_static_ES": {
+        "n_pairs": 10,
         "mean_diff": 0.0,
         "std_diff": 0.0,
         "ci_95": [
           0.0,
           0.0
         ],
-        "t_stat": 0.0,
-        "p_value_t": 1.0,
-        "wilcoxon_stat": 0.0,
-        "p_value_wilcoxon": 1.0,
-        "cohens_d": 0.0,
-        "statistically_significant": false
+        "t_stat": null,
+        "p_value_t": null,
+        "wilcoxon_stat": null,
+        "p_value_wilcoxon": null,
+        "wilcoxon_method": "approx",
+        "cohens_d": null,
+        "statistically_significant": null
       },
       "random_vs_static_ES": {
+        "n_pairs": 10,
         "mean_diff": 0.2,
         "std_diff": 0.4216,
         "ci_95": [
@@ -168,12 +171,14 @@
         ],
         "t_stat": 1.5,
         "p_value_t": 0.16785,
-        "wilcoxon_stat": 0.0,
-        "p_value_wilcoxon": 1.0,
+        "wilcoxon_stat": null,
+        "p_value_wilcoxon": null,
+        "wilcoxon_method": "approx",
         "cohens_d": 0.4743,
         "statistically_significant": false
       },
       "telemetry_vs_random_ES": {
+        "n_pairs": 10,
         "mean_diff": -0.2,
         "std_diff": 0.4216,
         "ci_95": [
@@ -182,12 +187,14 @@
         ],
         "t_stat": -1.5,
         "p_value_t": 0.16785,
-        "wilcoxon_stat": 0.0,
-        "p_value_wilcoxon": 1.0,
+        "wilcoxon_stat": null,
+        "p_value_wilcoxon": null,
+        "wilcoxon_method": "approx",
         "cohens_d": -0.4743,
         "statistically_significant": false
       },
       "telemetry_vs_static_PS": {
+        "n_pairs": 10,
         "mean_diff": -0.05,
         "std_diff": 0.1581,
         "ci_95": [
@@ -196,12 +203,14 @@
         ],
         "t_stat": -1.0,
         "p_value_t": 0.34344,
-        "wilcoxon_stat": 0.0,
-        "p_value_wilcoxon": 1.0,
+        "wilcoxon_stat": null,
+        "p_value_wilcoxon": null,
+        "wilcoxon_method": "approx",
         "cohens_d": -0.3162,
         "statistically_significant": false
       },
       "random_vs_static_PS": {
+        "n_pairs": 10,
         "mean_diff": -0.25,
         "std_diff": 0.3536,
         "ci_95": [
@@ -210,12 +219,14 @@
         ],
         "t_stat": -2.2361,
         "p_value_t": 0.05218,
-        "wilcoxon_stat": 0.0,
-        "p_value_wilcoxon": 1.0,
+        "wilcoxon_stat": null,
+        "p_value_wilcoxon": null,
+        "wilcoxon_method": "approx",
         "cohens_d": -0.7071,
         "statistically_significant": false
       },
       "telemetry_vs_random_PS": {
+        "n_pairs": 10,
         "mean_diff": 0.2,
         "std_diff": 0.3496,
         "ci_95": [
@@ -224,54 +235,62 @@
         ],
         "t_stat": 1.8091,
         "p_value_t": 0.10389,
-        "wilcoxon_stat": 0.0,
-        "p_value_wilcoxon": 1.0,
+        "wilcoxon_stat": null,
+        "p_value_wilcoxon": null,
+        "wilcoxon_method": "approx",
         "cohens_d": 0.5721,
         "statistically_significant": false
       },
       "telemetry_vs_static_NS": {
+        "n_pairs": 10,
         "mean_diff": 0.0,
         "std_diff": 0.0,
         "ci_95": [
           0.0,
           0.0
         ],
-        "t_stat": 0.0,
-        "p_value_t": 1.0,
-        "wilcoxon_stat": 0.0,
-        "p_value_wilcoxon": 1.0,
-        "cohens_d": 0.0,
-        "statistically_significant": false
+        "t_stat": null,
+        "p_value_t": null,
+        "wilcoxon_stat": null,
+        "p_value_wilcoxon": null,
+        "wilcoxon_method": "approx",
+        "cohens_d": null,
+        "statistically_significant": null
       },
       "random_vs_static_NS": {
+        "n_pairs": 10,
         "mean_diff": 0.0,
         "std_diff": 0.0,
         "ci_95": [
           0.0,
           0.0
         ],
-        "t_stat": 0.0,
-        "p_value_t": 1.0,
-        "wilcoxon_stat": 0.0,
-        "p_value_wilcoxon": 1.0,
-        "cohens_d": 0.0,
-        "statistically_significant": false
+        "t_stat": null,
+        "p_value_t": null,
+        "wilcoxon_stat": null,
+        "p_value_wilcoxon": null,
+        "wilcoxon_method": "approx",
+        "cohens_d": null,
+        "statistically_significant": null
       },
       "telemetry_vs_random_NS": {
+        "n_pairs": 10,
         "mean_diff": 0.0,
         "std_diff": 0.0,
         "ci_95": [
           0.0,
           0.0
         ],
-        "t_stat": 0.0,
-        "p_value_t": 1.0,
-        "wilcoxon_stat": 0.0,
-        "p_value_wilcoxon": 1.0,
-        "cohens_d": 0.0,
-        "statistically_significant": false
+        "t_stat": null,
+        "p_value_t": null,
+        "wilcoxon_stat": null,
+        "p_value_wilcoxon": null,
+        "wilcoxon_method": "approx",
+        "cohens_d": null,
+        "statistically_significant": null
       },
       "telemetry_vs_static_S": {
+        "n_pairs": 10,
         "mean_diff": -0.01,
         "std_diff": 0.0316,
         "ci_95": [
@@ -280,12 +299,14 @@
         ],
         "t_stat": -1.0,
         "p_value_t": 0.34344,
-        "wilcoxon_stat": 0.0,
-        "p_value_wilcoxon": 1.0,
+        "wilcoxon_stat": null,
+        "p_value_wilcoxon": null,
+        "wilcoxon_method": "approx",
         "cohens_d": -0.3162,
         "statistically_significant": false
       },
       "random_vs_static_S": {
+        "n_pairs": 10,
         "mean_diff": -0.0874,
         "std_diff": 0.4051,
         "ci_95": [
@@ -295,11 +316,13 @@
         "t_stat": -0.6821,
         "p_value_t": 0.51233,
         "wilcoxon_stat": 4.0,
-        "p_value_wilcoxon": 0.4375,
+        "p_value_wilcoxon": 0.34523,
+        "wilcoxon_method": "approx",
         "cohens_d": -0.2157,
         "statistically_significant": false
       },
       "telemetry_vs_random_S": {
+        "n_pairs": 10,
         "mean_diff": 0.0774,
         "std_diff": 0.406,
         "ci_95": [
@@ -308,12 +331,14 @@
         ],
         "t_stat": 0.6027,
         "p_value_t": 0.56156,
-        "wilcoxon_stat": 0.0,
-        "p_value_wilcoxon": 1.0,
+        "wilcoxon_stat": null,
+        "p_value_wilcoxon": null,
+        "wilcoxon_method": "approx",
         "cohens_d": 0.1906,
         "statistically_significant": false
       },
       "telemetry_vs_static_ES_greedy": {
+        "n_pairs": 10,
         "mean_diff": -0.1,
         "std_diff": 0.3162,
         "ci_95": [
@@ -322,12 +347,14 @@
         ],
         "t_stat": -1.0,
         "p_value_t": 0.34344,
-        "wilcoxon_stat": 0.0,
-        "p_value_wilcoxon": 1.0,
+        "wilcoxon_stat": null,
+        "p_value_wilcoxon": null,
+        "wilcoxon_method": "approx",
         "cohens_d": -0.3162,
         "statistically_significant": false
       },
       "random_vs_static_ES_greedy": {
+        "n_pairs": 10,
         "mean_diff": -0.3,
         "std_diff": 0.483,
         "ci_95": [
@@ -336,12 +363,14 @@
         ],
         "t_stat": -1.964,
         "p_value_t": 0.08113,
-        "wilcoxon_stat": 0.0,
-        "p_value_wilcoxon": 1.0,
+        "wilcoxon_stat": null,
+        "p_value_wilcoxon": null,
+        "wilcoxon_method": "approx",
         "cohens_d": -0.6211,
         "statistically_significant": false
       },
       "telemetry_vs_random_ES_greedy": {
+        "n_pairs": 10,
         "mean_diff": 0.2,
         "std_diff": 0.4216,
         "ci_95": [
@@ -350,12 +379,14 @@
         ],
         "t_stat": 1.5,
         "p_value_t": 0.16785,
-        "wilcoxon_stat": 0.0,
-        "p_value_wilcoxon": 1.0,
+        "wilcoxon_stat": null,
+        "p_value_wilcoxon": null,
+        "wilcoxon_method": "approx",
         "cohens_d": 0.4743,
         "statistically_significant": false
       },
       "telemetry_vs_static_PS_greedy": {
+        "n_pairs": 10,
         "mean_diff": 0.05,
         "std_diff": 0.1581,
         "ci_95": [
@@ -364,12 +395,14 @@
         ],
         "t_stat": 1.0,
         "p_value_t": 0.34344,
-        "wilcoxon_stat": 0.0,
-        "p_value_wilcoxon": 1.0,
+        "wilcoxon_stat": null,
+        "p_value_wilcoxon": null,
+        "wilcoxon_method": "approx",
         "cohens_d": 0.3162,
         "statistically_significant": false
       },
       "random_vs_static_PS_greedy": {
+        "n_pairs": 10,
         "mean_diff": -0.35,
         "std_diff": 0.4116,
         "ci_95": [
@@ -379,11 +412,13 @@
         "t_stat": -2.6888,
         "p_value_t": 0.02485,
         "wilcoxon_stat": 0.0,
-        "p_value_wilcoxon": 0.0625,
+        "p_value_wilcoxon": 0.03843,
+        "wilcoxon_method": "approx",
         "cohens_d": -0.8503,
         "statistically_significant": true
       },
       "telemetry_vs_random_PS_greedy": {
+        "n_pairs": 10,
         "mean_diff": 0.4,
         "std_diff": 0.4595,
         "ci_95": [
@@ -393,11 +428,61 @@
         "t_stat": 2.753,
         "p_value_t": 0.02237,
         "wilcoxon_stat": 0.0,
-        "p_value_wilcoxon": 0.0625,
+        "p_value_wilcoxon": 0.03843,
+        "wilcoxon_method": "approx",
         "cohens_d": 0.8706,
         "statistically_significant": true
       },
+      "telemetry_vs_static_frob_abs": {
+        "n_pairs": 10,
+        "mean_diff": 0.0414,
+        "std_diff": 0.1531,
+        "ci_95": [
+          -0.0497,
+          0.1316
+        ],
+        "t_stat": 0.8544,
+        "p_value_t": 0.41502,
+        "wilcoxon_stat": 17.0,
+        "p_value_wilcoxon": 0.2845,
+        "wilcoxon_method": "approx",
+        "cohens_d": 0.2702,
+        "statistically_significant": false
+      },
+      "random_vs_static_frob_abs": {
+        "n_pairs": 10,
+        "mean_diff": 24.6949,
+        "std_diff": 53.2783,
+        "ci_95": [
+          0.5415,
+          60.0711
+        ],
+        "t_stat": 1.4657,
+        "p_value_t": 0.17676,
+        "wilcoxon_stat": 12.0,
+        "p_value_wilcoxon": 0.11413,
+        "wilcoxon_method": "approx",
+        "cohens_d": 0.4635,
+        "statistically_significant": false
+      },
+      "telemetry_vs_random_frob_abs": {
+        "n_pairs": 10,
+        "mean_diff": -24.6535,
+        "std_diff": 53.3054,
+        "ci_95": [
+          -60.0202,
+          -0.5265
+        ],
+        "t_stat": -1.4625,
+        "p_value_t": 0.17762,
+        "wilcoxon_stat": 12.0,
+        "p_value_wilcoxon": 0.11413,
+        "wilcoxon_method": "approx",
+        "cohens_d": -0.4625,
+        "statistically_significant": false
+      },
       "telemetry_vs_static_frob_rel": {
+        "n_pairs": 10,
         "mean_diff": 0.0002,
         "std_diff": 0.0007,
         "ci_95": [
@@ -407,11 +492,13 @@
         "t_stat": 0.6578,
         "p_value_t": 0.52713,
         "wilcoxon_stat": 21.0,
-        "p_value_wilcoxon": 0.55664,
+        "p_value_wilcoxon": 0.50762,
+        "wilcoxon_method": "approx",
         "cohens_d": 0.208,
         "statistically_significant": false
       },
       "random_vs_static_frob_rel": {
+        "n_pairs": 10,
         "mean_diff": 0.0976,
         "std_diff": 0.213,
         "ci_95": [
@@ -421,11 +508,13 @@
         "t_stat": 1.4494,
         "p_value_t": 0.18117,
         "wilcoxon_stat": 20.0,
-        "p_value_wilcoxon": 0.49219,
+        "p_value_wilcoxon": 0.44459,
+        "wilcoxon_method": "approx",
         "cohens_d": 0.4583,
         "statistically_significant": false
       },
       "telemetry_vs_random_frob_rel": {
+        "n_pairs": 10,
         "mean_diff": -0.0975,
         "std_diff": 0.213,
         "ci_95": [
@@ -435,11 +524,13 @@
         "t_stat": -1.4469,
         "p_value_t": 0.18185,
         "wilcoxon_stat": 20.0,
-        "p_value_wilcoxon": 0.49219,
+        "p_value_wilcoxon": 0.44459,
+        "wilcoxon_method": "approx",
         "cohens_d": -0.4575,
         "statistically_significant": false
       },
       "telemetry_vs_static_kl_divergence": {
+        "n_pairs": 10,
         "mean_diff": -0.0,
         "std_diff": 0.0,
         "ci_95": [
@@ -449,11 +540,13 @@
         "t_stat": -0.684,
         "p_value_t": 0.51119,
         "wilcoxon_stat": 20.0,
-        "p_value_wilcoxon": 0.49219,
+        "p_value_wilcoxon": 0.44459,
+        "wilcoxon_method": "approx",
         "cohens_d": -0.2163,
         "statistically_significant": false
       },
       "random_vs_static_kl_divergence": {
+        "n_pairs": 10,
         "mean_diff": 0.0,
         "std_diff": 0.0,
         "ci_95": [
@@ -463,11 +556,13 @@
         "t_stat": 0.0291,
         "p_value_t": 0.97742,
         "wilcoxon_stat": 27.0,
-        "p_value_wilcoxon": 1.0,
+        "p_value_wilcoxon": 0.95935,
+        "wilcoxon_method": "approx",
         "cohens_d": 0.0092,
         "statistically_significant": false
       },
       "telemetry_vs_random_kl_divergence": {
+        "n_pairs": 10,
         "mean_diff": -0.0,
         "std_diff": 0.0,
         "ci_95": [
@@ -477,7 +572,8 @@
         "t_stat": -0.3109,
         "p_value_t": 0.76296,
         "wilcoxon_stat": 25.0,
-        "p_value_wilcoxon": 0.8457,
+        "p_value_wilcoxon": 0.79886,
+        "wilcoxon_method": "approx",
         "cohens_d": -0.0983,
         "statistically_significant": false
       }
@@ -703,6 +799,7 @@
     },
     "paired_ablations": {
       "total_gain_context_vs_standard_ES": {
+        "n_pairs": 10,
         "mean_diff": 0.2,
         "std_diff": 0.4216,
         "ci_95": [
@@ -711,12 +808,14 @@
         ],
         "t_stat": 1.5,
         "p_value_t": 0.16785,
-        "wilcoxon_stat": 0.0,
-        "p_value_wilcoxon": 1.0,
+        "wilcoxon_stat": null,
+        "p_value_wilcoxon": null,
+        "wilcoxon_method": "approx",
         "cohens_d": 0.4743,
         "statistically_significant": false
       },
       "total_gain_context_vs_standard_PS": {
+        "n_pairs": 10,
         "mean_diff": 0.05,
         "std_diff": 0.1581,
         "ci_95": [
@@ -725,12 +824,14 @@
         ],
         "t_stat": 1.0,
         "p_value_t": 0.34344,
-        "wilcoxon_stat": 0.0,
-        "p_value_wilcoxon": 1.0,
+        "wilcoxon_stat": null,
+        "p_value_wilcoxon": null,
+        "wilcoxon_method": "approx",
         "cohens_d": 0.3162,
         "statistically_significant": false
       },
       "total_gain_context_vs_standard_NS": {
+        "n_pairs": 10,
         "mean_diff": -0.0333,
         "std_diff": 0.1054,
         "ci_95": [
@@ -739,12 +840,14 @@
         ],
         "t_stat": -1.0,
         "p_value_t": 0.34344,
-        "wilcoxon_stat": 0.0,
-        "p_value_wilcoxon": 1.0,
+        "wilcoxon_stat": null,
+        "p_value_wilcoxon": null,
+        "wilcoxon_method": "approx",
         "cohens_d": -0.3162,
         "statistically_significant": false
       },
       "total_gain_context_vs_standard_S": {
+        "n_pairs": 10,
         "mean_diff": 0.125,
         "std_diff": 0.27,
         "ci_95": [
@@ -753,12 +856,14 @@
         ],
         "t_stat": 1.4639,
         "p_value_t": 0.17727,
-        "wilcoxon_stat": 0.0,
-        "p_value_wilcoxon": 1.0,
+        "wilcoxon_stat": null,
+        "p_value_wilcoxon": null,
+        "wilcoxon_method": "approx",
         "cohens_d": 0.4629,
         "statistically_significant": false
       },
       "total_gain_context_vs_standard_ES_greedy": {
+        "n_pairs": 10,
         "mean_diff": 0.2,
         "std_diff": 0.4216,
         "ci_95": [
@@ -767,12 +872,14 @@
         ],
         "t_stat": 1.5,
         "p_value_t": 0.16785,
-        "wilcoxon_stat": 0.0,
-        "p_value_wilcoxon": 1.0,
+        "wilcoxon_stat": null,
+        "p_value_wilcoxon": null,
+        "wilcoxon_method": "approx",
         "cohens_d": 0.4743,
         "statistically_significant": false
       },
       "total_gain_context_vs_standard_PS_greedy": {
+        "n_pairs": 10,
         "mean_diff": 0.05,
         "std_diff": 0.1581,
         "ci_95": [
@@ -781,12 +888,30 @@
         ],
         "t_stat": 1.0,
         "p_value_t": 0.34344,
-        "wilcoxon_stat": 0.0,
-        "p_value_wilcoxon": 1.0,
+        "wilcoxon_stat": null,
+        "p_value_wilcoxon": null,
+        "wilcoxon_method": "approx",
         "cohens_d": 0.3162,
         "statistically_significant": false
       },
+      "total_gain_context_vs_standard_frob_abs": {
+        "n_pairs": 10,
+        "mean_diff": 1.8804,
+        "std_diff": 0.8375,
+        "ci_95": [
+          1.3832,
+          2.3551
+        ],
+        "t_stat": 7.1001,
+        "p_value_t": 6e-05,
+        "wilcoxon_stat": 0.0,
+        "p_value_wilcoxon": 0.00506,
+        "wilcoxon_method": "approx",
+        "cohens_d": 2.2453,
+        "statistically_significant": true
+      },
       "total_gain_context_vs_standard_frob_rel": {
+        "n_pairs": 10,
         "mean_diff": 0.0074,
         "std_diff": 0.0033,
         "ci_95": [
@@ -796,11 +921,13 @@
         "t_stat": 7.1001,
         "p_value_t": 6e-05,
         "wilcoxon_stat": 0.0,
-        "p_value_wilcoxon": 0.00195,
+        "p_value_wilcoxon": 0.00506,
+        "wilcoxon_method": "approx",
         "cohens_d": 2.2453,
         "statistically_significant": true
       },
       "total_gain_context_vs_standard_kl_divergence": {
+        "n_pairs": 10,
         "mean_diff": 0.0,
         "std_diff": 0.0,
         "ci_95": [
@@ -810,11 +937,13 @@
         "t_stat": 3.0008,
         "p_value_t": 0.01494,
         "wilcoxon_stat": 0.0,
-        "p_value_wilcoxon": 0.00195,
+        "p_value_wilcoxon": 0.00506,
+        "wilcoxon_method": "approx",
         "cohens_d": 0.9489,
         "statistically_significant": true
       },
       "budget_effect_standard_budget_vs_standard_ES": {
+        "n_pairs": 10,
         "mean_diff": 0.2,
         "std_diff": 0.4216,
         "ci_95": [
@@ -823,12 +952,14 @@
         ],
         "t_stat": 1.5,
         "p_value_t": 0.16785,
-        "wilcoxon_stat": 0.0,
-        "p_value_wilcoxon": 1.0,
+        "wilcoxon_stat": null,
+        "p_value_wilcoxon": null,
+        "wilcoxon_method": "approx",
         "cohens_d": 0.4743,
         "statistically_significant": false
       },
       "budget_effect_standard_budget_vs_standard_PS": {
+        "n_pairs": 10,
         "mean_diff": 0.05,
         "std_diff": 0.1581,
         "ci_95": [
@@ -837,12 +968,14 @@
         ],
         "t_stat": 1.0,
         "p_value_t": 0.34344,
-        "wilcoxon_stat": 0.0,
-        "p_value_wilcoxon": 1.0,
+        "wilcoxon_stat": null,
+        "p_value_wilcoxon": null,
+        "wilcoxon_method": "approx",
         "cohens_d": 0.3162,
         "statistically_significant": false
       },
       "budget_effect_standard_budget_vs_standard_NS": {
+        "n_pairs": 10,
         "mean_diff": -0.0333,
         "std_diff": 0.1054,
         "ci_95": [
@@ -851,12 +984,14 @@
         ],
         "t_stat": -1.0,
         "p_value_t": 0.34344,
-        "wilcoxon_stat": 0.0,
-        "p_value_wilcoxon": 1.0,
+        "wilcoxon_stat": null,
+        "p_value_wilcoxon": null,
+        "wilcoxon_method": "approx",
         "cohens_d": -0.3162,
         "statistically_significant": false
       },
       "budget_effect_standard_budget_vs_standard_S": {
+        "n_pairs": 10,
         "mean_diff": 0.125,
         "std_diff": 0.27,
         "ci_95": [
@@ -865,12 +1000,14 @@
         ],
         "t_stat": 1.4639,
         "p_value_t": 0.17727,
-        "wilcoxon_stat": 0.0,
-        "p_value_wilcoxon": 1.0,
+        "wilcoxon_stat": null,
+        "p_value_wilcoxon": null,
+        "wilcoxon_method": "approx",
         "cohens_d": 0.4629,
         "statistically_significant": false
       },
       "budget_effect_standard_budget_vs_standard_ES_greedy": {
+        "n_pairs": 10,
         "mean_diff": 0.2,
         "std_diff": 0.4216,
         "ci_95": [
@@ -879,12 +1016,14 @@
         ],
         "t_stat": 1.5,
         "p_value_t": 0.16785,
-        "wilcoxon_stat": 0.0,
-        "p_value_wilcoxon": 1.0,
+        "wilcoxon_stat": null,
+        "p_value_wilcoxon": null,
+        "wilcoxon_method": "approx",
         "cohens_d": 0.4743,
         "statistically_significant": false
       },
       "budget_effect_standard_budget_vs_standard_PS_greedy": {
+        "n_pairs": 10,
         "mean_diff": 0.05,
         "std_diff": 0.1581,
         "ci_95": [
@@ -893,12 +1032,30 @@
         ],
         "t_stat": 1.0,
         "p_value_t": 0.34344,
-        "wilcoxon_stat": 0.0,
-        "p_value_wilcoxon": 1.0,
+        "wilcoxon_stat": null,
+        "p_value_wilcoxon": null,
+        "wilcoxon_method": "approx",
         "cohens_d": 0.3162,
         "statistically_significant": false
       },
+      "budget_effect_standard_budget_vs_standard_frob_abs": {
+        "n_pairs": 10,
+        "mean_diff": 1.8469,
+        "std_diff": 0.8119,
+        "ci_95": [
+          1.3629,
+          2.3039
+        ],
+        "t_stat": 7.1941,
+        "p_value_t": 5e-05,
+        "wilcoxon_stat": 0.0,
+        "p_value_wilcoxon": 0.00506,
+        "wilcoxon_method": "approx",
+        "cohens_d": 2.275,
+        "statistically_significant": true
+      },
       "budget_effect_standard_budget_vs_standard_frob_rel": {
+        "n_pairs": 10,
         "mean_diff": 0.0072,
         "std_diff": 0.0032,
         "ci_95": [
@@ -908,11 +1065,13 @@
         "t_stat": 7.1941,
         "p_value_t": 5e-05,
         "wilcoxon_stat": 0.0,
-        "p_value_wilcoxon": 0.00195,
+        "p_value_wilcoxon": 0.00506,
+        "wilcoxon_method": "approx",
         "cohens_d": 2.275,
         "statistically_significant": true
       },
       "budget_effect_standard_budget_vs_standard_kl_divergence": {
+        "n_pairs": 10,
         "mean_diff": 0.0,
         "std_diff": 0.0,
         "ci_95": [
@@ -922,95 +1081,125 @@
         "t_stat": 2.9742,
         "p_value_t": 0.0156,
         "wilcoxon_stat": 0.0,
-        "p_value_wilcoxon": 0.00195,
+        "p_value_wilcoxon": 0.00506,
+        "wilcoxon_method": "approx",
         "cohens_d": 0.9405,
         "statistically_significant": true
       },
       "context_fitting_effect_no_cons_vs_budget_ES": {
+        "n_pairs": 10,
         "mean_diff": 0.0,
         "std_diff": 0.0,
         "ci_95": [
           0.0,
           0.0
         ],
-        "t_stat": 0.0,
-        "p_value_t": 1.0,
-        "wilcoxon_stat": 0.0,
-        "p_value_wilcoxon": 1.0,
-        "cohens_d": 0.0,
-        "statistically_significant": false
+        "t_stat": null,
+        "p_value_t": null,
+        "wilcoxon_stat": null,
+        "p_value_wilcoxon": null,
+        "wilcoxon_method": "approx",
+        "cohens_d": null,
+        "statistically_significant": null
       },
       "context_fitting_effect_no_cons_vs_budget_PS": {
+        "n_pairs": 10,
         "mean_diff": 0.0,
         "std_diff": 0.0,
         "ci_95": [
           0.0,
           0.0
         ],
-        "t_stat": 0.0,
-        "p_value_t": 1.0,
-        "wilcoxon_stat": 0.0,
-        "p_value_wilcoxon": 1.0,
-        "cohens_d": 0.0,
-        "statistically_significant": false
+        "t_stat": null,
+        "p_value_t": null,
+        "wilcoxon_stat": null,
+        "p_value_wilcoxon": null,
+        "wilcoxon_method": "approx",
+        "cohens_d": null,
+        "statistically_significant": null
       },
       "context_fitting_effect_no_cons_vs_budget_NS": {
+        "n_pairs": 10,
         "mean_diff": 0.0,
         "std_diff": 0.0,
         "ci_95": [
           0.0,
           0.0
         ],
-        "t_stat": 0.0,
-        "p_value_t": 1.0,
-        "wilcoxon_stat": 0.0,
-        "p_value_wilcoxon": 1.0,
-        "cohens_d": 0.0,
-        "statistically_significant": false
+        "t_stat": null,
+        "p_value_t": null,
+        "wilcoxon_stat": null,
+        "p_value_wilcoxon": null,
+        "wilcoxon_method": "approx",
+        "cohens_d": null,
+        "statistically_significant": null
       },
       "context_fitting_effect_no_cons_vs_budget_S": {
+        "n_pairs": 10,
         "mean_diff": 0.0,
         "std_diff": 0.0,
         "ci_95": [
           0.0,
           0.0
         ],
-        "t_stat": 0.0,
-        "p_value_t": 1.0,
-        "wilcoxon_stat": 0.0,
-        "p_value_wilcoxon": 1.0,
-        "cohens_d": 0.0,
-        "statistically_significant": false
+        "t_stat": null,
+        "p_value_t": null,
+        "wilcoxon_stat": null,
+        "p_value_wilcoxon": null,
+        "wilcoxon_method": "approx",
+        "cohens_d": null,
+        "statistically_significant": null
       },
       "context_fitting_effect_no_cons_vs_budget_ES_greedy": {
+        "n_pairs": 10,
         "mean_diff": 0.0,
         "std_diff": 0.0,
         "ci_95": [
           0.0,
           0.0
         ],
-        "t_stat": 0.0,
-        "p_value_t": 1.0,
-        "wilcoxon_stat": 0.0,
-        "p_value_wilcoxon": 1.0,
-        "cohens_d": 0.0,
-        "statistically_significant": false
+        "t_stat": null,
+        "p_value_t": null,
+        "wilcoxon_stat": null,
+        "p_value_wilcoxon": null,
+        "wilcoxon_method": "approx",
+        "cohens_d": null,
+        "statistically_significant": null
       },
       "context_fitting_effect_no_cons_vs_budget_PS_greedy": {
+        "n_pairs": 10,
         "mean_diff": 0.0,
         "std_diff": 0.0,
         "ci_95": [
           0.0,
           0.0
         ],
-        "t_stat": 0.0,
-        "p_value_t": 1.0,
-        "wilcoxon_stat": 0.0,
-        "p_value_wilcoxon": 1.0,
-        "cohens_d": 0.0,
+        "t_stat": null,
+        "p_value_t": null,
+        "wilcoxon_stat": null,
+        "p_value_wilcoxon": null,
+        "wilcoxon_method": "approx",
+        "cohens_d": null,
+        "statistically_significant": null
+      },
+      "context_fitting_effect_no_cons_vs_budget_frob_abs": {
+        "n_pairs": 10,
+        "mean_diff": 0.0345,
+        "std_diff": 0.0527,
+        "ci_95": [
+          0.0105,
+          0.0698
+        ],
+        "t_stat": 2.0735,
+        "p_value_t": 0.06798,
+        "wilcoxon_stat": 3.0,
+        "p_value_wilcoxon": 0.01252,
+        "wilcoxon_method": "approx",
+        "cohens_d": 0.6557,
         "statistically_significant": false
       },
       "context_fitting_effect_no_cons_vs_budget_frob_rel": {
+        "n_pairs": 10,
         "mean_diff": 0.0001,
         "std_diff": 0.0002,
         "ci_95": [
@@ -1020,11 +1209,13 @@
         "t_stat": 2.0735,
         "p_value_t": 0.06798,
         "wilcoxon_stat": 3.0,
-        "p_value_wilcoxon": 0.00977,
+        "p_value_wilcoxon": 0.01252,
+        "wilcoxon_method": "approx",
         "cohens_d": 0.6557,
         "statistically_significant": false
       },
       "context_fitting_effect_no_cons_vs_budget_kl_divergence": {
+        "n_pairs": 10,
         "mean_diff": 0.0,
         "std_diff": 0.0,
         "ci_95": [
@@ -1034,95 +1225,125 @@
         "t_stat": 2.0473,
         "p_value_t": 0.07092,
         "wilcoxon_stat": 7.0,
-        "p_value_wilcoxon": 0.03711,
+        "p_value_wilcoxon": 0.03666,
+        "wilcoxon_method": "approx",
         "cohens_d": 0.6474,
         "statistically_significant": false
       },
       "consistency_penalty_effect_context_vs_no_cons_ES": {
+        "n_pairs": 10,
         "mean_diff": 0.0,
         "std_diff": 0.0,
         "ci_95": [
           0.0,
           0.0
         ],
-        "t_stat": 0.0,
-        "p_value_t": 1.0,
-        "wilcoxon_stat": 0.0,
-        "p_value_wilcoxon": 1.0,
-        "cohens_d": 0.0,
-        "statistically_significant": false
+        "t_stat": null,
+        "p_value_t": null,
+        "wilcoxon_stat": null,
+        "p_value_wilcoxon": null,
+        "wilcoxon_method": "approx",
+        "cohens_d": null,
+        "statistically_significant": null
       },
       "consistency_penalty_effect_context_vs_no_cons_PS": {
+        "n_pairs": 10,
         "mean_diff": 0.0,
         "std_diff": 0.0,
         "ci_95": [
           0.0,
           0.0
         ],
-        "t_stat": 0.0,
-        "p_value_t": 1.0,
-        "wilcoxon_stat": 0.0,
-        "p_value_wilcoxon": 1.0,
-        "cohens_d": 0.0,
-        "statistically_significant": false
+        "t_stat": null,
+        "p_value_t": null,
+        "wilcoxon_stat": null,
+        "p_value_wilcoxon": null,
+        "wilcoxon_method": "approx",
+        "cohens_d": null,
+        "statistically_significant": null
       },
       "consistency_penalty_effect_context_vs_no_cons_NS": {
+        "n_pairs": 10,
         "mean_diff": 0.0,
         "std_diff": 0.0,
         "ci_95": [
           0.0,
           0.0
         ],
-        "t_stat": 0.0,
-        "p_value_t": 1.0,
-        "wilcoxon_stat": 0.0,
-        "p_value_wilcoxon": 1.0,
-        "cohens_d": 0.0,
-        "statistically_significant": false
+        "t_stat": null,
+        "p_value_t": null,
+        "wilcoxon_stat": null,
+        "p_value_wilcoxon": null,
+        "wilcoxon_method": "approx",
+        "cohens_d": null,
+        "statistically_significant": null
       },
       "consistency_penalty_effect_context_vs_no_cons_S": {
+        "n_pairs": 10,
         "mean_diff": 0.0,
         "std_diff": 0.0,
         "ci_95": [
           0.0,
           0.0
         ],
-        "t_stat": 0.0,
-        "p_value_t": 1.0,
-        "wilcoxon_stat": 0.0,
-        "p_value_wilcoxon": 1.0,
-        "cohens_d": 0.0,
-        "statistically_significant": false
+        "t_stat": null,
+        "p_value_t": null,
+        "wilcoxon_stat": null,
+        "p_value_wilcoxon": null,
+        "wilcoxon_method": "approx",
+        "cohens_d": null,
+        "statistically_significant": null
       },
       "consistency_penalty_effect_context_vs_no_cons_ES_greedy": {
+        "n_pairs": 10,
         "mean_diff": 0.0,
         "std_diff": 0.0,
         "ci_95": [
           0.0,
           0.0
         ],
-        "t_stat": 0.0,
-        "p_value_t": 1.0,
-        "wilcoxon_stat": 0.0,
-        "p_value_wilcoxon": 1.0,
-        "cohens_d": 0.0,
-        "statistically_significant": false
+        "t_stat": null,
+        "p_value_t": null,
+        "wilcoxon_stat": null,
+        "p_value_wilcoxon": null,
+        "wilcoxon_method": "approx",
+        "cohens_d": null,
+        "statistically_significant": null
       },
       "consistency_penalty_effect_context_vs_no_cons_PS_greedy": {
+        "n_pairs": 10,
         "mean_diff": 0.0,
         "std_diff": 0.0,
         "ci_95": [
           0.0,
           0.0
         ],
-        "t_stat": 0.0,
-        "p_value_t": 1.0,
-        "wilcoxon_stat": 0.0,
-        "p_value_wilcoxon": 1.0,
-        "cohens_d": 0.0,
+        "t_stat": null,
+        "p_value_t": null,
+        "wilcoxon_stat": null,
+        "p_value_wilcoxon": null,
+        "wilcoxon_method": "approx",
+        "cohens_d": null,
+        "statistically_significant": null
+      },
+      "consistency_penalty_effect_context_vs_no_cons_frob_abs": {
+        "n_pairs": 10,
+        "mean_diff": -0.0011,
+        "std_diff": 0.0025,
+        "ci_95": [
+          -0.0027,
+          0.0002
+        ],
+        "t_stat": -1.3962,
+        "p_value_t": 0.19612,
+        "wilcoxon_stat": 14.0,
+        "p_value_wilcoxon": 0.16881,
+        "wilcoxon_method": "approx",
+        "cohens_d": -0.4415,
         "statistically_significant": false
       },
       "consistency_penalty_effect_context_vs_no_cons_frob_rel": {
+        "n_pairs": 10,
         "mean_diff": -0.0,
         "std_diff": 0.0,
         "ci_95": [
@@ -1132,11 +1353,13 @@
         "t_stat": -1.3962,
         "p_value_t": 0.19612,
         "wilcoxon_stat": 14.0,
-        "p_value_wilcoxon": 0.19336,
+        "p_value_wilcoxon": 0.16881,
+        "wilcoxon_method": "approx",
         "cohens_d": -0.4415,
         "statistically_significant": false
       },
       "consistency_penalty_effect_context_vs_no_cons_kl_divergence": {
+        "n_pairs": 10,
         "mean_diff": 0.0,
         "std_diff": 0.0,
         "ci_95": [
@@ -1146,7 +1369,8 @@
         "t_stat": 0.7552,
         "p_value_t": 0.46946,
         "wilcoxon_stat": 27.0,
-        "p_value_wilcoxon": 1.0,
+        "p_value_wilcoxon": 0.95935,
+        "wilcoxon_method": "approx",
         "cohens_d": 0.2388,
         "statistically_significant": false
       }
@@ -1166,6 +1390,8 @@
     "url": "https://opzgameryt--keditvis-memit-web-app.modal.run",
     "mode": "full",
     "num_facts": 10,
-    "timestamp": "2026-09-10T09:26:46Z"
+    "timestamp": "2026-09-10T09:26:46Z",
+    "analysis_scipy_version": "1.13.1",
+    "analysis_wilcoxon_method": "approx"
   }
 }

@@ -108,12 +108,13 @@ def probe_layers(model, tok, prompt_filled: str, subject: str, top_k: int = 5):
 
     enc = tok(prompt_filled, return_tensors="pt").to(device)
     last_idx = enc["input_ids"].shape[1] - 1
-    model(**enc)
-
-    for h in handles:
-        h.remove()
-    for h in block_handles:
-        h.remove()
+    try:
+        model(**enc)
+    finally:
+        # Remove hooks on failure too. Without this a raised forward pass leaves
+        # every hook attached to the caller's model.
+        for h in handles + block_handles:
+            h.remove()
 
     ln_f = model.transformer.ln_f
     lm_head = model.lm_head if hasattr(model, "lm_head") else model.transformer.wte
@@ -143,7 +144,9 @@ def probe_layers(model, tok, prompt_filled: str, subject: str, top_k: int = 5):
             delta_h = resid_subj - residuals[prev_block][0, subj_idx, :]
             resid_delta_var = float(delta_h.float().var(unbiased=True).item())
         else:
-            resid_delta_var = resid_var
+            # Layer 0 has no predecessor, so its residual delta is undefined
+            # rather than equal to its absolute variance.
+            resid_delta_var = None
 
         logits_last = lm_head(ln_f(resid_last.unsqueeze(0))).squeeze(0)
         probs_last = F.softmax(logits_last, dim=-1)

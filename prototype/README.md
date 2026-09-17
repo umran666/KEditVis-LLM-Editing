@@ -23,7 +23,8 @@ Production compilation uses `npm run build`. Regression checks use
 `node tests/audit.mjs`; `node tests/live.mjs` exercises the actual deployed GPU.
 
 From `prototype`, run `python -m unittest test_backend.py test_optimizations.py -v` for CPU
-regressions. Real model checks use `python test_live.py --model gpt2-xl`
+regressions (38 tests). Real model checks use
+`python test_live.py --label <new-name> --profile context --model gpt2-xl`
 or `python test_live_backend.py --model EleutherAI/gpt-j-6B`. Live tests incur
 Modal GPU usage. The service uses A100-40GB hardware, float32 model weights,
 one request per worker, and at most one web worker.
@@ -283,7 +284,7 @@ any extra GPU runs -- it's computed from data `compare` already produces.
 
 ```bash
 modal run modal_app.py::compare --schemes "13-17|8-12|6-8|20-21"
-python analyze_schemes.py scheme_comparison.json
+python analyze_schemes.py audit/development/scheme_comparison.json
 ```
 
 ### Validated result (Eiffel Tower -> Rome, 4 schemes, n=4 -- exploratory only)
@@ -296,31 +297,33 @@ python analyze_schemes.py scheme_comparison.json
 | [20-21] | 0.146 | 0.135 | 0.00 | 0.00 | 0.00 |
 
 Spearman rank correlations (n=4, directional evidence only, not
-significance-tested):
-- `min|cos_sim|` vs `ES`: **-0.70** (moderately supports the hypothesis --
+significance-tested). Ties are assigned average ranks and the coefficient is the
+Pearson correlation of those ranks -- the usual
+`1 - 6*sum(d^2)/(n*(n^2-1))` shortcut is only valid without ties, and ES/S here
+are heavily tied:
+- `min|cos_sim|` vs `ES`: **-0.89** (strongly supports the hypothesis --
   the scheme with the single most "active" layer, [8-12], and the scheme
   with the best overall boundary layers, [13-17], both achieved ES=1.00;
   [20-21], with by far the highest min cosine similarity, achieved ES=0.00)
-- `mean|cos_sim|` vs `ES`: -0.30 (weak, same direction)
-- `mean|cos_sim|` vs `S`: **+0.40** (opposite direction from the hypothesis!)
+- `mean|cos_sim|` vs `ES`: -0.45 (same direction, weaker)
+- `mean|cos_sim|` vs `S`: **+0.26** (opposite direction from the hypothesis)
 
 **Honest interpretation, not oversold:** the cosine-similarity signal has
-real, if modest, predictive value for whether a scheme achieves efficacy
-(ES) at all -- consistent with the paper's claim. But it does *not*
-predict the composite score S, because [8-12] achieved perfect efficacy
-(ES=1.00) with the lowest cosine similarity, yet still scored S=0.00
-overall because it failed to generalize to paraphrases (PS=0.00). This is
-not a contradiction of KEditVis's design -- it's precisely the paper's own
-argument (Sec 6, "relying on single selection methods can be unreliable
-for certain instances") for why automated single-signal heuristics are
-insufficient on their own and a human comparing multiple metrics side by
-side (not just cosine similarity) adds real value. This single-fact,
-4-scheme sample is too small to draw firm conclusions -- see "Next steps"
-below for how to extend this into a real evaluation.
+real predictive value for whether a scheme achieves efficacy (ES) at all --
+consistent with the paper's claim. But it does *not* predict the composite
+score S, because [8-12] achieved perfect efficacy (ES=1.00) with the lowest
+cosine similarity, yet still scored S=0.00 overall because it failed to
+generalize to paraphrases (PS=0.00). This is not a contradiction of KEditVis's
+design -- it's precisely the paper's own argument (Sec 6, "relying on single
+selection methods can be unreliable for certain instances") for why automated
+single-signal heuristics are insufficient on their own and a human comparing
+multiple metrics side by side (not just cosine similarity) adds real value.
+This single-fact, 4-scheme sample is too small to draw firm conclusions -- see
+"Next steps" below for how to extend this into a real evaluation.
 
-## Status: pooled multi-fact analysis (n=20) -- weaker, more honest signal
+## Status: pooled multi-fact analysis (n=20) -- signal holds for efficacy, not locality
 
-`modal run modal_app.py::batch` sweeps every fact in `facts.json` (5
+`modal run modal_app.py::batch` sweeps every fact in `data/facts.json` (5
 diverse facts: Eiffel Tower, LeBron James, Windows, Mario Kart, Steve
 Jobs -- modeled on MEMIT's own demo facts) across every scheme in
 `--schemes`, loading the model only ONCE for the whole sweep (not once per
@@ -330,7 +333,7 @@ fact allows.
 
 ```bash
 modal run modal_app.py::batch --schemes "13-17|8-12|6-8|20-21"
-python analyze_batch.py batch_comparison.json
+python analyze_batch.py audit/development/batch_comparison.json
 ```
 
 ### Validated result (5 facts x 4 schemes = 20 edits, real Modal run, zero errors)
@@ -339,22 +342,37 @@ Pooled Spearman correlations (n=20, cosine-similarity "activity" vs. each metric
 
 | | mean\|cos_sim\| | min\|cos_sim\| |
 |---|---|---|
-| vs ES | -0.252 | -0.297 |
-| vs PS | -0.162 | -0.150 |
-| vs NS | +0.229 | +0.199 |
-| vs S  | -0.127 | -0.119 |
+| vs ES | -0.549 | -0.606 |
+| vs PS | -0.319 | -0.305 |
+| vs NS | +0.057 | +0.019 |
+| vs S  | -0.273 | -0.263 |
 
 Compare this to the single-fact (Eiffel Tower only, n=4) result from
-earlier: `min|cos_sim|` vs `ES` was **-0.70** there, but drops to **-0.30**
-once pooled across 5 different facts. This is the honest, more important
-finding: the cosine-similarity heuristic's apparent predictive power in a
-single fact does not hold up nearly as well once you test it across a
-variety of facts. This directly corroborates the KEditVis paper's own
-stated motivation (Sec 6) that "relying on single selection methods can be
-unreliable for certain instances" -- our own from-scratch replication
-independently reaches the same conclusion the paper uses to justify
-human-in-the-loop, multi-metric comparison over any single automated
-signal.
+earlier: `min|cos_sim|` vs `ES` was **-0.89** there and settles at **-0.61**
+once pooled across 5 different facts. So the effect weakens somewhat under
+pooling but remains the strongest relationship in the table -- the
+cosine-similarity "activity" signal genuinely tracks whether an edit takes
+effect, which supports the paper's Sec 4.2.1 hypothesis. What it does *not*
+track is locality: `mean|cos_sim|` vs `NS` is +0.057 and `min|cos_sim|` vs
+`NS` is +0.019, i.e. no relationship at all. Layer "activity" tells you
+nothing about whether an edit will damage neighbouring knowledge.
+
+This partially corroborates the KEditVis paper's own stated motivation
+(Sec 6) that "relying on single selection methods can be unreliable for
+certain instances": a single-signal heuristic predicts efficacy well but is
+uninformative about locality, which is exactly why the paper argues for
+human-in-the-loop, multi-metric comparison.
+
+> **Correction (2026-09-17).** These coefficients were previously published as
+> -0.252/-0.297 (ES), -0.162/-0.150 (PS), +0.229/+0.199 (NS) and
+> -0.127/-0.119 (S). Those values came from a Spearman implementation that
+> averaged tied ranks and then applied the untied-only
+> `1 - 6*sum(d^2)/(n*(n^2-1))` shortcut. The metrics here are heavily tied, so
+> the shortcut understated |rho| by roughly a factor of two and turned the
+> no-relationship NS result into a spurious positive one. The values above are
+> the corrected Pearson-on-ranks coefficients; the previous conclusion that the
+> single-fact signal "does not hold up" under pooling was an artefact of that
+> error and has been withdrawn.
 
 The sweep also surfaced a finding outside cosine similarity entirely:
 **"Windows was developed by" -> "Apple" failed to edit (ES=0.00) under
@@ -375,7 +393,7 @@ difference in editability must trace back to how the SUBJECT is
 represented, not the target token.
 
 ```bash
-python error_analysis.py batch_comparison.json
+python error_analysis.py audit/development/batch_comparison.json
 ```
 
 ### Result: a real, clean root cause, not noise
@@ -445,7 +463,7 @@ original design, not just a replication of it.
 7. ~~Scale the analysis up across several facts~~ -- done, see "Status:
    pooled multi-fact analysis (n=20)" above (`modal run
    modal_app.py::batch` + `analyze_batch.py`).
-8. Add more facts to `facts.json` and/or more schemes to `--schemes` to
+8. Add more facts to `data/facts.json` and/or more schemes to `--schemes` to
     push n higher still (n=20 is enough to be directionally credible, but
     more data would strengthen a capstone evaluation chapter further).
     ~~Consider also testing whether the *token-projection* signal (the other
@@ -460,7 +478,7 @@ original design, not just a replication of it.
     alongside the cosine ones. Existing saved JSONs predate `last_top_tokens`
     and report "Token-projection analysis unavailable" gracefully; re-run
     `modal run modal_app.py::compare` / `::batch` (or `local_probe.py` locally)
-    once to collect the new signal (`modal run modal_app.py::compare --schemes "13-17|8-12|6-8|20-21" --target_true Paris; python analyze_schemes.py scheme_comparison.json Paris`).
+    once to collect the new signal (`modal run modal_app.py::compare --schemes "13-17|8-12|6-8|20-21" --target_true Paris; python analyze_schemes.py audit/development/scheme_comparison.json Paris`).
 9. ~~Investigate why "Windows -> Apple" failed under every scheme~~ --
    done, see "Status: root cause found for the 'Windows -> Apple' failure"
    above (`error_analysis.py`). Found a clean, real root cause: no
@@ -520,7 +538,7 @@ npm install
 npm run dev
 ```
 
-Open http://localhost:5173. Workflow:
+Open http://127.0.0.1:5187. Workflow:
 
 1. **Probe layers** — load baseline cosine-similarity + token-ranking charts
 2. **Select layers** — click layer chips or use **Recommend** (lowest |cos|)

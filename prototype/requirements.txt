@@ -1,5 +1,22 @@
 # Validated working combo for local_probe.py on Windows + RTX 3050 (CUDA 12.4).
-# Install torch separately first (see README.md) since it needs the PyTorch
-# CUDA wheel index, not plain PyPI.
+#
+# Install torch separately FIRST (see README.md) since it needs the PyTorch CUDA
+# wheel index, not plain PyPI:
+#   ./.venv/Scripts/python.exe -m pip install --index-url \
+#       https://download.pytorch.org/whl/cu124 torch==2.6.0
+#
+# The packages below cover local_probe.py, the CPU regression suite
+# (test_backend.py + test_optimizations.py), run_experiments.py and
+# export_doc.py. Deploying or running on Modal additionally needs
+# `pip install modal`; the CPU tests do not import it, nor do they import the
+# pinned upstream `memit`/`rome`/`util` packages that only exist inside the
+# Modal image.
 transformers==4.44.2
 accelerate==0.33.0
+numpy==1.26.4
+scipy==1.13.1
+scikit-learn==1.5.2
+requests==2.32.3
+fastapi==0.115.6
+httpx==0.27.2
+python-docx==1.1.2

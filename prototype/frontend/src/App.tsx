@@ -11,7 +11,7 @@ import { PromptDetailCards } from "./components/PromptDetailCards";
 import { SchemeComparisonTable } from "./components/SchemeComparisonTable";
 import { TokenRankingChart } from "./components/TokenRankingChart";
 import { WireframeLinker } from "./components/WireframeLinker";
-import type { CompareResponse, EditResponse, LayerSignal } from "./types";
+import type { CompareResponse, EditResponse, LayerSignal, OptimizationProfile } from "./types";
 import { comparisonSchemes, schemeKey, sortSchemes } from "./schemes";
 import "./App.css";
 
@@ -30,7 +30,7 @@ export default function App() {
   const nLayers = modelName === "gpt2-xl" ? 48 : 28;
   const MODELS = ["gpt2-xl", "EleutherAI/gpt-j-6B"];
   const [method, setMethod] = useState<"memit" | "rome">("memit");
-  const [optimization, setOptimization] = useState<"standard" | "context" | "standard_budget" | "context_no_consistency">("context");
+  const [optimization, setOptimization] = useState<OptimizationProfile>("context");
   const [elapsed, setElapsed] = useState(0);
   
   // Scheme selection keyed by layer string (e.g. "13-14-15-16-17"), NOT array index
@@ -106,17 +106,27 @@ export default function App() {
 
   useEffect(() => () => { activeRequestId.current++; }, []);
 
-  const parsedSchemes = useMemo(() => {
+  // Parse errors are surfaced rather than swallowed: silently returning [] made an
+  // invalid scheme string look like "no schemes configured" with no explanation.
+  const { parsedSchemes, schemesError } = useMemo(() => {
     try {
-    const layersList = compareResult
-      ? sortSchemes(compareResult.schemes).map((s) => s.layers)
-      : comparisonSchemes(parseSchemesText(schemesText), method, nLayers);
-    return layersList.map((layers, idx) => ({
-      key: schemeKey(layers),
-      layers,
-      label: `Scheme ${idx + 1}`,
-    }));
-    } catch { return []; }
+      const layersList = compareResult
+        ? sortSchemes(compareResult.schemes).map((s) => s.layers)
+        : comparisonSchemes(parseSchemesText(schemesText, nLayers - 1), method, nLayers);
+      return {
+        parsedSchemes: layersList.map((layers, idx) => ({
+          key: schemeKey(layers),
+          layers,
+          label: `Scheme ${idx + 1}`,
+        })),
+        schemesError: null as string | null,
+      };
+    } catch (e) {
+      return {
+        parsedSchemes: [],
+        schemesError: e instanceof Error ? e.message : "Invalid comparison schemes.",
+      };
+    }
   }, [schemesText, method, nLayers, compareResult]);
 
   const selectedScheme = compareResult?.schemes.find((s) => schemeKey(s.layers) === selectedSchemeKey);
@@ -201,7 +211,7 @@ export default function App() {
     setError(null);
     setElapsed(0);
     try {
-      const schemes = comparisonSchemes(parseSchemesText(schemesText), method, nLayers);
+      const schemes = comparisonSchemes(parseSchemesText(schemesText, nLayers - 1), method, nLayers);
       if (schemes.length === 0) throw new Error("Add at least one scheme.");
       const res = await api.compare({ ...fact, schemes, method, model: targetModel, optimization: method === "memit" ? optimization : "standard" });
       if (reqId === activeRequestId.current && activeModelRef.current === targetModel) {
@@ -239,17 +249,21 @@ export default function App() {
       setSelectedLayers([minL]);
       return;
     }
+    // Window sizes mirror layer_selection.py (K=5 for GPT-2-XL, K=6 for GPT-J).
+    // Layers are looked up by their `layer` field, matching the ROME branch above
+    // and the backend policy, rather than assuming the array is index-addressable.
     const windowSize = modelName === "gpt2-xl" ? 5 : 6;
+    const cosByLayer = new Map(recommendationSignals.map((s) => [s.layer, Math.abs(s.cosine_similarity)]));
     let bestStart = 0;
     let minScore = Infinity;
-    for (let i = 0; i <= nLayers - windowSize; i++) {
+    for (let start = 0; start <= nLayers - windowSize; start++) {
       let sum = 0;
-      for (let j = 0; j < windowSize; j++) {
-        sum += Math.abs(recommendationSignals[i + j]?.cosine_similarity ?? 1);
+      for (let offset = 0; offset < windowSize; offset++) {
+        sum += cosByLayer.get(start + offset) ?? 1;
       }
       if (sum < minScore) {
         minScore = sum;
-        bestStart = i;
+        bestStart = start;
       }
     }
     setSelectedLayers(Array.from({ length: windowSize }, (_, k) => bestStart + k));
@@ -318,7 +332,7 @@ export default function App() {
 
         {method === "memit" && <select aria-label="MEMIT objective" className="optimization-select" value={optimization}
           title="MEMIT optimization profile"
-          onChange={(e) => { invalidate(); setOptimization(e.target.value as "standard" | "context" | "standard_budget" | "context_no_consistency"); }}>
+          onChange={(e) => { invalidate(); setOptimization(e.target.value as OptimizationProfile); }}>
           <option value="context">Context-robust MEMIT</option>
           <option value="standard">Standard MEMIT</option>
           <option value="standard_budget">Standard (Budget-matched)</option>
@@ -462,6 +476,7 @@ export default function App() {
                         <textarea aria-label="Comparison schemes" rows={4} value={schemesText} disabled={loading}
                           onChange={(e) => setSchemesText(e.target.value)} />
                       </label>
+                      {schemesError && <div className="error-banner" role="alert">{schemesError}</div>}
                       <LayerSelector
                         nLayers={nLayers}
                         selected={selectedLayers}

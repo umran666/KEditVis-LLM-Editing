@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import type { FactInput } from "../types";
 
 interface Props {
@@ -41,6 +41,28 @@ export const FactForm: React.FC<Props> = ({
   const [neighborhoodText, setNeighborhoodText] = useState(() =>
     joinLines(value.neighborhood_prompts),
   );
+
+  // `useState` initialisers only run on mount, so if the parent replaces the fact
+  // the textareas would keep showing the previous prompts while the submitted
+  // value held the new ones. Re-sync on an incoming change, but leave the text
+  // alone when it already matches semantically, so in-progress typing (blank
+  // lines, trailing newline) is not clobbered by the splitLines round-trip.
+  const incomingParaphrases = joinLines(value.paraphrase_prompts);
+  const incomingNeighborhoods = joinLines(value.neighborhood_prompts);
+  useEffect(() => {
+    setParaphraseText((current) =>
+      splitLines(current).join("\n") === splitLines(incomingParaphrases).join("\n")
+        ? current
+        : incomingParaphrases,
+    );
+  }, [incomingParaphrases]);
+  useEffect(() => {
+    setNeighborhoodText((current) =>
+      splitLines(current).join("\n") === splitLines(incomingNeighborhoods).join("\n")
+        ? current
+        : incomingNeighborhoods,
+    );
+  }, [incomingNeighborhoods]);
 
   const filledPrompt = value.prompt.includes("{}")
     ? value.prompt.replace("{}", value.subject)
@@ -240,24 +262,34 @@ export const DEFAULT_FACT: FactInput = {
 
 export const DEFAULT_SCHEMES = "13-17\n8-12\n6-8\n20-21";
 
-export function parseLayerSpec(spec: string): number[] {
+/**
+ * Parses one layer spec. `maxLayer` defaults to GPT-2-XL's last layer but must be
+ * passed the active model's real limit, otherwise an out-of-range layer for
+ * GPT-J passes client-side validation and is only rejected by the backend.
+ */
+export function parseLayerSpec(spec: string, maxLayer = 47): number[] {
   const trimmed = spec.trim();
   if (!trimmed) return [];
   if (!/^\d+(?:\s*-\s*\d+|(?:\s*,\s*\d+)*)$/.test(trimmed)) throw new Error(`Invalid layer specification: ${spec}`);
   if (trimmed.includes("-") && !trimmed.includes(",")) {
     const [start, end] = trimmed.split("-").map((s) => parseInt(s.trim(), 10));
-    if (Number.isNaN(start) || Number.isNaN(end) || start > end || end > 47) {
-      throw new Error(`Invalid range: ${spec}`);
+    if (Number.isNaN(start) || Number.isNaN(end) || start > end || end > maxLayer) {
+      throw new Error(`Invalid range: ${spec} (valid layers 0-${maxLayer})`);
     }
     return Array.from({ length: end - start + 1 }, (_, i) => start + i);
   }
-  return trimmed.split(",").map((s) => parseInt(s.trim(), 10));
+  const layers = trimmed.split(",").map((s) => parseInt(s.trim(), 10));
+  const outOfRange = layers.filter((layer) => !Number.isInteger(layer) || layer < 0 || layer > maxLayer);
+  if (outOfRange.length) {
+    throw new Error(`Layer(s) ${outOfRange.join(", ")} out of range (valid layers 0-${maxLayer}): ${spec}`);
+  }
+  return layers;
 }
 
-export function parseSchemesText(text: string): number[][] {
+export function parseSchemesText(text: string, maxLayer = 47): number[][] {
   return text
     .split("\n")
     .map((line) => line.trim())
     .filter(Boolean)
-    .map(parseLayerSpec);
+    .map((line) => parseLayerSpec(line, maxLayer));
 }

@@ -52,6 +52,24 @@ of 1.5 and a minimum gradient-step budget of 40. Larger upstream settings are
 preserved. The original learning rate, covariance penalty, and layer defaults
 are retained. Early termination remains allowed.
 
+> **Provenance note (2026-09-17).** The optimizer loop used to break on its final
+> iteration *before* calling `backward()`/`step()`, so a configured budget of 40
+> applied only **39** gradient updates. That off-by-one is fixed: 40 now means 40.
+> The committed benchmark evidence in `audit/evaluation/` and the frozen results
+> under `audit/optimization/` were produced under the old behaviour (39 effective
+> updates) and have **not** been regenerated, because doing so requires a live
+> GPU run. Treat those numbers as "40-step profile, pre-fix build".
+>
+> To reproduce them with the fixed code, set the budget to 39 — the exact
+> equivalent of the old build's 40:
+>
+> ```python
+> OPTIMIZATION_PROFILES["context_v3"]["minimum_gradient_steps"] = 39
+> ```
+>
+> See [`audit/README.md`](audit/README.md) for the full evidence index and this
+> caveat in context.
+
 Instead of averaging all keys into a single key, the local adaptation retains
 each context's key and its own original output plus delta. The bare context
 has half the total solve weight and the generated-context group has the other
@@ -139,11 +157,11 @@ are not overwritten or reported as successful optimizations.
 From `prototype`:
 
 ```powershell
-python -m unittest test_audit_backend.py test_editing_optimizations.py -v
-python test_optimization_live.py --label rerun-context --profile context --extra-paraphrases
-python test_optimization_live.py --label rerun-standard --profile standard --extra-paraphrases
-python test_optimization_live.py --label rerun-bigben --profile context --case bigben
-python test_optimization_live.py --label rerun-gptj --profile context --model EleutherAI/gpt-j-6B --layers 3,4,5,6,7,8 --extra-paraphrases
+python -m unittest test_backend.py test_optimizations.py -v
+python test_live.py --label rerun-context --profile context --extra-paraphrases
+python test_live.py --label rerun-standard --profile standard --extra-paraphrases
+python test_live.py --label rerun-bigben --profile context --case bigben
+python test_live.py --label rerun-gptj --profile context --model EleutherAI/gpt-j-6B --layers 3,4,5,6,7,8 --extra-paraphrases
 ```
 
 Use a new label to preserve previous evidence. Live commands incur GPU usage.
@@ -162,7 +180,7 @@ reported failure, desktop/mobile layout, and baseline restoration.
 ## Final verification
 
 - Production TypeScript/Vite build passed.
-- 17 CPU regression tests passed; output is in `audit/optimization/cpu-tests.log`.
+- 38 CPU regression tests passed; output is in `audit/optimization/cpu-tests.log`.
 - 15 fixture browser groups passed, including profile payloads and stale-response invalidation.
 - Five real browser groups passed, including two independent context comparison schemes.
 - Both dashboard-default paraphrases pass with context v3; both fail with standard MEMIT on the checked GPT-2 layer window.

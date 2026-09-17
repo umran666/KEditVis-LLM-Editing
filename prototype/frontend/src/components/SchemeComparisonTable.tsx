@@ -1,6 +1,6 @@
 import type { CompareResponse, DamageReport } from "../types";
 import { MetricBarGauge } from "./MetricBarGauge";
-import { schemeKey as getSchemeKey, sortSchemes } from "../schemes";
+import { formatLayerSpec, schemeKey as getSchemeKey, sortSchemes } from "../schemes";
 
 interface Props {
   data: CompareResponse;
@@ -9,8 +9,8 @@ interface Props {
 }
 
 export function fmtKL(d: DamageReport | undefined): string {
-  if (!d) return "—";
-  const kl = d.kl_divergence;
+  const kl = d?.kl_divergence;
+  if (kl == null || !Number.isFinite(kl)) return "—";
   return Math.abs(kl) < 0.001 ? kl.toExponential(2) : kl.toFixed(4);
 }
 
@@ -60,9 +60,7 @@ export function SchemeComparisonTable({
             {sorted.map((s) => {
               const schemeKey = getSchemeKey(s.layers);
               const isSelected = selectedSchemeKey === schemeKey;
-              const minLayer = Math.min(...s.layers);
-              const maxLayer = Math.max(...s.layers);
-              const label = minLayer === maxLayer ? `${minLayer}` : `${minLayer}-${maxLayer}`;
+              const label = formatLayerSpec(s.layers);
 
               return (
                 <tr

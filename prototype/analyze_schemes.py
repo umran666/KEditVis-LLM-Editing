@@ -17,7 +17,7 @@ both:
   - `schemes[i].metrics`: real post-edit ES/PS/NS/S for each layer scheme
 
 Usage:
-    python analyze_schemes.py scheme_comparison.json [target_true]
+    python analyze_schemes.py audit/development/scheme_comparison.json [target_true]
 
 `target_true` (e.g. "Paris") is optional but required for hypothesis 2 --
 the token-projection analysis tracks the fact's ORIGINAL object token,
@@ -25,6 +25,7 @@ since pre-edit that is what the model actually represents.
 """
 
 import json
+import math
 import sys
 
 
@@ -40,20 +41,16 @@ def target_token_probs(layer_signals: list, target: str) -> dict:
 
     Prefers the last-token view (`last_top_tokens`: what the model predicts
     next after the prompt), which is where the fact's object surfaces;
-    falls back to the full-statement view or subject view for JSONs produced
-    before those fields existed.
+    falls back to the subject-position view for JSONs produced before that
+    field existed.
     """
     t = _norm_token(target)
-    return {
-        l["layer"]: tt["prob"]
-        for l in layer_signals
-        for tt in (
-            l.get("last_top_tokens")
-            or l.get("fact_top_tokens")
-            or l["top_tokens"]
-        )
-        if _norm_token(tt["token"]) == t
-    }
+    probs = {}
+    for l in layer_signals:
+        for tt in (l.get("last_top_tokens") or l.get("top_tokens") or []):
+            if _norm_token(tt["token"]) == t:
+                probs[l["layer"]] = tt["prob"]
+    return probs
 
 
 def scheme_projection_score(layer_signals: list, scheme_layers: list, target: str):
@@ -77,11 +74,7 @@ def scheme_projection_score(layer_signals: list, scheme_layers: list, target: st
     peak = sorted(probs, key=lambda l: -probs[l])[:2]
     lo, hi = min(peak), max(peak)
     span_layers = range(lo, hi + 1)
-    scheme_probs = [
-        probs[l]
-        for l in scheme_layers
-        if 0 <= l < len(layer_signals) and l in probs
-    ]
+    scheme_probs = [probs[l] for l in scheme_layers if l in probs]
     return {
         "peak_span": [lo, hi],
         "span_overlap": sum(1 for l in scheme_layers if l in span_layers)
@@ -100,53 +93,95 @@ def scheme_activity_score(layer_signals: list, scheme_layers: list) -> dict:
     Returns both the mean and min |cosine_similarity| across the scheme's
     layers, since the paper's "Recommend" feature specifically looks at the
     lowest-similarity layers within a range.
+
+    Layers are looked up by their recorded `layer` field rather than by list
+    position, so a reordered or partial signal list cannot silently attribute
+    the wrong cosine similarity to a layer.
     """
+    by_layer = {l["layer"]: l for l in layer_signals}
     cos_sims = [
-        abs(layer_signals[l]["cosine_similarity"])
+        abs(by_layer[l]["cosine_similarity"])
         for l in scheme_layers
-        if 0 <= l < len(layer_signals)
+        if l in by_layer
     ]
+    if not cos_sims:
+        known = sorted(by_layer)
+        span = f"{known[0]}-{known[-1]}" if known else "none recorded"
+        raise ValueError(
+            f"Scheme {sorted(set(scheme_layers))} contains no layer present in the "
+            f"baseline signals (recorded layers: {span})."
+        )
     return {
         "mean_abs_cos_sim": sum(cos_sims) / len(cos_sims),
         "min_abs_cos_sim": min(cos_sims),
     }
 
 
+def _average_ranks(values: list) -> list:
+    """1-based ranks, with tied values sharing the mean of the positions they span."""
+    order = sorted(range(len(values)), key=lambda i: values[i])
+    ranks = [0.0] * len(values)
+    i = 0
+    while i < len(order):
+        j = i
+        while j + 1 < len(order) and values[order[j + 1]] == values[order[i]]:
+            j += 1
+        average = (i + j) / 2.0 + 1
+        for k in range(i, j + 1):
+            ranks[order[k]] = average
+        i = j + 1
+    return ranks
+
+
+def _pearson(xs: list, ys: list) -> float:
+    n = len(xs)
+    mean_x, mean_y = sum(xs) / n, sum(ys) / n
+    dx = [x - mean_x for x in xs]
+    dy = [y - mean_y for y in ys]
+    sxx = sum(d * d for d in dx)
+    syy = sum(d * d for d in dy)
+    if sxx <= 0.0 or syy <= 0.0:
+        # Zero variance in either input: the coefficient is undefined.
+        return float("nan")
+    return sum(a * b for a, b in zip(dx, dy)) / math.sqrt(sxx * syy)
+
+
 def spearman_rank_correlation(xs: list, ys: list) -> float:
     """
-    Minimal dependency-free Spearman rank correlation, since scipy isn't
-    installed by default in this project's venv. Ties are broken by
-    average rank (standard approach).
+    Spearman rank correlation, correct in the presence of ties.
 
-    Returns a value in [-1, 1]. With very few data points (as in a
-    handful of layer schemes) this should be read as directional/
-    exploratory evidence, not a statistically significant result.
+    Ties are assigned average ranks and the coefficient is the Pearson
+    correlation of those rank vectors. The familiar shortcut
+    `1 - 6*sum(d^2)/(n*(n^2-1))` is only algebraically equivalent when there
+    are NO ties. This project's metrics are heavily tied (ES/PS/S take very
+    few distinct values), and the shortcut understates |rho| substantially --
+    on the committed batch data it reported -0.252 where the true value is
+    -0.549.
+
+    Returns NaN when either input has zero variance or when there are fewer
+    than two paired observations, rather than inventing a coefficient.
+
+    With very few data points (as in a handful of layer schemes) this should
+    be read as directional/exploratory evidence, not a statistically
+    significant result.
     """
-    def rank(values):
-        sorted_idx = sorted(range(len(values)), key=lambda i: values[i])
-        ranks = [0.0] * len(values)
-        i = 0
-        while i < len(sorted_idx):
-            j = i
-            while j + 1 < len(sorted_idx) and values[sorted_idx[j + 1]] == values[sorted_idx[i]]:
-                j += 1
-            avg_rank = (i + j) / 2.0 + 1
-            for k in range(i, j + 1):
-                ranks[sorted_idx[k]] = avg_rank
-            i = j + 1
-        return ranks
-
-    n = len(xs)
-    if n < 2:
+    if len(xs) != len(ys):
+        raise ValueError(
+            f"Rank correlation requires equal-length inputs (got {len(xs)} and {len(ys)})."
+        )
+    if len(xs) < 2:
         return float("nan")
-    rx, ry = rank(xs), rank(ys)
-    d2 = sum((a - b) ** 2 for a, b in zip(rx, ry))
-    return 1 - (6 * d2) / (n * (n**2 - 1))
+    return _pearson(_average_ranks(xs), _average_ranks(ys))
+
+
+def format_rho(rho: float) -> str:
+    """Human-readable coefficient, distinguishing 'undefined' from a real value."""
+    return "undefined (zero variance in one input)" if math.isnan(rho) else f"{rho:+.3f}"
 
 
 def main():
     if len(sys.argv) not in (2, 3):
-        print("Usage: python analyze_schemes.py <scheme_comparison.json> [target_true]")
+        print("Usage: python analyze_schemes.py <audit/development/scheme_comparison.json> [target_true]")
         sys.exit(1)
 
     with open(sys.argv[1]) as f:
@@ -158,8 +193,13 @@ def main():
     schemes = data["schemes"]
 
     rows = []
+    skipped = []
     for s in schemes:
-        activity = scheme_activity_score(layer_signals, s["layers"])
+        try:
+            activity = scheme_activity_score(layer_signals, s["layers"])
+        except ValueError as exc:
+            skipped.append(str(exc))
+            continue
         metrics = s["metrics"] or {}
         projection = (
             scheme_projection_score(layer_signals, s["layers"], target_true)
@@ -225,21 +265,23 @@ def main():
     ]
 
     print(f"\nn = {len(rows)} schemes compared (small-sample, exploratory only)")
+    for note in skipped:
+        print(f"skipped: {note}")
 
     if len(valid_es) >= 2:
         xs, ys = zip(*valid_es)
         rho = spearman_rank_correlation(list(xs), list(ys))
-        print(f"Spearman(mean|cos_sim|, ES)     = {rho:+.3f}  (expect negative if hypothesis holds)")
+        print(f"Spearman(mean|cos_sim|, ES)     = {format_rho(rho)}  (expect negative if hypothesis holds)")
 
     if len(valid_min_es) >= 2:
         xs, ys = zip(*valid_min_es)
         rho = spearman_rank_correlation(list(xs), list(ys))
-        print(f"Spearman(min|cos_sim|,  ES)     = {rho:+.3f}  (expect negative if hypothesis holds)")
+        print(f"Spearman(min|cos_sim|,  ES)     = {format_rho(rho)}  (expect negative if hypothesis holds)")
 
     if len(valid_s) >= 2:
         xs, ys = zip(*valid_s)
         rho = spearman_rank_correlation(list(xs), list(ys))
-        print(f"Spearman(mean|cos_sim|, S)      = {rho:+.3f}  (expect negative if hypothesis holds)")
+        print(f"Spearman(mean|cos_sim|, S)      = {format_rho(rho)}  (expect negative if hypothesis holds)")
 
     if target_true is None:
         print(
@@ -255,17 +297,17 @@ def main():
         if len(valid_ovlp_es) >= 2:
             xs, ys = zip(*valid_ovlp_es)
             rho = spearman_rank_correlation(list(xs), list(ys))
-            print(f"Spearman(span_overlap,  ES)     = {rho:+.3f}  (expect positive if hypothesis holds)")
+            print(f"Spearman(span_overlap,  ES)     = {format_rho(rho)}  (expect positive if hypothesis holds)")
 
         if len(valid_maxp_es) >= 2:
             xs, ys = zip(*valid_maxp_es)
             rho = spearman_rank_correlation(list(xs), list(ys))
-            print(f"Spearman(maxP in scheme, ES)    = {rho:+.3f}  (expect positive if hypothesis holds)")
+            print(f"Spearman(maxP in scheme, ES)    = {format_rho(rho)}  (expect positive if hypothesis holds)")
 
         if len(valid_ovlp_s) >= 2:
             xs, ys = zip(*valid_ovlp_s)
             rho = spearman_rank_correlation(list(xs), list(ys))
-            print(f"Spearman(span_overlap,  S)      = {rho:+.3f}  (expect positive if hypothesis holds)")
+            print(f"Spearman(span_overlap,  S)      = {format_rho(rho)}  (expect positive if hypothesis holds)")
 
     print(
         "\nNote: with only a handful of schemes this is directional evidence, "

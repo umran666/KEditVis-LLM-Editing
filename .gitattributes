@@ -1,0 +1,17 @@
+# Normalise text files to LF in the repository and in every working tree.
+#
+# Without this, `core.autocrlf=true` makes git announce
+#   "LF will be replaced by CRLF the next time Git touches it"
+# for every text file on every add/checkout, which is pure warning noise and
+# trains readers to ignore the warnings that matter.
+* text=auto eol=lf
+
+# Binary assets must never be line-ending converted.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.ico binary
+*.pdf binary
+*.docx binary
+*.woff binary
+*.woff2 binary

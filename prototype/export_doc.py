@@ -1,17 +1,27 @@
-"""
-Generates Knowledge_Editing_LLMs_Final.docx from Knowledge_Editing_LLMs.docx.
-Preserves all original student names, registration numbers, batch numbers, guide details,
-margins, fonts, alignments, and base paper citation while updating the abstract paragraph
-to reconcile scientific claims with empirical benchmark findings.
-The original Knowledge_Editing_LLMs.docx is left strictly untouched.
+"""Generate a revised abstract document from a source .docx.
+
+Preserves student names, registration numbers, batch numbers, guide details,
+margins, fonts and alignments, replacing only the abstract body paragraph so the
+stated claims match the empirical benchmark findings. The source document is
+left strictly untouched.
+
+The .docx files are deliberately not tracked in this repository, so both paths
+are required arguments rather than hard-coded absolutes.
+
+Usage:
+    python export_doc.py --source path/to/original.docx --output path/to/revised.docx
 """
 
+import argparse
 from pathlib import Path
+
 import docx
 from docx.enum.text import WD_ALIGN_PARAGRAPH
+from docx.shared import Pt
 
-ORIGINAL_PATH = Path(r"c:\Users\shaik\Research\LLM Editing\Knowledge_Editing_LLMs.docx")
-REVISED_PATH = Path(r"c:\Users\shaik\Research\LLM Editing\Knowledge_Editing_LLMs_Final.docx")
+# The original abstract always begins with this sentence, which is how the
+# paragraph is located in the source document.
+ABSTRACT_PREFIX = "Large Language Models frequently encode obsolete"
 
 REVISED_ABSTRACT_TEXT = (
     "Large Language Models frequently encode obsolete or inaccurate factual associations "
@@ -33,40 +43,52 @@ REVISED_ABSTRACT_TEXT = (
 )
 
 
-def main():
-    if not ORIGINAL_PATH.exists():
-        raise FileNotFoundError(f"Original file not found: {ORIGINAL_PATH}")
+def build_revised_document(source: Path, output: Path) -> Path:
+    """Copy `source` to `output`, replacing only the abstract body paragraph."""
+    if not source.exists():
+        raise FileNotFoundError(
+            f"Source document not found: {source}\n"
+            "The .docx sources are not tracked in this repository; pass --source "
+            "pointing at the original file."
+        )
 
-    doc = docx.Document(ORIGINAL_PATH)
-    
-    # Locate paragraph 32 (the ABSTRACT body paragraph)
-    # Verify it matches the original abstract start
-    target_idx = None
-    for i, p in enumerate(doc.paragraphs):
-        if p.text.strip().startswith("Large Language Models frequently encode obsolete"):
-            target_idx = i
-            break
-            
-    if target_idx is None:
-        raise ValueError("Could not locate original abstract body paragraph.")
-        
-    p = doc.paragraphs[target_idx]
-    
-    # Preserve formatting properties
-    align = p.alignment or WD_ALIGN_PARAGRAPH.JUSTIFY
-    orig_runs = p.runs
-    font_name = orig_runs[0].font.name if orig_runs and orig_runs[0].font.name else "Times New Roman"
-    font_size = orig_runs[0].font.size if orig_runs and orig_runs[0].font.size else docx.shared.Pt(12)
-    
-    # Replace text
-    p.text = REVISED_ABSTRACT_TEXT
-    p.alignment = align
-    for run in p.runs:
+    document = docx.Document(str(source))
+    paragraph = next(
+        (p for p in document.paragraphs if p.text.strip().startswith(ABSTRACT_PREFIX)),
+        None,
+    )
+    if paragraph is None:
+        raise ValueError(
+            f"Could not locate the abstract body paragraph in {source} "
+            f"(expected one starting with {ABSTRACT_PREFIX!r})."
+        )
+
+    # Capture the original styling before replacing the text, because assigning
+    # paragraph.text collapses the run list down to a single new run.
+    alignment = paragraph.alignment or WD_ALIGN_PARAGRAPH.JUSTIFY
+    runs = paragraph.runs
+    font_name = runs[0].font.name if runs and runs[0].font.name else "Times New Roman"
+    font_size = runs[0].font.size if runs and runs[0].font.size else Pt(12)
+
+    paragraph.text = REVISED_ABSTRACT_TEXT
+    paragraph.alignment = alignment
+    for run in paragraph.runs:
         run.font.name = font_name
         run.font.size = font_size
-        
-    doc.save(REVISED_PATH)
-    print(f"Successfully generated revised abstract document at:\n{REVISED_PATH}")
+
+    output.parent.mkdir(parents=True, exist_ok=True)
+    document.save(str(output))
+    return output
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
+    parser.add_argument("--source", required=True, type=Path, help="original .docx to read")
+    parser.add_argument("--output", required=True, type=Path, help="revised .docx to write")
+    args = parser.parse_args()
+
+    written = build_revised_document(args.source, args.output)
+    print(f"Successfully generated revised abstract document at:\n{written}")
 
 
 if __name__ == "__main__":

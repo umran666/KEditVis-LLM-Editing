@@ -53,7 +53,18 @@ CONTEXT_PROFILE = OPTIMIZATION_PROFILES["context_v3"]
 
 
 def configure_context(hp, profile: str = "context_v3"):
-    prof = OPTIMIZATION_PROFILES.get(profile, OPTIMIZATION_PROFILES["context_v3"])
+    """Applies a named optimization profile to a MEMIT hyperparameter object.
+
+    Raises on an unknown profile rather than silently falling back to
+    context_v3: a typo would otherwise run a different algorithm than the one
+    requested and report the wrong revision in the response.
+    """
+    if profile not in OPTIMIZATION_PROFILES:
+        raise ValueError(
+            f"Unknown optimization profile {profile!r}. "
+            f"Known profiles: {sorted(OPTIMIZATION_PROFILES)}."
+        )
+    prof = OPTIMIZATION_PROFILES[profile]
     hp.context_consistency = prof["consistency_weight"]
     if prof["minimum_clamp_norm_factor"] is not None:
         hp.clamp_norm_factor = max(hp.clamp_norm_factor, prof["minimum_clamp_norm_factor"])
@@ -152,7 +163,7 @@ def compute_context_target(model, tok, request, hp, layer, contexts):
             if not torch.isfinite(objective):
                 raise FloatingPointError("Non-finite context MEMIT objective.")
             print(f"context step={step} nll={nll.item():.5f} variance={consistency.item():.5f}")
-            if objective.item() < 0.05 or step == hp.v_num_grad_steps - 1:
+            if objective.item() < 0.05:
                 break
             objective.backward()
             optimizer.step()

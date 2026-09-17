@@ -1,25 +1,65 @@
 """CPU regressions exercising production functions without starting Modal."""
 import ast
+import json
 import math
+import os
 from pathlib import Path
 import sys
+import tempfile
 from types import ModuleType, SimpleNamespace
 import unittest
 from unittest.mock import patch
 
 import torch
 from fastapi.testclient import TestClient
+from scipy import stats
 
 SOURCE = Path(__file__).with_name("modal_app.py")
 
 
+def _is_literal(node) -> bool:
+    """True for expressions made only of literals (so exec'ing them cannot fail)."""
+    if isinstance(node, ast.Constant):
+        return True
+    if isinstance(node, (ast.List, ast.Tuple, ast.Set)):
+        return all(_is_literal(element) for element in node.elts)
+    if isinstance(node, ast.Dict):
+        return (all(_is_literal(key) for key in node.keys if key)
+                and all(_is_literal(value) for value in node.values))
+    if isinstance(node, ast.UnaryOp):
+        return _is_literal(node.operand)
+    if isinstance(node, ast.BinOp):
+        return _is_literal(node.left) and _is_literal(node.right)
+    return False
+
+
 def load_functions():
+    """Loads modal_app.py's functions plus its imports and literal module constants.
+
+    Only top-level functions, import statements and literal assignments are
+    exec'd, so the real `modal.Image(...)` / `modal.App(...)` objects are never
+    constructed. Imports matter because production functions reference
+    module-level names (`json`, `MIN_TSNE_SAMPLES`); without them a missing name
+    surfaces as a NameError that looks like a production bug rather than a
+    harness gap.
+    """
     tree = ast.parse(SOURCE.read_text(encoding="utf-8-sig"))
-    functions = [node for node in tree.body if isinstance(node, ast.FunctionDef)]
-    for node in functions:
-        node.decorator_list = []
-    namespace = {"HF_CACHE_PATH": "/unused", "DAMAGE_REF_PROMPTS": ["reference text"], "MEMIT_COMMIT": "test"}
-    exec(compile(ast.Module(body=functions, type_ignores=[]), str(SOURCE), "exec"), namespace)
+    body = []
+    for node in tree.body:
+        if isinstance(node, ast.FunctionDef):
+            node.decorator_list = []
+            body.append(node)
+        elif isinstance(node, (ast.Import, ast.ImportFrom)):
+            body.append(node)
+        elif isinstance(node, ast.Assign) and all(isinstance(t, ast.Name) for t in node.targets):
+            if _is_literal(node.value):
+                body.append(node)
+    namespace = {}
+    exec(compile(ast.Module(body=body, type_ignores=[]), str(SOURCE), "exec"), namespace)
+    # Deliberate test doubles, applied last so they win over the real values.
+    namespace.update(
+        {"HF_CACHE_PATH": "/unused", "DAMAGE_REF_PROMPTS": ["reference text"], "MEMIT_COMMIT": "test"}
+    )
     return namespace
 
 
@@ -138,9 +178,17 @@ class BackendAudit(unittest.TestCase):
         rows = self.ns["_project_drift"](before, after)
         self.assertEqual([r["hidden_state_drift"] for r in rows], [5, 0])
         self.assertEqual(rows, self.ns["_project_drift"](before, after))
-        self.assertEqual(rows[0]["projection_method"], "joint-tsne")
+        # 2 prompts -> 4 points, below the t-SNE floor: labelling that a "joint-tsne"
+        # projection would present an arbitrary layout as a meaningful embedding.
+        self.assertEqual(rows[0]["projection_method"], "pca-small-sample")
         one = self.ns["_project_drift"](before[:1], after[:1])
         self.assertEqual(one[0]["projection_method"], "pca-small-sample")
+        # 4 prompts -> 8 points, enough for a real joint embedding.
+        big_before = torch.randn(4, 3, generator=torch.Generator().manual_seed(0))
+        big_after = big_before + 0.01
+        self.assertEqual(
+            self.ns["_project_drift"](big_before, big_after)[0]["projection_method"], "joint-tsne"
+        )
         with self.assertRaises(ValueError):
             self.ns["_project_drift"](before, after[:1])
         with self.assertRaises(ValueError):
@@ -403,6 +451,325 @@ class BackendAudit(unittest.TestCase):
         self.assertEqual(hp.context_consistency, 0.01)
         self.assertEqual(hp.clamp_norm_factor, 1.5)
         self.assertEqual(hp.v_num_grad_steps, 40)
+
+    def test_pre_and_post_metrics_use_identical_neighborhood_targets(self):
+        """Regression: /edit and /compare computed pre-edit metrics without
+        neighborhood_targets but post-edit metrics with them, so pre/post NS were
+        measured against different reference strings and could not be compared."""
+        client = self.make_web()
+        seen = []
+
+        def spy(model, tok, prompt, subject, target_new, target_true,
+                paraphrase_prompts, neighborhood_prompts, neighborhood_targets=None):
+            seen.append(list(neighborhood_targets) if neighborhood_targets is not None else None)
+            return {"ES": 1.0, "PS": 1.0, "NS": 1.0, "S": 1.0,
+                    "ES_greedy": 1.0, "PS_greedy": 1.0, "NS_greedy": 1.0, "S_greedy": 1.0,
+                    "details": {"efficacy": [], "paraphrase": [], "neighborhood": []}}
+
+        self.ns["_evaluate_edit"] = spy
+        body = {"prompt": "{} relation", "subject": "Subject", "target_new": "New",
+                "target_true": "Old", "layers": [2, 3],
+                "neighborhood_prompts": ["Near one", "Near two"],
+                "neighborhood_targets": ["T1", "T2"]}
+
+        self.assertEqual(client.post("/edit", json=body).status_code, 200)
+        self.assertEqual(seen, [["T1", "T2"], ["T1", "T2"]])
+
+        seen.clear()
+        self.assertEqual(client.post("/compare", json=body | {"schemes": [[2, 3]]}).status_code, 200)
+        self.assertEqual(seen, [["T1", "T2"], ["T1", "T2"]])
+
+    def test_health_advertises_every_accepted_optimization_profile(self):
+        """Regression: /health listed four MEMIT profiles while the request models
+        accepted five, hiding context_v3 from clients."""
+        from editing_optimizations import OPTIMIZATION_PROFILES
+        client = self.make_web()
+        health = client.get("/health").json()
+        self.assertEqual(set(health["memit_optimizations"]), set(OPTIMIZATION_PROFILES))
+        self.assertIn("context_v3", health["memit_optimizations"])
+        rejected = client.post("/edit", json={"prompt": "{} relation", "subject": "Subject",
+                                             "target_new": "New", "optimization": "not_a_profile"})
+        self.assertEqual(rejected.status_code, 422)
+
+    def test_experiment_schemes_are_matched_by_layers_not_response_order(self):
+        """Regression: /compare deduplicates identical schemes, so indexing the
+        response by position attached results to the wrong policy (or raised
+        IndexError) whenever two policies selected the same window."""
+        from run_experiments import match_scheme_records
+
+        static = [13, 14, 15, 16, 17]
+        telemetry = [13, 14, 15, 16, 17]
+        random_baseline = [40, 41, 42, 43, 44]
+        # Deliberately returned in reverse order and with telemetry collapsed.
+        returned = [
+            {"layers": [40, 41, 42, 43, 44], "metrics": {"ES": 1.0}},
+            {"layers": [13, 14, 15, 16, 17], "metrics": {"ES": 0.8}},
+        ]
+
+        matched = match_scheme_records(
+            returned, {"static": static, "telemetry": telemetry, "random": random_baseline}
+        )
+        self.assertIs(matched["static"], matched["telemetry"])
+        self.assertEqual(matched["static"]["layers"], [13, 14, 15, 16, 17])
+        self.assertEqual(matched["random"]["layers"], [40, 41, 42, 43, 44])
+        with self.assertRaises(RuntimeError):
+            match_scheme_records(returned, {"missing": [0, 1, 2, 3, 4]})
+
+    def test_harmonic_mean_is_undefined_for_empty_and_missing_input(self):
+        """Regression: an empty input returned 0.0, reporting 'not measured' as a score."""
+        self.assertIsNone(self.ns["_harmonic_mean"]([]))
+        self.assertIsNone(self.ns["_harmonic_mean"]([1.0, None, 1.0]))
+        # A zero component makes the harmonic mean exactly 0 -- correct, and the
+        # reason S collapses whenever one component fails completely.
+        self.assertEqual(self.ns["_harmonic_mean"]([1.0, 0.0, 1.0]), 0.0)
+
+    def test_write_json_creates_missing_parent_directories(self):
+        """The CLI writes into audit/development/, which may not exist on a fresh clone."""
+        with tempfile.TemporaryDirectory() as tmp:
+            nested = Path(tmp) / "audit" / "development" / "out.json"
+            self.assertFalse(nested.parent.exists())
+            self.ns["_write_json"](str(nested), {"layers": [13, 14]})
+            self.assertTrue(nested.exists())
+            self.assertEqual(json.loads(nested.read_text(encoding="utf-8")), {"layers": [13, 14]})
+            # A bare filename (no directory component) must still work.
+            plain = Path(tmp) / "plain.json"
+            self.ns["_write_json"](str(plain), [])
+            self.assertEqual(json.loads(plain.read_text(encoding="utf-8")), [])
+
+    def test_kl_divergence_rejects_mismatched_inputs_without_assert(self):
+        """Regression: validation used bare asserts, which `python -O` strips."""
+        post = torch.tensor([[0.4, 0.6]]).log()
+        pre = torch.tensor([[0.7, 0.3]]).log()
+        with self.assertRaises(ValueError):
+            self.ns["_kl_divergence"]([post], [pre, pre])
+        with self.assertRaises(ValueError):
+            self.ns["_kl_divergence"]([post], [torch.tensor([[0.1, 0.2, 0.7]]).log()])
+
+    def test_parse_layers_rejects_mixed_spec_with_a_clear_error(self):
+        """Regression: '8-12,15' produced a bare int() conversion error."""
+        self.assertEqual(self.ns["_parse_layers"]("8-12"), [8, 9, 10, 11, 12])
+        self.assertEqual(self.ns["_parse_layers"]("6,9,12"), [6, 9, 12])
+        self.assertEqual(self.ns["_parse_layers"]("7"), [7])
+        for spec, fragment in [("8-12,15", "cannot mix"), ("", "must not be empty"),
+                               ("12-8", "start > end"), ("8-", "start-end"),
+                               ("a,b", "comma-separated"), ("-5", "start-end")]:
+            with self.subTest(spec=spec):
+                with self.assertRaisesRegex(ValueError, fragment):
+                    self.ns["_parse_layers"](spec)
+
+    def test_layer_zero_delta_variance_is_undefined_not_duplicated(self):
+        """Regression: layer 0 reported its absolute variance as its residual delta."""
+        class Block(torch.nn.Module):
+            def __init__(self, dim):
+                super().__init__()
+                self.mlp = torch.nn.Linear(dim, dim)
+
+            def forward(self, hidden_states=None, **kwargs):
+                return self.mlp(hidden_states)
+
+        class ProbeModel(torch.nn.Module):
+            def __init__(self):
+                super().__init__()
+                self.config = SimpleNamespace(n_layer=2)
+                self.transformer = torch.nn.Module()
+                self.transformer.h = torch.nn.ModuleList([Block(4), Block(4)])
+                self.transformer.ln_f = torch.nn.Identity()
+                self.lm_head = torch.nn.Linear(4, 8)
+
+            def forward(self, input_ids, **kwargs):
+                hidden = torch.ones(input_ids.shape[0], input_ids.shape[1], 4)
+                for block in self.transformer.h:
+                    hidden = block(hidden)
+                return SimpleNamespace(logits=self.lm_head(self.transformer.ln_f(hidden)))
+
+        class Batch(dict):
+            def to(self, device):
+                return self
+
+        class Tok:
+            def __call__(self, text, **kwargs):
+                if kwargs.get("return_offsets_mapping"):
+                    return Batch(offset_mapping=[(i, i + 1) for i in range(len(text))])
+                return Batch(input_ids=torch.tensor([[1] * len(text)]))
+
+            def decode(self, ids):
+                return f"tok{ids[0]}"
+
+        signals = self.ns["_probe_layers"](ProbeModel(), Tok(), "Subject", "Subject")
+        self.assertEqual(len(signals), 2)
+        self.assertIsNone(signals[0]["residual_delta_variance"])
+        self.assertIsNotNone(signals[1]["residual_delta_variance"])
+        self.assertIsNotNone(signals[0]["residual_variance"])
+
+    def test_standard_optimization_reports_the_upstream_revision(self):
+        """Regression: the `standard` branch was unreachable, so it reported a profile label."""
+        client = self.make_web()
+        body = {"prompt": "{} relation", "subject": "Subject", "target_new": "New", "layers": [2, 3]}
+        standard = client.post("/edit", json=body)
+        self.assertEqual(standard.status_code, 200, standard.text)
+        self.assertEqual(standard.json()["optimization_config"]["revision"], "test")
+
+        def context_apply(model, tok, requests, hp, **kwargs):
+            return model, {}
+
+        with patch("editing_optimizations.apply_context_memit", context_apply):
+            context = client.post("/edit", json=body | {"optimization": "context"})
+        self.assertEqual(context.status_code, 200, context.text)
+        self.assertEqual(context.json()["optimization"], "context")
+        self.assertEqual(context.json()["optimization_config"]["revision"], "context-v3")
+
+
+class AnalysisRegressions(unittest.TestCase):
+    """Regressions in the offline analysis layer (analyze_schemes / run_experiments)."""
+
+    def test_spearman_is_correct_in_the_presence_of_ties(self):
+        """Regression: the untied-only shortcut understated |rho| by ~2x on tied data."""
+        from analyze_schemes import spearman_rank_correlation
+
+        xs = [0.01, 0.02, 0.03, 0.04, 0.05, 0.06]
+        ys = [1.0, 1.0, 1.0, 0.0, 0.0, 0.0]
+        expected = stats.spearmanr(xs, ys).statistic
+        self.assertAlmostEqual(spearman_rank_correlation(xs, ys), expected, places=9)
+
+        untied = ([1.0, 2.0, 3.0, 4.0], [1.0, 3.0, 2.0, 4.0])
+        self.assertAlmostEqual(
+            spearman_rank_correlation(*untied), stats.spearmanr(*untied).statistic, places=9
+        )
+
+    def test_spearman_is_undefined_for_constant_or_tiny_input(self):
+        """Regression: zero variance returned a spurious non-zero coefficient."""
+        from analyze_schemes import spearman_rank_correlation
+
+        self.assertTrue(math.isnan(spearman_rank_correlation([1.0, 2.0, 3.0], [1.0, 1.0, 1.0])))
+        self.assertTrue(math.isnan(spearman_rank_correlation([1.0], [1.0])))
+        with self.assertRaises(ValueError):
+            spearman_rank_correlation([1.0, 2.0], [1.0])
+
+    def test_scheme_activity_score_reports_out_of_range_schemes(self):
+        """Regression: a fully out-of-range scheme raised a bare ZeroDivisionError."""
+        from analyze_schemes import scheme_activity_score
+
+        signals = [{"layer": i, "cosine_similarity": 0.5, "top_tokens": []} for i in range(28)]
+        with self.assertRaisesRegex(ValueError, "no layer present"):
+            scheme_activity_score(signals, [30, 31, 32])
+        # Looked up by the recorded `layer` field, not by list position.
+        reordered = [signals[5], signals[0], signals[9]]
+        self.assertEqual(
+            scheme_activity_score(reordered, [5])["mean_abs_cos_sim"],
+            scheme_activity_score(reordered, [0])["mean_abs_cos_sim"],
+        )
+
+    def test_unmeasured_metrics_stay_none_through_aggregation(self):
+        """Regression: metrics=None was coerced to 0.0 and averaged as a real zero."""
+        from run_experiments import analyze_results, extract_scheme_record
+
+        record = extract_scheme_record({"layers": [13, 14, 15, 16, 17], "metrics": None}, [13, 14, 15, 16, 17], "static")
+        for key in ("ES", "PS", "NS", "S", "kl_divergence", "frob_rel"):
+            self.assertIsNone(record[key], key)
+
+        measured = extract_scheme_record(
+            {"layers": [13, 14, 15, 16, 17], "metrics": {"ES": 1.0, "PS": 0.0, "NS": 1.0, "S": 0.0}},
+            [13, 14, 15, 16, 17], "static",
+        )
+        summary = analyze_results({
+            "experiment_1_selection": [{"case_id": 1, "static": measured, "telemetry": record, "random": record}],
+            "experiment_2_optimization": [],
+        })["experiment_1_selection"]["condition_aggregates"]
+        self.assertEqual(summary["static"]["ES"]["mean"], 1.0)
+        # The unmeasured arms contribute nothing rather than a phantom 0.0.
+        self.assertIsNone(summary["telemetry"]["ES"]["mean"])
+        self.assertIsNone(summary["random"]["ES"]["mean"])
+
+    def test_partial_checkpoints_do_not_crash_the_analysis(self):
+        """Regression: f[c][m] raised KeyError on a checkpoint predating a metric."""
+        from run_experiments import analyze_results
+
+        partial = {"label": "static", "layers": [13, 14, 15, 16, 17], "generation": "",
+                   "ES": 1.0, "PS": 0.5, "NS": 1.0, "S": 0.6}
+        summary = analyze_results({
+            "experiment_1_selection": [{"case_id": 1, "static": partial, "telemetry": partial, "random": partial}],
+            "experiment_2_optimization": [],
+        })
+        self.assertEqual(summary["experiment_1_selection"]["condition_aggregates"]["static"]["ES"]["mean"], 1.0)
+
+    def test_paired_comparison_uses_only_complete_pairs(self):
+        """Regression: None entries flowed into the arithmetic as if measured."""
+        from run_experiments import paired_comparison
+
+        result = paired_comparison([1.0, None, 0.0, 1.0], [0.0, 0.5, 0.0, 1.0])
+        self.assertEqual(result["n_pairs"], 3)
+        self.assertAlmostEqual(result["mean_diff"], (1.0 + 0.0 + 0.0) / 3, places=4)
+
+        # Too few complete pairs -> undefined statistics, not invented ones.
+        empty = paired_comparison([None, None], [1.0, 1.0])
+        self.assertEqual(empty["n_pairs"], 0)
+        self.assertIsNone(empty["mean_diff"])
+        self.assertIsNone(empty["p_value_t"])
+        self.assertIsNone(empty["statistically_significant"])
+
+        # A constant non-zero difference has an undefined t statistic and effect size.
+        degenerate = paired_comparison([1.0, 1.0, 1.0, 1.0, 1.0, 1.0], [0.0] * 6)
+        self.assertEqual(degenerate["mean_diff"], 1.0)
+        self.assertIsNone(degenerate["p_value_t"])
+        self.assertIsNone(degenerate["cohens_d"])
+
+    def test_http_errors_fail_fast_with_the_backend_detail(self):
+        """Regression: 4xx was retried 3x with 5s sleeps and the `detail` was discarded."""
+        import json as _json
+        import threading
+        from http.server import BaseHTTPRequestHandler, HTTPServer
+
+        from run_experiments import post_with_retry
+
+        hits = []
+
+        class Handler(BaseHTTPRequestHandler):
+            def do_POST(self):
+                # Consume the request body before replying. Replying without reading
+                # it lets the server close the socket while the client is still
+                # writing, which Windows surfaces as ConnectionAbortedError (10053)
+                # and would look like a transient failure worth retrying.
+                length = int(self.headers.get("Content-Length") or 0)
+                if length:
+                    self.rfile.read(length)
+                hits.append(1)
+                body = _json.dumps({"detail": "Layer(s) [50] out of range."}).encode()
+                self.send_response(400)
+                self.send_header("Content-Type", "application/json")
+                self.send_header("Content-Length", str(len(body)))
+                self.end_headers()
+                self.wfile.write(body)
+
+            def log_message(self, *args):
+                pass
+
+        server = HTTPServer(("127.0.0.1", 0), Handler)
+        threading.Thread(target=server.serve_forever, daemon=True).start()
+        try:
+            # `requests` honours ambient proxy configuration, which would route this
+            # loopback request through a proxy and intermittently fail with
+            # ProxyError -- a *transient* error, so it would be retried and the
+            # server would see more than one request. Force a direct connection so
+            # the test measures retry policy rather than the machine's proxy setup.
+            with patch.dict(os.environ, {"no_proxy": "127.0.0.1,localhost",
+                                         "NO_PROXY": "127.0.0.1,localhost"}):
+                with self.assertRaisesRegex(RuntimeError, "Layer\\(s\\) \\[50\\] out of range"):
+                    post_with_retry(f"http://127.0.0.1:{server.server_port}", "/edit", {},
+                                    timeout=5, max_retries=3)
+            self.assertEqual(len(hits), 1, "a 4xx must not be retried")
+        finally:
+            server.shutdown()
+            server.server_close()
+
+    def test_context_profiles_reject_unknown_names(self):
+        """Regression: an unknown profile silently ran context_v3 instead."""
+        from types import SimpleNamespace
+        from editing_optimizations import configure_context
+
+        hp = SimpleNamespace(context_consistency=0.0, clamp_norm_factor=4.0, v_num_grad_steps=20)
+        with self.assertRaisesRegex(ValueError, "Unknown optimization profile"):
+            configure_context(hp, "typo_profile")
+        self.assertEqual(hp.v_num_grad_steps, 20, "hp must be left untouched")
 
 
 if __name__ == "__main__":

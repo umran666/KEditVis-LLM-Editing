@@ -3,7 +3,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Python: 3.10+](https://img.shields.io/badge/Python-3.10%2B-blue.svg)](https://www.python.org/)
 [![PyTorch: 2.6](https://img.shields.io/badge/PyTorch-2.6-ee4c2c.svg)](https://pytorch.org/)
-[![React: 19](https://img.shields.io/badge/React-19-61dafb.svg)](https://react.dev/)
+[![React: 18](https://img.shields.io/badge/React-18-61dafb.svg)](https://react.dev/)
 [![Modal: A100](https://img.shields.io/badge/Cloud%20GPU-NVIDIA%20A100--40GB-76b900.svg)](https://modal.com/)
 [![Status: Verified Pass](https://img.shields.io/badge/Evaluation-100%25%20Verified%20Pass-brightgreen.svg)](EVALUATION.md)
 
@@ -85,18 +85,18 @@ Production editing pipelines typically rely on rigid, model-wide layer presets (
 
 ## Key Empirical Findings
 
-Extensive evaluations across the standardized **CounterFact** benchmark on NVIDIA A100-SXM4-40GB hardware yielded concrete insights:
+Controlled paired evaluations across the first 10 facts of the **CounterFact** manifest (`prototype/data/benchmark_manifest.json`, which holds 25 evaluation facts plus 1 development fact) on NVIDIA A100-SXM4-40GB hardware yielded concrete insights. Values are means over those 10 evaluation facts; bootstrap 95% CIs and per-fact records are in [`EVALUATION.md`](EVALUATION.md) and `prototype/audit/evaluation/summary.json`.
 
 | Configuration | Layer Range | Efficacy (ES) | Paraphrase (PS) | Locality (NS) | Mean Score (S) | Relative Drift (‖ΔW‖_F / ‖W_0‖_F) |
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: |
-| **Static Preset (MEMIT)** | [13..17] | **1.00** | 0.80 | **0.90** | **0.631** | 0.0095 |
-| **Telemetry-Guided** | [14..18] | **1.00** | 0.80 | 0.85 | 0.621 | 0.0101 |
-| **Arbitrary / Mislocated** | [40..44] | 0.80 | 0.40 | 0.80 | 0.435 | **0.1071** *(11.3x explosion)* |
-| **Context-Robust MEMIT** | [13..17] | **1.00** | **0.90** | 0.85 | 0.612 | 0.0169 *(+77.9% budget)* |
+| **Static Preset (MEMIT)** | `[13..17]` | 0.800 | 0.850 | 0.733 | **0.631** | **0.0095** |
+| **Telemetry-Guided** | per-fact window | 0.800 | 0.800 | 0.733 | 0.621 | 0.0097 |
+| **Seeded Random** | per-fact window | **1.000** | 0.600 | 0.733 | 0.544 | **0.1071** *(11.3x explosion)* |
+| **Context-Robust MEMIT** | `[13..17]` | **1.000** | **0.900** | 0.700 | **0.756** | 0.0169 *(+77.9% budget)* |
 
 ### Insights
-- **Telemetry Layer Selection Acts as a Critical Safety Filter**: While heuristic telemetry selection achieves parity with the static preset (S = 0.621 vs 0.631), its primary function is preventing catastrophic failure bands. Arbitrary layer selection causes an **11.3x explosion in parameter drift** (Rel-Frob = 0.1071) with severe degradation in paraphrase generalization (PS = 0.40).
-- **Context-Robust MEMIT Rescues Fragile Edits**: Expanding the latent update budget (40 steps, clamp 1.5) and applying multi-context fitting raises paraphrase generalization from 0.80 to 0.90, successfully resolving previously impossible hard edits (e.g., *Wellington → Sheffield*).
+- **Telemetry Layer Selection Acts as a Critical Safety Filter**: While heuristic telemetry selection achieves parity with the static preset (S = 0.621 vs 0.631, p = 0.343), its primary function is preventing catastrophic failure bands. Seeded-random layer selection causes an **11.3x explosion in mean parameter drift** (Rel-Frob = 0.1071) and cuts paraphrase generalization to PS = 0.600. Note the random arm also scores the *highest* raw efficacy (ES = 1.000), so drift and generalization—not efficacy alone—are what separate the policies.
+- **Context-Robust MEMIT Rescues Fragile Edits**: Expanding the latent update budget (40 steps, clamp 1.5) and applying multi-context fitting raises efficacy from 0.800 to 1.000, paraphrase generalization from 0.850 to 0.900, and the composite score from 0.631 to 0.756, successfully resolving previously impossible hard edits (e.g., *Wellington → Sheffield*, PS 0.0 → 0.5). It costs +77.9% relative parameter drift (0.0169 vs 0.0095).
 - **Transactional Rollback Guarantees Safe Exploration**: In-memory transactional weight snapshots guarantee 0.000 residual weight drift upon rollback, verified across all tests and live runs.
 
 ---
@@ -110,10 +110,10 @@ While Chen et al. introduced the visual analytics workflow, our capstone project
 
 | Dimension | Base Paper (`2603.29689v1.pdf`) | Our Implemented System (`KEditVis`) |
 | :--- | :--- | :--- |
-| **Code Availability & Reproduction** | Theoretical academic publication. Full interactive dashboard and backend were **unreleased / proprietary**. | **Complete production open-source system**: React 19 + Vite frontend, FastAPI backend on NVIDIA A100 GPU, automated test suites, and standalone CLI probe. |
+| **Code Availability & Reproduction** | Theoretical academic publication. Full interactive dashboard and backend were **unreleased / proprietary**. | **Complete production open-source system**: React 18 + Vite frontend, FastAPI backend on NVIDIA A100 GPU, automated test suites, and standalone CLI probe. |
 | **Telemetry Signals** | **Cosine similarity only** (`cos(x_in, x_out)`) and logit-lens token ranks. | **Cosine similarity + Layer-wise Residual Variance** (`Var_dim(h_l[t])` and delta variance `Var_dim(h_l - h_{l-1})`) with interactive signal switching. |
 | **Editing Algorithms** | Standard ROME and standard MEMIT only. | Standard ROME, standard MEMIT, and **Context-Robust MEMIT** (multi-context fitting, consistency loss, expanded update budget). |
-| **Paraphrase Generalization** | Fragile under standard MEMIT. If an edit fails generalization, user must hunt for different layers. | **Context MEMIT rescues fragile edits**: Paraphrase generalization jumps from 0.80 to 0.90 (4/5 phrasings on hard facts like *Wellington → Sheffield*). |
+| **Paraphrase Generalization** | Fragile under standard MEMIT. If an edit fails generalization, user must hunt for different layers. | **Context MEMIT rescues fragile edits**: mean paraphrase generalization rises from 0.850 to 0.900 across the 10-fact evaluation run, and from 1/5 to 4/5 on the reported Eiffel Tower phrasing set (including hard facts like *Wellington → Sheffield*, PS 0.0 → 0.5). |
 | **Drift & Safety Measurement** | Relied purely on **stochastic 2D t-SNE plots** for "global impact" (qualitative, visual only). | **Exact Frobenius norm parameter drift** (‖ΔW‖_F, relative drift) + hidden-state L2 distance and KL divergence on a quantitative scatter plot. |
 | **Transactional Rollback** | Conceptual concept; no concrete state-management or memory guarantees specified. | **Bit-exact in-memory weight snapshots** guaranteeing verified **0.000 residual parameter drift** upon rollback. |
 | **Empirical Discovery** | Implied that dynamic/human layer selection consistently beats fixed presets. | **Scientific Reality Reconciled**: Telemetry acts as a **safety filter** preventing catastrophic failure (11.3x parameter explosion on random layers), achieving parity with static presets (S = 0.621 vs 0.631). |
@@ -124,7 +124,7 @@ While Chen et al. introduced the visual analytics workflow, our capstone project
 1. **Residual Variance Operationalization**: The base paper measured layer activity exclusively through cosine similarity between MLP inputs and outputs. Our implementation operationalized feature-wise hidden channel variance `Var_dim(h_l[t])` and delta variance `Var_dim(h_l - h_{l-1})`, providing mathematically sound, scale/shift-invariant signals with interactive toggle controls in the UI.
 2. **Context-Robust Optimization**: To address single-context MEMIT brittleness, we engineered a local CORE-inspired multi-context optimization engine in `editing_optimizations.py` that fits across multiple diverse prefixes and applies consistency regularization.
 3. **Rigorous Parameter Drift Quantification**: While the paper relied on stochastic t-SNE projections that mask weight matrix destruction, our system computes exact tensor Frobenius norms (`||ΔW||_F`), proving that unconstrained layer selection causes an 11.3x explosion in parameter corruption.
-4. **Empirical Grounding**: Rather than claiming speculative superiority, our controlled 10-fact CounterFact benchmarks scientifically demonstrate that telemetry layer selection functions primarily as an essential guardrail against destructive out-of-band layers.
+4. **Empirical Grounding**: Rather than claiming speculative superiority, our controlled 10-fact CounterFact evaluation run scientifically demonstrates that telemetry layer selection functions primarily as an essential guardrail against destructive out-of-band layers.
 
 ---
 
@@ -132,28 +132,41 @@ While Chen et al. introduced the visual analytics workflow, our capstone project
 
 ```
 .
+├── 2603.29689v1.pdf                    # Base paper (Chen et al., KEditVis, TVCG 2026)
 ├── EVALUATION.md                       # Comprehensive empirical evaluation & claim reconciliation
+├── LICENSE                             # MIT
 ├── README.md                           # Repository documentation (this file)
 └── prototype/
-    ├── modal_app.py                    # Production FastAPI backend deployed on Modal A100 GPU
-    ├── editing_optimizations.py        # Context-robust MEMIT, loss functions & Frobenius drift
-    ├── layer_selection.py              # Telemetry-based layer scoring and selection heuristics
+    ├── modal_app.py                    # FastAPI backend on Modal A100 (telemetry, editing, rollback)
+    ├── editing_optimizations.py        # Context-robust MEMIT objective & covariance solve
+    ├── layer_selection.py              # Static / telemetry / seeded-random layer policies
     ├── local_probe.py                  # Standalone CLI probe for local GPU/CPU inspection
-    ├── run_experiments.py              # Automated CounterFact benchmark execution pipeline
-    ├── test_backend.py                 # Core backend unittests (FastAPI routes, rollback, invariance)
-    ├── test_optimizations.py            # Optimization unittests (multi-context fitting, projections)
-    ├── test_live.py                    # Live GPU integration verification suite
-    ├── error_analysis.py               # Empirical diagnostic tool for hard/failing facts
-    ├── export_doc.py                   # Automated docx generator matching university styling
-    ├── verify_manifest.py              # Cryptographic SHA-256 verification manifest generator
+    ├── prepare_benchmark.py            # Builds the pinned CounterFact manifest
+    ├── run_experiments.py              # CounterFact benchmark pipeline + paired statistics
+    ├── analyze_schemes.py              # Signal-vs-success correlation analysis (single fact)
+    ├── analyze_batch.py                # Pooled multi-fact correlation analysis
+    ├── error_analysis.py               # Diagnostic for facts that fail under every scheme
+    ├── verify_manifest.py              # Verifies / regenerates the SHA-256 artifact manifest
+    ├── export_doc.py                   # Rewrites the abstract paragraph of a source .docx
+    ├── requirements.txt                # Local probe, test-suite and benchmark dependencies
     ├── data/
-    │   └── benchmark_manifest.json     # Standardized 10-fact CounterFact evaluation dataset
-    ├── audit/
-    │   └── evaluation/
-    │       ├── verification.json       # Cryptographic SHA-256 manifest of core artifacts
-    │       ├── summary.json            # Aggregated benchmark metrics with bootstrap 95% CIs
-    │       └── raw_results.json        # Raw per-fact execution logs
-    └── frontend/                       # Interactive React 19 visual analytics dashboard
+    │   ├── benchmark_manifest.json     # CounterFact manifest: 25 eval facts + 1 dev fact
+    │   └── facts.json                  # Demo facts for the batch sweep
+    ├── test_backend.py                 # Core backend unittests (FastAPI routes, rollback, invariance)
+    ├── test_optimizations.py           # Optimization unittests (multi-context fitting, projections)
+    ├── test_live.py                    # Live GPU A/B evaluation against the deployed backend
+    ├── test_live_backend.py            # Live GPU integration verification (ROME + MEMIT)
+    ├── OPTIMIZATION_NOTES.md           # Context-v3 design notes and measured limits
+    ├── THIRD_PARTY_NOTICES.md          # EasyEdit / MEMIT attribution
+    ├── audit/                          # Evidence trail (index: audit/README.md)
+    │   ├── README.md                   # Evidence index + frozen-build caveat
+    │   ├── evaluation/                 # verification.json, summary.json, raw_results.json
+    │   ├── development/                # CLI-run outputs behind the published correlations
+    │   ├── live/                       # Per-model live GPU request/response records
+    │   ├── optimization/               # Context-v3 development trials and browser evidence
+    │   ├── before/                     # Pre-audit source snapshot for the first-pass findings
+    │   └── references/                 # Pinned EasyEdit / AlphaEdit / AnyEdit clones (gitignored)
+    └── frontend/                       # Interactive React 18 visual analytics dashboard
         ├── src/                        # TypeScript dashboard components (D3 charts, controls)
         ├── package.json                # Frontend dependencies
         └── tests/                      # Automated browser regression suites (Puppeteer)
@@ -177,8 +190,15 @@ python -m venv .venv
 # On Linux/macOS:
 source .venv/bin/activate
 
+# torch must come from PyTorch's own wheel index, not plain PyPI
+# (CUDA 12.4 shown; substitute the CPU index if you have no NVIDIA GPU)
+pip install --index-url https://download.pytorch.org/whl/cu124 torch==2.6.0
+
+# Everything else: the local probe, the CPU test suite and the benchmark runner
 pip install -r requirements.txt
 ```
+
+`requirements.txt` deliberately omits `modal` and the pinned upstream `memit`/`rome` packages: those are only needed to deploy or run against the Modal GPU backend, and the CPU test suite does not import them.
 
 ### 2. Standalone Local Probe (Zero Cloud Dependencies)
 
@@ -215,7 +235,7 @@ cd prototype
 python -m unittest test_backend.py test_optimizations.py -v
 ```
 
-*Expected output: `Ran 22 tests in ~22s ... OK`*
+*Expected output: `Ran 38 tests in ~5s ... OK`*
 
 ### Frontend Browser Regressions (Puppeteer)
 
@@ -246,25 +266,32 @@ modal deploy modal_app.py
 
 The deployed endpoint will be output in the console and should be configured in `prototype/frontend/.env.local`:
 ```env
-VITE_API_BASE_URL=https://<your-username>--keditvis-memit-web-app.modal.run
+VITE_API_URL=https://<your-username>--keditvis-memit-web-app.modal.run
 ```
 
 ---
 
 ## Benchmarking & Reproduction
 
-To reproduce the full 10-fact CounterFact benchmark matrix across static, telemetry, arbitrary, and context-robust conditions:
+To reproduce the committed evidence set -- the first 10 evaluation facts, across static, telemetry and seeded-random selection plus the four optimization profiles:
 
 ```bash
 cd prototype
-python run_experiments.py --live
+# --num-facts 10 reproduces the committed evidence exactly; omit it to sweep all 25
+# --url defaults to the reference deployment; point it at your own Modal app
+python run_experiments.py --mode full --num-facts 10 --url https://<your-username>--keditvis-memit-web-app.modal.run
 ```
 
-To update cryptographic verification manifests:
+`--mode` accepts `smoke`, `full`, `selection`, `optimization`, or `analyze-only` (recompute statistics from an existing `audit/evaluation/raw_results.json` without any GPU calls). Live runs incur Modal GPU usage and resume from the checkpointed `raw_results.json`.
+
+To verify the SHA-256 manifest of the tracked artifacts:
 
 ```bash
-# Cryptographically verify and hash all core artifacts
+# Read-only check; exits non-zero if any tracked artifact hash is stale or missing
 python verify_manifest.py
+
+# Accept the current hashes and rewrite the manifest
+python verify_manifest.py --update
 ```
 
 ---

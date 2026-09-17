@@ -1,29 +1,190 @@
 {
-  "verified_at": "2026-09-10T16:32:03Z",
+  "verified_at": "2026-09-17T10:12:38Z",
   "project": "Interactive Visual Analytics for Human-in-the-Loop Knowledge Editing in Large Language Models",
   "institution": "Mohan Babu University, Tirupati (Batch A8-12)",
   "status": "VERIFIED_PASS",
   "benchmark_manifest_sha256": "a9e710c3c2b2b63f1c6033ab6f68458f877698e5c3dc1cb1d500698a2c3a0b51",
   "verification_checklist": {
     "residual_variance_operationalization": "Feature-wise sample variance across hidden channels Var_dim(h_l[t]) and delta variance Var_dim(h_l - h_{l-1}) implemented in local_probe.py and modal_app.py; passed scale/shift invariance tests.",
-    "frobenius_parameter_drift": "Absolute ||\u0394W||_F and relative Frobenius norm changes calculated across edited parameter tensors; integrated into edit/compare responses and visualized in frontend DriftScatterPlot.",
+    "frobenius_parameter_drift": "Absolute ||dW||_F and relative Frobenius norm changes calculated across edited parameter tensors; integrated into edit/compare responses and visualized in frontend DriftScatterPlot.",
     "transactional_rollback": "Bit-exact model weight restoration and probe signal reproduction verified across all test suites and live GPU evaluations with zero residual weight drift.",
-    "controlled_layer_selection_experiment": "Evaluated static preset [13..17] vs telemetry-guided selection vs seeded random baseline across CounterFact facts; proved random layers cause severe parameter explosion (up to 10x) while telemetry identifies stable editing bands.",
+    "controlled_layer_selection_experiment": "Evaluated static preset [13..17] vs telemetry-guided selection vs seeded random baseline across 10 CounterFact facts. Random windows raised mean relative Frobenius drift 11.3x (0.1071 vs 0.0095) and cut paraphrase generalization to 0.600, while telemetry stayed within noise of the static preset.",
     "budget_matched_algorithm_ablation": "Disentangled step budget (20 vs 40 steps) from context fitting and consistency regularization across four profiles (standard, standard_budget, context_no_consistency, context_v3).",
-    "metric_rigor": "Reported both target likelihood preference rates (ES, PS, NS) and strict greedy argmax accuracies (ES_greedy, PS_greedy, NS_greedy) using per-example neighborhood reference targets.",
+    "metric_rigor": "Reported both target likelihood preference rates (ES, PS, NS) and strict greedy argmax accuracies (ES_greedy, PS_greedy, NS_greedy) using per-example neighborhood reference targets, applied identically to pre-edit and post-edit measurements.",
     "academic_reconciliation": "Authored EVALUATION.md with rigorous claim-by-claim analysis reconciling theoretical claims with empirical benchmark findings.",
     "frontend_and_browser_testing": "TypeScript compilation, Vite production build, and all 15 Puppeteer browser test groups pass with 0 errors."
   },
+  "previous_manifest_differences": [
+    {
+      "file": "prototype/test_backend.py",
+      "status": "STALE",
+      "stored_sha256": "f95fd3b1b4f436c3abc20318c872c4a93b63cb90eb37cccef7269fa8ebda49eb",
+      "actual_sha256": "59f893d03906e8a574c166aa7ed83365ac8d520dea9d6245dfc7536d8622c343"
+    }
+  ],
+  "verification_report": [
+    {
+      "file": "EVALUATION.md",
+      "status": "MATCH",
+      "stored_sha256": "3295e3f4710f20326850d62995537c29bc11cf73531b4c0006bbdc30a47f6a0e",
+      "actual_sha256": "3295e3f4710f20326850d62995537c29bc11cf73531b4c0006bbdc30a47f6a0e"
+    },
+    {
+      "file": "README.md",
+      "status": "MATCH",
+      "stored_sha256": "7ad82f2c120adadf08dbb74952cb1361fa26553f0c1af85a9a0b73d8bd66a7dc",
+      "actual_sha256": "7ad82f2c120adadf08dbb74952cb1361fa26553f0c1af85a9a0b73d8bd66a7dc"
+    },
+    {
+      "file": "prototype/OPTIMIZATION_NOTES.md",
+      "status": "MATCH",
+      "stored_sha256": "11b6408ed86fae3973358f8a022d1c6c3b17690a07c4b0e189819f8772acefc7",
+      "actual_sha256": "11b6408ed86fae3973358f8a022d1c6c3b17690a07c4b0e189819f8772acefc7"
+    },
+    {
+      "file": "prototype/README.md",
+      "status": "MATCH",
+      "stored_sha256": "d1d65eca8feb5616a156227c99b77031c529936220d5d89cef438102433d37f9",
+      "actual_sha256": "d1d65eca8feb5616a156227c99b77031c529936220d5d89cef438102433d37f9"
+    },
+    {
+      "file": "prototype/THIRD_PARTY_NOTICES.md",
+      "status": "MATCH",
+      "stored_sha256": "604c6d829c60c003115628aba71a6a1abd8ec87e22bca800cec66bbe5f4d6830",
+      "actual_sha256": "604c6d829c60c003115628aba71a6a1abd8ec87e22bca800cec66bbe5f4d6830"
+    },
+    {
+      "file": "prototype/analyze_batch.py",
+      "status": "MATCH",
+      "stored_sha256": "b2a920974bbc845a01099c303d2ec65dec54744ef090e1542883bce763fd5a3a",
+      "actual_sha256": "b2a920974bbc845a01099c303d2ec65dec54744ef090e1542883bce763fd5a3a"
+    },
+    {
+      "file": "prototype/analyze_schemes.py",
+      "status": "MATCH",
+      "stored_sha256": "63eade373549f3725950b0a646778b4f5727d482350e5e71a2bde2c7bafddaa1",
+      "actual_sha256": "63eade373549f3725950b0a646778b4f5727d482350e5e71a2bde2c7bafddaa1"
+    },
+    {
+      "file": "prototype/audit/evaluation/raw_results.json",
+      "status": "MATCH",
+      "stored_sha256": "fdadaabdc641423299c6847b3810cea2d1e33e51fda37866d8b8524db6e98193",
+      "actual_sha256": "fdadaabdc641423299c6847b3810cea2d1e33e51fda37866d8b8524db6e98193"
+    },
+    {
+      "file": "prototype/audit/evaluation/summary.json",
+      "status": "MATCH",
+      "stored_sha256": "5b51a13f3612a90c37a811e05c7cdc0bca664af6a89832af35e6ac6de19fbf5b",
+      "actual_sha256": "5b51a13f3612a90c37a811e05c7cdc0bca664af6a89832af35e6ac6de19fbf5b"
+    },
+    {
+      "file": "prototype/data/benchmark_manifest.json",
+      "status": "MATCH",
+      "stored_sha256": "a9e710c3c2b2b63f1c6033ab6f68458f877698e5c3dc1cb1d500698a2c3a0b51",
+      "actual_sha256": "a9e710c3c2b2b63f1c6033ab6f68458f877698e5c3dc1cb1d500698a2c3a0b51"
+    },
+    {
+      "file": "prototype/editing_optimizations.py",
+      "status": "MATCH",
+      "stored_sha256": "794cceb194b0c503e57a79c17f0f18a34d1128543f0dbefbb4da2b7d2e93c34d",
+      "actual_sha256": "794cceb194b0c503e57a79c17f0f18a34d1128543f0dbefbb4da2b7d2e93c34d"
+    },
+    {
+      "file": "prototype/error_analysis.py",
+      "status": "MATCH",
+      "stored_sha256": "c8fa02e615e1407a043962dae8194a1334ac89a733bca7e793c3299ce8993a58",
+      "actual_sha256": "c8fa02e615e1407a043962dae8194a1334ac89a733bca7e793c3299ce8993a58"
+    },
+    {
+      "file": "prototype/export_doc.py",
+      "status": "MATCH",
+      "stored_sha256": "a4e6f1ec429417ae5b8c0b0038562ab085c378100771a692718ade64285f74de",
+      "actual_sha256": "a4e6f1ec429417ae5b8c0b0038562ab085c378100771a692718ade64285f74de"
+    },
+    {
+      "file": "prototype/layer_selection.py",
+      "status": "MATCH",
+      "stored_sha256": "0c725180988015210d428e06896c1c6617024f37317b818194a2ead83791e861",
+      "actual_sha256": "0c725180988015210d428e06896c1c6617024f37317b818194a2ead83791e861"
+    },
+    {
+      "file": "prototype/local_probe.py",
+      "status": "MATCH",
+      "stored_sha256": "00d61867bda2ee26df093d6c7f2d396879f471749538017167cda5e29a5a5f08",
+      "actual_sha256": "00d61867bda2ee26df093d6c7f2d396879f471749538017167cda5e29a5a5f08"
+    },
+    {
+      "file": "prototype/modal_app.py",
+      "status": "MATCH",
+      "stored_sha256": "01572fbffbd628e90a4c8e19168f93407323265e855176a6387771500964c996",
+      "actual_sha256": "01572fbffbd628e90a4c8e19168f93407323265e855176a6387771500964c996"
+    },
+    {
+      "file": "prototype/prepare_benchmark.py",
+      "status": "MATCH",
+      "stored_sha256": "460e36d5346e79c761c3e1edfa0ad3af05dc14b3be3539c82373991649ad065e",
+      "actual_sha256": "460e36d5346e79c761c3e1edfa0ad3af05dc14b3be3539c82373991649ad065e"
+    },
+    {
+      "file": "prototype/run_experiments.py",
+      "status": "MATCH",
+      "stored_sha256": "ee68967dcbe13ea489673922d4fe6bd27fec0d592653f3dd3503dbf43ecc57c2",
+      "actual_sha256": "ee68967dcbe13ea489673922d4fe6bd27fec0d592653f3dd3503dbf43ecc57c2"
+    },
+    {
+      "file": "prototype/test_backend.py",
+      "status": "STALE",
+      "stored_sha256": "f95fd3b1b4f436c3abc20318c872c4a93b63cb90eb37cccef7269fa8ebda49eb",
+      "actual_sha256": "59f893d03906e8a574c166aa7ed83365ac8d520dea9d6245dfc7536d8622c343"
+    },
+    {
+      "file": "prototype/test_live.py",
+      "status": "MATCH",
+      "stored_sha256": "cc14b0faaff60e288549c1490d47703c2d89e8fb73dbeaec45230df82985c749",
+      "actual_sha256": "cc14b0faaff60e288549c1490d47703c2d89e8fb73dbeaec45230df82985c749"
+    },
+    {
+      "file": "prototype/test_live_backend.py",
+      "status": "MATCH",
+      "stored_sha256": "598af5c5280dd2afc62133ae82c0f67a0cf4de49b490c8eeb30207685e4bffa0",
+      "actual_sha256": "598af5c5280dd2afc62133ae82c0f67a0cf4de49b490c8eeb30207685e4bffa0"
+    },
+    {
+      "file": "prototype/test_optimizations.py",
+      "status": "MATCH",
+      "stored_sha256": "10f715a2e47fafad8e26ad61d72d065cdb676cfdbbec27e929c0d6e12f6f2eb1",
+      "actual_sha256": "10f715a2e47fafad8e26ad61d72d065cdb676cfdbbec27e929c0d6e12f6f2eb1"
+    },
+    {
+      "file": "prototype/verify_manifest.py",
+      "status": "MATCH",
+      "stored_sha256": "a3d35269260015d6ca8b05cd986c5a7367b372a0e7e9acb91fb29db59c4b7748",
+      "actual_sha256": "a3d35269260015d6ca8b05cd986c5a7367b372a0e7e9acb91fb29db59c4b7748"
+    }
+  ],
   "file_sha256": {
-    "modal_app.py": "af7dcf7cf0c1a8131b0d1c0400d1a0931e04e55a3e18ca920a12107644cc683a",
-    "editing_optimizations.py": "f001e6a0c33a346b2d153326a6a5b749217516d89b0f25746ecad97dbc502bf8",
-    "layer_selection.py": "0c725180988015210d428e06896c1c6617024f37317b818194a2ead83791e861",
-    "local_probe.py": "2c48c67b4b64f371a54dcc4901b63ec57f2c9c2963f01ba6b894efd0851c458c",
-    "run_experiments.py": "23af6cb54583f9d9f064ce35aa10f72df4dfcee85aa07eb957012c413c268932",
-    "test_backend.py": "38835d612dffb292223f216665de38be7b43e38c7a1092247995455ff19cfe97",
-    "export_doc.py": "f5f60329fd8f9cc87f5b3ced77c03359393c747ae33a585ce22b7d30763f1d26",
-    "prototype\\data\\benchmark_manifest.json": "a9e710c3c2b2b63f1c6033ab6f68458f877698e5c3dc1cb1d500698a2c3a0b51",
-    "EVALUATION.md": "309cace47bc344d3a09f3f078ed213df71e0e8ffe64313aa128d62e5eb723c24",
-    "README.md": "3a74bcf09347765d79e2072f5fa943edae195c9cd3999f71cc32c9a5b75c8504"
+    "prototype/modal_app.py": "01572fbffbd628e90a4c8e19168f93407323265e855176a6387771500964c996",
+    "prototype/editing_optimizations.py": "794cceb194b0c503e57a79c17f0f18a34d1128543f0dbefbb4da2b7d2e93c34d",
+    "prototype/layer_selection.py": "0c725180988015210d428e06896c1c6617024f37317b818194a2ead83791e861",
+    "prototype/local_probe.py": "00d61867bda2ee26df093d6c7f2d396879f471749538017167cda5e29a5a5f08",
+    "prototype/run_experiments.py": "ee68967dcbe13ea489673922d4fe6bd27fec0d592653f3dd3503dbf43ecc57c2",
+    "prototype/prepare_benchmark.py": "460e36d5346e79c761c3e1edfa0ad3af05dc14b3be3539c82373991649ad065e",
+    "prototype/analyze_schemes.py": "63eade373549f3725950b0a646778b4f5727d482350e5e71a2bde2c7bafddaa1",
+    "prototype/analyze_batch.py": "b2a920974bbc845a01099c303d2ec65dec54744ef090e1542883bce763fd5a3a",
+    "prototype/error_analysis.py": "c8fa02e615e1407a043962dae8194a1334ac89a733bca7e793c3299ce8993a58",
+    "prototype/export_doc.py": "a4e6f1ec429417ae5b8c0b0038562ab085c378100771a692718ade64285f74de",
+    "prototype/verify_manifest.py": "a3d35269260015d6ca8b05cd986c5a7367b372a0e7e9acb91fb29db59c4b7748",
+    "prototype/test_backend.py": "59f893d03906e8a574c166aa7ed83365ac8d520dea9d6245dfc7536d8622c343",
+    "prototype/test_optimizations.py": "10f715a2e47fafad8e26ad61d72d065cdb676cfdbbec27e929c0d6e12f6f2eb1",
+    "prototype/test_live.py": "cc14b0faaff60e288549c1490d47703c2d89e8fb73dbeaec45230df82985c749",
+    "prototype/test_live_backend.py": "598af5c5280dd2afc62133ae82c0f67a0cf4de49b490c8eeb30207685e4bffa0",
+    "prototype/data/benchmark_manifest.json": "a9e710c3c2b2b63f1c6033ab6f68458f877698e5c3dc1cb1d500698a2c3a0b51",
+    "prototype/audit/evaluation/summary.json": "5b51a13f3612a90c37a811e05c7cdc0bca664af6a89832af35e6ac6de19fbf5b",
+    "prototype/audit/evaluation/raw_results.json": "fdadaabdc641423299c6847b3810cea2d1e33e51fda37866d8b8524db6e98193",
+    "README.md": "7ad82f2c120adadf08dbb74952cb1361fa26553f0c1af85a9a0b73d8bd66a7dc",
+    "EVALUATION.md": "3295e3f4710f20326850d62995537c29bc11cf73531b4c0006bbdc30a47f6a0e",
+    "prototype/README.md": "d1d65eca8feb5616a156227c99b77031c529936220d5d89cef438102433d37f9",
+    "prototype/OPTIMIZATION_NOTES.md": "11b6408ed86fae3973358f8a022d1c6c3b17690a07c4b0e189819f8772acefc7",
+    "prototype/THIRD_PARTY_NOTICES.md": "604c6d829c60c003115628aba71a6a1abd8ec87e22bca800cec66bbe5f4d6830"
   }
 }

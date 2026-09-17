@@ -134,13 +134,13 @@ export function CosineSimilarityChart({
           <div className="signal-tooltip" style={{ fontSize: "10px", background: "#F8FAFC", border: "1px solid #E2E8F0", padding: "4px 6px", borderRadius: "4px", color: "#1E293B" }}>
             <div><strong>Layer {hoveredLayer.layer}</strong></div>
             <div>cos_sim: {hoveredLayer.cosine_similarity.toFixed(4)} (activity: {(1 - Math.abs(hoveredLayer.cosine_similarity)).toFixed(4)})</div>
-            {hoveredLayer.residual_variance !== undefined && (
+            {hoveredLayer.residual_variance != null && (
               <div>resid_var: {hoveredLayer.residual_variance.toFixed(4)}</div>
             )}
-            {hoveredLayer.residual_delta_variance !== undefined && (
+            {hoveredLayer.residual_delta_variance != null && (
               <div>delta_var: {hoveredLayer.residual_delta_variance.toFixed(4)}</div>
             )}
-            {hoveredLayer.residual_variance_last !== undefined && (
+            {hoveredLayer.residual_variance_last != null && (
               <div>resid_var (last token): {hoveredLayer.residual_variance_last.toFixed(4)}</div>
             )}
           </div>

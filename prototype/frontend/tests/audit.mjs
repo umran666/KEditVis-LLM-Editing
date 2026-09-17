@@ -4,7 +4,12 @@ import { resolve } from "node:path";
 import puppeteer from "puppeteer";
 
 const base = process.env.AUDIT_URL ?? "http://127.0.0.1:5187";
-const out = resolve("../audit");
+// Fixture output goes to a gitignored directory by default. This suite
+// regenerates screenshots and millisecond timings on every run, which would
+// otherwise dirty tracked evidence files (audit/audit-desktop.png,
+// audit/audit-mobile.png, audit/frontend-results.json) on every invocation.
+// Set AUDIT_OUT=../audit to deliberately refresh that committed evidence.
+const out = resolve(process.env.AUDIT_OUT ?? "../audit/run");
 mkdirSync(out, { recursive: true });
 const browser = await puppeteer.launch({ headless: true, ...(existsSync("C:/Program Files/Google/Chrome/Application/chrome.exe") ? { executablePath: "C:/Program Files/Google/Chrome/Application/chrome.exe" } : {}) });
 const checks = [];

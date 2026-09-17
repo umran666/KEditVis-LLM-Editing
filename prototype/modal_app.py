@@ -244,18 +244,38 @@ def _parse_layers(spec: str) -> list[int]:
       "6,9,12"  -> [6, 9, 12]           (explicit, possibly non-contiguous list)
       "7"       -> [7]                  (single layer)
 
-    Output is always deduped + sorted (see _normalize_scheme).
+    Output is always deduped + sorted (see _normalize_scheme). Malformed specs
+    raise a ValueError naming the actual problem rather than letting int()
+    emit a bare conversion error.
     """
     spec = spec.strip()
-    if "-" in spec and "," not in spec:
-        start, end = spec.split("-")
-        start, end = int(start.strip()), int(end.strip())
+    if not spec:
+        raise ValueError("Layer spec must not be empty.")
+
+    has_range, has_list = "-" in spec, "," in spec
+    if has_range and has_list:
+        raise ValueError(
+            f"Invalid layer spec {spec!r}: cannot mix a range with a list. "
+            "Use either a range like '8-12' or a list like '6,9,12'."
+        )
+
+    if has_range:
+        parts = [part.strip() for part in spec.split("-")]
+        if len(parts) != 2 or not all(part.isdigit() for part in parts):
+            raise ValueError(
+                f"Invalid layer range {spec!r}: expected a single 'start-end' pair of integers."
+            )
+        start, end = (int(part) for part in parts)
         if start > end:
             raise ValueError(f"Invalid layer range {spec!r}: start > end")
         return list(range(start, end + 1))
-    return _normalize_scheme(
-        [int(x.strip()) for x in spec.split(",") if x.strip()]
-    )
+
+    parts = [part.strip() for part in spec.split(",") if part.strip()]
+    if not parts or not all(part.isdigit() for part in parts):
+        raise ValueError(
+            f"Invalid layer list {spec!r}: expected comma-separated non-negative integers."
+        )
+    return _normalize_scheme([int(part) for part in parts])
 
 
 def _parse_schemes(spec: str) -> list:
@@ -367,7 +387,9 @@ def _probe_layers(model, tok, prompt_filled, subject, top_k=5):
                 delta_h = resid_subj - residuals[prev_block][0, subj_idx, :]
                 resid_delta_var = float(delta_h.float().var(unbiased=True).item())
             else:
-                resid_delta_var = resid_var
+                # Layer 0 has no predecessor, so its residual delta is undefined
+                # rather than equal to its absolute variance.
+                resid_delta_var = None
 
             logits_last = lm_head(ln_f(resid_last.unsqueeze(0))).squeeze(0)
             probs_last = F.softmax(logits_last, dim=-1)
@@ -464,9 +486,19 @@ def _eval_prefix_targets(model, tok, prefixes, target_new, target_true):
 
 
 def _harmonic_mean(vals):
-    if any(v is None for v in vals):
+    """Harmonic mean of the supplied components, or None when it is undefined.
+
+    Returns None for an empty input (nothing was measured) and whenever any
+    component is None, so "not measured" never masquerades as a score.
+
+    A single zero component makes the harmonic mean exactly 0. That is the
+    correct limit, not a defect -- but it does mean the composite score S
+    collapses to 0 for any edit that fails efficacy, paraphrase or locality
+    completely, so S alone cannot rank partially-successful edits.
+    """
+    if not vals or any(v is None for v in vals):
         return None
-    if not vals or any(v <= 0 for v in vals):
+    if any(v <= 0 for v in vals):
         return 0.0
     return len(vals) / sum(1.0 / v for v in vals)
 
@@ -610,6 +642,13 @@ def _hidden_states(model, tok, prompts, layers):
     return {layer: torch.stack(values) for layer, values in captured.items() if values}
 
 
+# Below this many points a joint t-SNE is not a meaningful embedding: sklearn
+# would run with perplexity ~1 and produce an effectively arbitrary layout, which
+# the UI would still label as a real projection. The deterministic PCA path is
+# used instead so the plot is honest about being a small-sample fallback.
+MIN_TSNE_SAMPLES = 6
+
+
 def _project_drift(before, after):
     """Joint t-SNE gives pre/post points one coordinate system; L2 stays in hidden space."""
     import numpy as np
@@ -621,7 +660,7 @@ def _project_drift(before, after):
     values = torch.cat([before, after]).float().cpu().numpy()
     if not np.isfinite(values).all():
         raise ValueError("Drift embeddings contain non-finite values.")
-    if len(values) < 3 or np.allclose(values, values[0]):
+    if len(values) < MIN_TSNE_SAMPLES or np.allclose(values, values[0]):
         centered = values - values.mean(axis=0)
         u, singular, _ = np.linalg.svd(centered, full_matrices=False)
         projected = np.zeros((len(values), 2))
@@ -717,10 +756,12 @@ def _kl_divergence(lp_edited, lp_orig):
     KL = sum_v p_e(v) * (log p_e(v) - log p_o(v)). Individual summands
     may be negative; the full distribution's divergence is non-negative.
     """
-    assert len(lp_edited) == len(lp_orig), "edited/orig logprob lists must align"
+    if len(lp_edited) != len(lp_orig):
+        raise ValueError("edited/orig logprob lists must align")
     total, count = 0.0, 0
     for e, o in zip(lp_edited, lp_orig):
-        assert e.shape == o.shape, "edited/orig logprob shapes must align"
+        if e.shape != o.shape:
+            raise ValueError("edited/orig logprob shapes must align")
         kl_per_pos = ((e.exp() * (e - o)).sum(dim=-1)).double()
         total += float(kl_per_pos.sum())
         count += int(kl_per_pos.numel())
@@ -986,7 +1027,7 @@ def batch_compare_schemes(
 
     `facts` is a list of dicts, each with keys: prompt, subject, target_new,
     target_true (optional -- metrics skipped if absent), paraphrase_prompts
-    (optional list), neighborhood_prompts (optional list). See facts.json
+    (optional list), neighborhood_prompts (optional list). See data/facts.json
     for the reference format.
     """
     import os
@@ -1088,15 +1129,27 @@ def batch_compare_schemes(
     return {"facts": fact_results}
 
 
+def _write_json(path: str, payload) -> str:
+    """Writes JSON, creating the parent directory if the evidence tree is absent."""
+    import os
+
+    parent = os.path.dirname(path)
+    if parent:
+        os.makedirs(parent, exist_ok=True)
+    with open(path, "w") as f:
+        json.dump(payload, f, indent=2)
+    return path
+
+
 @app.local_entrypoint()
 def batch(
-    facts_file: str = "facts.json",
+    facts_file: str = "data/facts.json",
     schemes: str = "13-17|8-12|6-8|20-21",
     model_name: str = "gpt2-xl",
-    out: str = "batch_comparison.json",
+    out: str = "audit/development/batch_comparison.json",
 ):
     """
-    Sweeps every fact in `facts_file` (see facts.json for the format)
+    Sweeps every fact in `facts_file` (see data/facts.json for the format)
     across every scheme in `schemes`, in a single Modal container.
 
     Usage:
@@ -1116,8 +1169,7 @@ def batch(
         facts=facts, schemes=parsed_schemes, model_name=model_name,
     )
 
-    with open(out, "w") as f:
-        json.dump(result, f, indent=2)
+    _write_json(out, result)
     print(f"\nSaved full batch results to {out}")
 
     def f(x):
@@ -1150,7 +1202,7 @@ def main(
         "The Louvre Museum is located in the city of;"
         "Notre-Dame Cathedral is located in the city of"
     ),
-    out: str = "memit_result.json",
+    out: str = "audit/development/memit_result.json",
 ):
     generation_prompts = [
         prompt.format(subject),
@@ -1183,8 +1235,7 @@ def main(
         neighborhood_prompts=parsed_neighborhood,
     )
 
-    with open(out, "w") as f:
-        json.dump(result, f, indent=2)
+    _write_json(out, result)
 
     print(f"\nSaved full result to {out}\n")
     print("=== Pre-edit generations ===")
@@ -1226,7 +1277,7 @@ def compare(
         "The Louvre Museum is located in the city of;"
         "Notre-Dame Cathedral is located in the city of"
     ),
-    out: str = "scheme_comparison.json",
+    out: str = "audit/development/scheme_comparison.json",
 ):
     """
     Compares multiple layer-selection schemes for the same fact in a single
@@ -1254,8 +1305,7 @@ def compare(
         model_name=model_name,
     )
 
-    with open(out, "w") as f:
-        json.dump(result, f, indent=2)
+    _write_json(out, result)
     print(f"\nSaved full comparison to {out}\n")
 
     def f(x):
@@ -1339,6 +1389,7 @@ def web_app():
 
     from memit import MEMITHyperParams, apply_memit_to_model
     from rome import ROMEHyperParams, apply_rome_to_model
+    from editing_optimizations import OPTIMIZATION_PROFILES
     generate_fast = _generate_text
 
     import torch
@@ -1496,11 +1547,14 @@ def web_app():
             )
 
     def optimization_config(profile):
-        from editing_optimizations import OPTIMIZATION_PROFILES
-        if profile in OPTIMIZATION_PROFILES:
-            return dict(OPTIMIZATION_PROFILES[profile])
+        # "standard" is upstream MEMIT, so report the pinned commit it runs
+        # against rather than the profile-table label. This branch must be
+        # checked first: "standard" is itself a key in OPTIMIZATION_PROFILES,
+        # so a dict lookup first would make it unreachable.
         if profile == "standard":
             return {"revision": MEMIT_COMMIT}
+        if profile in OPTIMIZATION_PROFILES:
+            return dict(OPTIMIZATION_PROFILES[profile])
         return {"revision": str(profile)}
 
     web = FastAPI(title="KEditVis API")
@@ -1521,7 +1575,9 @@ def web_app():
             "n_layers": m.config.n_layer,
             "methods": SUPPORTED_METHODS,
             "editing_commit": MEMIT_COMMIT,
-            "memit_optimizations": ["standard", "standard_budget", "context_no_consistency", "context"],
+            # Derived from the profile table so this list can never drift from
+            # the optimization values the request models actually accept.
+            "memit_optimizations": list(OPTIMIZATION_PROFILES),
         }
 
     @web.post("/probe")
@@ -1560,10 +1616,14 @@ def web_app():
 
         pre_signals = _probe_layers(model, tok, rewrite_prompt, body.subject)
         pre_text = generate_fast(model, tok, generation_prompts, max_out_len=80)
+        # Pre-edit metrics must use the same per-example neighborhood targets as
+        # the post-edit ones, otherwise pre/post NS are computed against
+        # different reference strings and cannot be compared.
         pre_metrics = (
             _evaluate_edit(
                 model, tok, body.prompt, body.subject, body.target_new,
                 body.target_true, body.paraphrase_prompts, body.neighborhood_prompts,
+                neighborhood_targets=body.neighborhood_targets,
             )
             if body.target_true else None
         )
@@ -1650,10 +1710,12 @@ def web_app():
         damage_prompts = body.damage_prompts or DAMAGE_REF_PROMPTS
 
         baseline_signals = _probe_layers(model, tok, rewrite_prompt, body.subject)
+        # Same neighborhood-target convention as the per-scheme metrics below.
         baseline_metrics = (
             _evaluate_edit(
                 model, tok, body.prompt, body.subject, body.target_new,
                 body.target_true, body.paraphrase_prompts, body.neighborhood_prompts,
+                neighborhood_targets=body.neighborhood_targets,
             )
             if body.target_true else None
         )
