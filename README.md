@@ -5,7 +5,7 @@
 [![PyTorch: 2.6](https://img.shields.io/badge/PyTorch-2.6-ee4c2c.svg)](https://pytorch.org/)
 [![React: 18](https://img.shields.io/badge/React-18-61dafb.svg)](https://react.dev/)
 [![Modal: A100](https://img.shields.io/badge/Cloud%20GPU-NVIDIA%20A100--40GB-76b900.svg)](https://modal.com/)
-[![Status: Verified Pass](https://img.shields.io/badge/Evaluation-100%25%20Verified%20Pass-brightgreen.svg)](EVALUATION.md)
+[![Evaluation: Historical Pilot](https://img.shields.io/badge/Evaluation-Historical%20Pilot-blue.svg)](EVALUATION.md)
 
 *Grounded in human-in-the-loop visual analytics for autoregressive Transformer editing.*
 
@@ -35,13 +35,13 @@ W_{\text{new}} = W_0 + \Delta W
 ```
 
 ### The Problem with Static Presets
-Production editing pipelines typically rely on rigid, model-wide layer presets (e.g., layers [13..17] for GPT-2-XL, layers [3..7] for GPT-J-6B). However, factual representations do not localize identically across different entities and semantic categories:
-- **Mislocated Edits**: Editing outside the factual storage locus fails to generalize or destroys model coherence.
-- **Parameter Explosion**: Unconstrained random layer selection induces up to **11.3x higher relative Frobenius parameter drift** (`||ΔW||_F / ||W_0||_F`), destabilizing nearby knowledge.
-- **Paraphrase Fragility**: Standard single-context MEMIT often succeeds on the literal target prompt but fails under varied phrasing.
+The supported upstream MEMIT presets are layers [13..17] for GPT-2-XL and [3..8] for GPT-J-6B. The prototype allows alternative selections so users can compare their measured outcomes:
+- **Selection tradeoffs**: Different windows can produce different efficacy, paraphrase, locality, and rewrite-tensor changes.
+- **Observed parameter change**: In the historical ten-fact pilot, seeded random windows had **11.3x higher mean relative rewrite-tensor change** than the static preset. This descriptive ratio does not establish catastrophic behavioral damage.
+- **Paraphrase fragility**: An edit can favor the requested answer on its original prompt while failing on another wording.
 
 ### The KEditVis Solution
-**KEditVis** is an end-to-end interactive visual analytics system that integrates human domain judgment directly into the editing loop. By extracting layer-wise residual variance `Var_dim(h_l[t])`, directional cosine similarity dips, and logit-lens vocabulary projections in real time, KEditVis guides practitioners to stable layer bands, monitors parameter drift, and provides instantaneous, zero-drift transactional rollback.
+**KEditVis** provides interactive layer selection, diagnostic residual variance `Var_dim(h_l[t])`, MLP cosine similarity, and logit-lens vocabulary projections. Users can compare editing outcomes and selected rewrite-tensor changes. The automatic selector uses cosine activity; residual variance is a separate diagnostic. Snapshot restoration is verified for the tested supported workflows.
 
 ---
 
@@ -50,7 +50,7 @@ Production editing pipelines typically rely on rigid, model-wide layer presets (
 ```
                       +------------------------------------------+
                       |         KEditVis React Dashboard         |
-                      |   (Vite + TailwindCSS + D3.js Visuals)   |
+                      |   (Vite + CSS + D3.js Visuals)           |
                       +---------------------+--------------------+
                                             |
                                             | REST API (HTTP / JSON)
@@ -73,13 +73,13 @@ Production editing pipelines typically rely on rigid, model-wide layer presets (
 ```
 
 ### Coordinated Visual Interfaces
-1. **Layer Telemetry Strip**: Displays layer-by-layer residual variance and cosine similarity dips across subject tokens, pinpointing the critical information-processing layers.
-2. **Multi-Context Vocabulary Projections**: Traces top-1 greedy token predictions across all layers via unembedding matrix projection (`h_l · W_U`).
+1. **Layer Telemetry Strip**: Displays layer-by-layer residual variance and MLP cosine similarity at the subject token. These are diagnostic signals, not a causal localization of factual storage.
+2. **Vocabulary Projections**: Traces top-five intermediate logit-lens probabilities at subject and last-token positions; these are distinct from full-model autoregressive decoding.
 3. **Multi-Metric Comparative Workspace**: Evaluates candidate layer selections and optimization profiles side-by-side across:
    - **Efficacy Score (ES)**: Preference probability `P(target) > P(original)`.
    - **Paraphrase Score (PS)**: Generalization across unseen rephrasings.
    - **Neighborhood Score (NS)**: Locality preservation on unedited sibling subjects.
-4. **Frobenius Parameter Drift & KL Scatter**: Plots tensor weight deviation (`||ΔW||_F`) against hidden state representation divergence (`D_KL`), detecting localized over-fitting before committing changes.
+4. **Drift Measurements**: Shows selected rewrite-tensor Frobenius changes, hidden-state L2, output-distribution KL, and joint pre/post hidden-state projections. These quantities measure different changes and are labeled separately.
 
 ---
 
@@ -91,13 +91,15 @@ Controlled paired evaluations across the first 10 facts of the **CounterFact** m
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: |
 | **Static Preset (MEMIT)** | `[13..17]` | 0.800 | 0.850 | 0.733 | **0.631** | **0.0095** |
 | **Telemetry-Guided** | per-fact window | 0.800 | 0.800 | 0.733 | 0.621 | 0.0097 |
-| **Seeded Random** | per-fact window | **1.000** | 0.600 | 0.733 | 0.544 | **0.1071** *(11.3x explosion)* |
-| **Context-Robust MEMIT** | `[13..17]` | **1.000** | **0.900** | 0.700 | **0.756** | 0.0169 *(+77.9% budget)* |
+| **Seeded Random** | per-fact window | **1.000** | 0.600 | 0.733 | 0.544 | **0.1071** *(11.3x static mean)* |
+| **Context-Robust MEMIT** | `[13..17]` | **1.000** | **0.900** | 0.700 | **0.756** | 0.0169 *(+77.9% relative change)* |
 
 ### Insights
-- **Telemetry Layer Selection Acts as a Critical Safety Filter**: While heuristic telemetry selection achieves parity with the static preset (S = 0.621 vs 0.631, p = 0.343), its primary function is preventing catastrophic failure bands. Seeded-random layer selection causes an **11.3x explosion in mean parameter drift** (Rel-Frob = 0.1071) and cuts paraphrase generalization to PS = 0.600. Note the random arm also scores the *highest* raw efficacy (ES = 1.000), so drift and generalization—not efficacy alone—are what separate the policies.
-- **Context-Robust MEMIT Rescues Fragile Edits**: Expanding the latent update budget (40 steps, clamp 1.5) and applying multi-context fitting raises efficacy from 0.800 to 1.000, paraphrase generalization from 0.850 to 0.900, and the composite score from 0.631 to 0.756, successfully resolving previously impossible hard edits (e.g., *Wellington → Sheffield*, PS 0.0 → 0.5). It costs +77.9% relative parameter drift (0.0169 vs 0.0095).
-- **Transactional Rollback Guarantees Safe Exploration**: In-memory transactional weight snapshots guarantee 0.000 residual weight drift upon rollback, verified across all tests and live runs.
+- **Layer-selection evidence**: Telemetry scored S = 0.621 versus static S = 0.631 (paired t-test p = 0.343). This does not establish equivalence, superiority, or prevention of catastrophic failure. Random windows had higher mean selected-tensor change and lower paraphrase scores on this small set.
+- **Optimization-profile evidence**: Context profiles reached ES = 1.000, PS = 0.900, and S = 0.756, but the matched standard profile reached the same aggregate behavioral scores. The incremental benefit of per-context fitting and consistency remains unresolved. Selected-tensor change increased by approximately 77.9% relative to the original standard profile.
+- **Restoration evidence**: Independent weight snapshots reproduced baseline weights and probes in tested success and failure paths. This is limited to the supported, checked edits.
+
+The stored results were produced before the optimizer-step correction and later validation fixes. They remain historical evidence; current code has not regenerated this GPU matrix. See [`prototype/audit/README.md`](prototype/audit/README.md).
 
 ---
 
@@ -106,25 +108,25 @@ Controlled paired evaluations across the first 10 facts of the **CounterFact** m
 The theoretical foundation of this project originates from the base paper:  
 *Z. Chen et al., "KEditVis: A Visual Analytics System for Knowledge Editing of Large Language Models," IEEE Transactions on Visualization and Computer Graphics (TVCG), vol. 32, no. 6, pp. 4818–4828, June 2026 ([arXiv:2603.29689v1](2603.29689v1.pdf)).*
 
-While Chen et al. introduced the visual analytics workflow, our capstone project extends their theoretical design into an operational, mathematically validated, and open-source full-stack platform. Below are the core technical, algorithmic, and empirical differences:
+This repository implements a visual editing workflow informed by the base paper. The table summarizes the local implementation; it does not establish that the original authors lacked equivalent features or code.
 
 | Dimension | Base Paper (`2603.29689v1.pdf`) | Our Implemented System (`KEditVis`) |
 | :--- | :--- | :--- |
-| **Code Availability & Reproduction** | Theoretical academic publication. Full interactive dashboard and backend were **unreleased / proprietary**. | **Complete production open-source system**: React 18 + Vite frontend, FastAPI backend on NVIDIA A100 GPU, automated test suites, and standalone CLI probe. |
+| **Code Availability & Reproduction** | Research publication cited as the design reference. | Open-source prototype: React 18 + Vite frontend, FastAPI backend, automated test suites, and standalone CLI probe. |
 | **Telemetry Signals** | **Cosine similarity only** (`cos(x_in, x_out)`) and logit-lens token ranks. | **Cosine similarity + Layer-wise Residual Variance** (`Var_dim(h_l[t])` and delta variance `Var_dim(h_l - h_{l-1})`) with interactive signal switching. |
 | **Editing Algorithms** | Standard ROME and standard MEMIT only. | Standard ROME, standard MEMIT, and **Context-Robust MEMIT** (multi-context fitting, consistency loss, expanded update budget). |
-| **Paraphrase Generalization** | Fragile under standard MEMIT. If an edit fails generalization, user must hunt for different layers. | **Context MEMIT rescues fragile edits**: mean paraphrase generalization rises from 0.850 to 0.900 across the 10-fact evaluation run, and from 1/5 to 4/5 on the reported Eiffel Tower phrasing set (including hard facts like *Wellington → Sheffield*, PS 0.0 → 0.5). |
-| **Drift & Safety Measurement** | Relied purely on **stochastic 2D t-SNE plots** for "global impact" (qualitative, visual only). | **Exact Frobenius norm parameter drift** (‖ΔW‖_F, relative drift) + hidden-state L2 distance and KL divergence on a quantitative scatter plot. |
-| **Transactional Rollback** | Conceptual concept; no concrete state-management or memory guarantees specified. | **Bit-exact in-memory weight snapshots** guaranteeing verified **0.000 residual parameter drift** upon rollback. |
-| **Empirical Discovery** | Implied that dynamic/human layer selection consistently beats fixed presets. | **Scientific Reality Reconciled**: Telemetry acts as a **safety filter** preventing catastrophic failure (11.3x parameter explosion on random layers), achieving parity with static presets (S = 0.621 vs 0.631). |
-| **Diagnostic Diagnostics** | No root-cause analysis for facts that fail under every layer scheme. | Implemented [`prototype/error_analysis.py`](prototype/error_analysis.py) proving *Windows → Apple* fails due to flat subject representations (mean abs(cos) = 0.762). |
+| **Paraphrase Generalization** | Editing generalization is an evaluation concern. | Historical profile comparisons include the five-phrasing Eiffel Tower case; matched optimization settings are needed to attribute gains. |
+| **Drift Measurement** | Hidden-state visualization informs the local design. | Selected rewrite-tensor Frobenius changes, hidden-state L2, output KL, and joint hidden-state projections. |
+| **Transactional Rollback** | Not independently audited here. | Independent CPU snapshots restored weights in tested success and failure paths. |
+| **Empirical Comparison** | No comparative claim about the paper's conclusions is established here. | Ten-fact pilot did not establish telemetry superiority over static presets. |
+| **Diagnostics** | Not independently audited here. | [`prototype/error_analysis.py`](prototype/error_analysis.py) reports descriptive profiles; it does not establish a cause of edit failure. |
 
 ### Key Architectural Extensions
 
-1. **Residual Variance Operationalization**: The base paper measured layer activity exclusively through cosine similarity between MLP inputs and outputs. Our implementation operationalized feature-wise hidden channel variance `Var_dim(h_l[t])` and delta variance `Var_dim(h_l - h_{l-1})`, providing mathematically sound, scale/shift-invariant signals with interactive toggle controls in the UI.
+1. **Residual Variance Operationalization**: The implementation measures feature-wise hidden channel variance `Var_dim(h_l[t])` and delta variance `Var_dim(h_l - h_{l-1})`. Variance is shift invariant and scales quadratically with activation scale; it is separate from the cosine selector.
 2. **Context-Robust Optimization**: To address single-context MEMIT brittleness, we engineered a local CORE-inspired multi-context optimization engine in `editing_optimizations.py` that fits across multiple diverse prefixes and applies consistency regularization.
-3. **Rigorous Parameter Drift Quantification**: While the paper relied on stochastic t-SNE projections that mask weight matrix destruction, our system computes exact tensor Frobenius norms (`||ΔW||_F`), proving that unconstrained layer selection causes an 11.3x explosion in parameter corruption.
-4. **Empirical Grounding**: Rather than claiming speculative superiority, our controlled 10-fact CounterFact evaluation run scientifically demonstrates that telemetry layer selection functions primarily as an essential guardrail against destructive out-of-band layers.
+3. **Parameter Change Quantification**: Frobenius norms measure changes to the selected rewrite tensors. A larger norm alone does not prove behavioral damage or whole-model instability.
+4. **Empirical Grounding**: The ten-fact CounterFact pilot supports descriptive paired comparisons. Wider generalization and the mechanism responsible for any improvement require further evidence.
 
 ---
 
@@ -246,7 +248,7 @@ cd prototype/frontend
 node tests/audit.mjs
 ```
 
-*Expected output: All 15 browser test groups passed with 0 errors.*
+*Current fixture coverage: 23 browser test groups, with zero runtime errors. These fixtures do not execute GPU edits.*
 
 ---
 
@@ -273,33 +275,42 @@ VITE_API_URL=https://<your-username>--keditvis-memit-web-app.modal.run
 
 ## Benchmarking & Reproduction
 
-To reproduce the committed evidence set -- the first 10 evaluation facts, across static, telemetry and seeded-random selection plus the four optimization profiles:
+To run the same ten-fact evaluation matrix with current code, across static, telemetry, seeded-random selection and four optimization profiles:
 
 ```bash
 cd prototype
-# --num-facts 10 reproduces the committed evidence exactly; omit it to sweep all 25
+# --num-facts 10 selects the historical subset; omit it to sweep all 25
 # --url defaults to the reference deployment; point it at your own Modal app
-python run_experiments.py --mode full --num-facts 10 --url https://<your-username>--keditvis-memit-web-app.modal.run
+python run_experiments.py --mode full --num-facts 10 --output-dir audit/run/current-evaluation --url https://<your-username>--keditvis-memit-web-app.modal.run
 ```
 
-`--mode` accepts `smoke`, `full`, `selection`, `optimization`, or `analyze-only` (recompute statistics from an existing `audit/evaluation/raw_results.json` without any GPU calls). Live runs incur Modal GPU usage and resume from the checkpointed `raw_results.json`.
+`--mode` accepts `smoke`, `full`, `selection`, `optimization`, or `analyze-only`. Smoke uses development facts. Live runs incur Modal GPU usage and resume only when the model, dataset, selected facts, driver, and deployed source identity match the checkpoint. Redeploy the updated backend before running this driver; health must provide its actual source hashes. Current results may differ from the historical build.
+
+Derive current statistics from preserved measurements without GPU calls:
+
+```bash
+python run_experiments.py --mode analyze-only --raw-results audit/evaluation/raw_results.json --output-dir audit/run/evaluation-reanalysis
+```
 
 To verify the SHA-256 manifest of the tracked artifacts:
 
 ```bash
-# Read-only check; exits non-zero if any tracked artifact hash is stale or missing
-python verify_manifest.py
-
-# Accept the current hashes and rewrite the manifest
+# Refresh a file-hash snapshot; this does not certify tests or GPU experiments
 python verify_manifest.py --update
+
+# Read-only check of the refreshed snapshot
+python verify_manifest.py --manifest audit/run/hash_snapshot.json
 ```
+
+The default read-only command compares against the preserved historical manifest;
+source mismatches are expected after these fixes.
 
 ---
 
 ## Academic Reconciliation
 
 The initial project proposal set ambitious benchmarks for automated layer selection. Through rigorous empirical testing on real A100 hardware, our findings provide a more nuanced, scientifically honest contribution:
-- Rather than outperforming optimized static baselines across every single metric, **telemetry-guided selection operates as a robust guardrail**, preventing the catastrophic drift and failure modes caused by arbitrary layer choice.
+- Telemetry-guided selection supports inspectable comparisons. The ten-fact pilot does not establish superiority over the static preset, prevention of catastrophic failures, or global drift minimization.
 - For complete claim-by-claim analysis, bootstrap confidence intervals, and failure case diagnostics, see [`EVALUATION.md`](EVALUATION.md).
 
 ---

@@ -1,9 +1,11 @@
 import assert from "node:assert/strict";
 import { existsSync, mkdirSync, writeFileSync } from "node:fs";
 import { resolve } from "node:path";
+import { fileURLToPath } from "node:url";
 import puppeteer from "puppeteer";
 
-const out = resolve("../audit/live/browser");
+// Preserve historical evidence unless AUDIT_OUT explicitly requests a refresh.
+const out = resolve(process.env.AUDIT_OUT ?? fileURLToPath(new URL("../../audit/run/live/browser/", import.meta.url)));
 mkdirSync(out, { recursive: true });
 const browser = await puppeteer.launch({ headless: true, ...(existsSync("C:/Program Files/Google/Chrome/Application/chrome.exe") ? { executablePath: "C:/Program Files/Google/Chrome/Application/chrome.exe" } : {}) });
 const checks = [], errors = [];

@@ -41,6 +41,9 @@ export const FactForm: React.FC<Props> = ({
   const [neighborhoodText, setNeighborhoodText] = useState(() =>
     joinLines(value.neighborhood_prompts),
   );
+  const [neighborhoodTargetText, setNeighborhoodTargetText] = useState(() =>
+    joinLines(value.neighborhood_targets ?? []),
+  );
 
   // `useState` initialisers only run on mount, so if the parent replaces the fact
   // the textareas would keep showing the previous prompts while the submitted
@@ -49,6 +52,7 @@ export const FactForm: React.FC<Props> = ({
   // lines, trailing newline) is not clobbered by the splitLines round-trip.
   const incomingParaphrases = joinLines(value.paraphrase_prompts);
   const incomingNeighborhoods = joinLines(value.neighborhood_prompts);
+  const incomingNeighborhoodTargets = joinLines(value.neighborhood_targets ?? []);
   useEffect(() => {
     setParaphraseText((current) =>
       splitLines(current).join("\n") === splitLines(incomingParaphrases).join("\n")
@@ -63,6 +67,13 @@ export const FactForm: React.FC<Props> = ({
         : incomingNeighborhoods,
     );
   }, [incomingNeighborhoods]);
+  useEffect(() => {
+    setNeighborhoodTargetText((current) =>
+      splitLines(current).join("\n") === splitLines(incomingNeighborhoodTargets).join("\n")
+        ? current
+        : incomingNeighborhoodTargets,
+    );
+  }, [incomingNeighborhoodTargets]);
 
   const filledPrompt = value.prompt.includes("{}")
     ? value.prompt.replace("{}", value.subject)
@@ -183,6 +194,21 @@ export const FactForm: React.FC<Props> = ({
                 onChange={(e) => {
                   setNeighborhoodText(e.target.value);
                   set("neighborhood_prompts", splitLines(e.target.value));
+                }}
+              />
+            </label>
+            <label>
+              Neighborhood answers (one per prompt)
+              <textarea
+                aria-label="Neighborhood answers"
+                rows={2}
+                value={neighborhoodTargetText}
+                disabled={disabled}
+                placeholder={`Default: ${value.target_true || "original answer"}`}
+                onChange={(e) => {
+                  setNeighborhoodTargetText(e.target.value);
+                  const targets = splitLines(e.target.value);
+                  set("neighborhood_targets", targets.length ? targets : undefined);
                 }}
               />
             </label>

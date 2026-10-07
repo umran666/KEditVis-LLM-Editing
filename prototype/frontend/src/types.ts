@@ -76,22 +76,8 @@ export interface FactInput {
   target_true: string;
   paraphrase_prompts: string[];
   neighborhood_prompts: string[];
-}
-
-
-export interface DamageReport {
-  kl_divergence: number;
-  n_prompts: number;
-  note: string;
-}
-
-export interface FactInput {
-  prompt: string;
-  subject: string;
-  target_new: string;
-  target_true: string;
-  paraphrase_prompts: string[];
-  neighborhood_prompts: string[];
+  /** One original answer per neighborhood prompt; omitted uses target_true. */
+  neighborhood_targets?: string[];
 }
 
 /** MEMIT optimization profiles accepted by the backend. */

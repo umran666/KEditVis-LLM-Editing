@@ -12,7 +12,7 @@ import { SchemeComparisonTable } from "./components/SchemeComparisonTable";
 import { TokenRankingChart } from "./components/TokenRankingChart";
 import { WireframeLinker } from "./components/WireframeLinker";
 import type { CompareResponse, EditResponse, LayerSignal, OptimizationProfile } from "./types";
-import { comparisonSchemes, schemeKey, sortSchemes } from "./schemes";
+import { comparisonSchemes, recommendLayers, schemeKey, sortSchemes } from "./schemes";
 import "./App.css";
 
 export default function App() {
@@ -68,7 +68,8 @@ export default function App() {
     setMethod(next);
     setSelectedLayers((prev) => {
       const start = prev[0] ?? (modelName === "gpt2-xl" ? 13 : 5);
-      return next === "rome" ? [start] : Array.from({ length: Math.min(5, nLayers - start) }, (_, i) => start + i);
+      const count = modelName === "gpt2-xl" ? 5 : 6;
+      return next === "rome" ? [start] : Array.from({ length: Math.min(count, nLayers - start) }, (_, i) => start + i);
     });
   };
 
@@ -132,6 +133,7 @@ export default function App() {
   const selectedScheme = compareResult?.schemes.find((s) => schemeKey(s.layers) === selectedSchemeKey);
   const postSignals = editResult?.post_edit.layer_signals ?? selectedScheme?.layer_signals;
   const selectScheme = (key: string, layers: number[]) => {
+    if (loading) return;
     setSelectedSchemeKey(key);
     setSelectedLayers(method === "rome" ? layers.slice(0, 1) : layers);
   };
@@ -169,6 +171,9 @@ export default function App() {
     setLoading(true);
     setError(null);
     setElapsed(0);
+    setEditResult(null);
+    setCompareResult(null);
+    setSelectedSchemeKey(null);
     try {
       const res = await api.edit({ ...fact, layers: selectedLayers, method, model: targetModel, optimization: method === "memit" ? optimization : "standard" });
       if (reqId === activeRequestId.current && activeModelRef.current === targetModel) {
@@ -210,6 +215,9 @@ export default function App() {
     setLoading(true);
     setError(null);
     setElapsed(0);
+    setEditResult(null);
+    setCompareResult(null);
+    setSelectedSchemeKey(null);
     try {
       const schemes = comparisonSchemes(parseSchemesText(schemesText, nLayers - 1), method, nLayers);
       if (schemes.length === 0) throw new Error("Add at least one scheme.");
@@ -236,41 +244,13 @@ export default function App() {
   const handleRecommend = useCallback(async () => {
     const recommendationSignals = signals.length ? signals : await runProbe();
     if (!recommendationSignals?.length) return;
-    if (method === "rome") {
-      let minL = 0;
-      let minVal = Infinity;
-      recommendationSignals.forEach((s) => {
-        const v = Math.abs(s.cosine_similarity);
-        if (v < minVal) {
-          minVal = v;
-          minL = s.layer;
-        }
-      });
-      setSelectedLayers([minL]);
-      return;
-    }
-    // Window sizes mirror layer_selection.py (K=5 for GPT-2-XL, K=6 for GPT-J).
-    // Layers are looked up by their `layer` field, matching the ROME branch above
-    // and the backend policy, rather than assuming the array is index-addressable.
-    const windowSize = modelName === "gpt2-xl" ? 5 : 6;
-    const cosByLayer = new Map(recommendationSignals.map((s) => [s.layer, Math.abs(s.cosine_similarity)]));
-    let bestStart = 0;
-    let minScore = Infinity;
-    for (let start = 0; start <= nLayers - windowSize; start++) {
-      let sum = 0;
-      for (let offset = 0; offset < windowSize; offset++) {
-        sum += cosByLayer.get(start + offset) ?? 1;
-      }
-      if (sum < minScore) {
-        minScore = sum;
-        bestStart = start;
-      }
-    }
-    setSelectedLayers(Array.from({ length: windowSize }, (_, k) => bestStart + k));
-  }, [signals, method, nLayers, modelName, runProbe]);
+    try { setSelectedLayers(recommendLayers(recommendationSignals, method, nLayers)); }
+    catch (e) { setError(e instanceof Error ? e.message : "Recommendation failed"); }
+  }, [signals, method, nLayers, runProbe]);
 
   // Memoized layer click handler
   const handleLayerClick = useCallback((layer: number) => {
+    if (loading) return;
     if (!Number.isInteger(layer) || layer < 0 || layer >= nLayers) return;
     setSelectedLayers((prev) => {
       if (method === "rome") {
@@ -280,7 +260,7 @@ export default function App() {
         ? prev.filter((l) => l !== layer)
         : [...prev, layer].sort((a, b) => a - b);
     });
-  }, [method, nLayers]);
+  }, [method, nLayers, loading]);
 
   const selectedLayerLabel = useMemo(() => {
     if (selectedLayers.length === 0) return "None";
@@ -355,8 +335,7 @@ export default function App() {
               type="button"
               className="btn-action"
               onClick={() => {
-                setEditResult(null);
-                setCompareResult(null);
+                invalidate();
                 runProbe();
               }}
               disabled={loading}
@@ -483,6 +462,7 @@ export default function App() {
                         onChange={setSelectedLayers}
                         signals={signals}
                         method={method}
+                        disabled={loading}
                       />
                     </div>
                   </div>
@@ -525,6 +505,7 @@ export default function App() {
               targetTrue={fact.target_true}
               paraphrasePrompts={fact.paraphrase_prompts}
               neighborhoodPrompts={fact.neighborhood_prompts}
+              neighborhoodTargets={fact.neighborhood_targets}
               generations={editResult ? editResult.post_edit.generations : selectedScheme ? [selectedScheme.generation] : []}
               metrics={editResult ? editResult.post_edit.metrics : selectedScheme?.metrics}
             />

@@ -1,10 +1,11 @@
-import { readFileSync, writeFileSync, readdirSync, existsSync } from "node:fs";
+import { readFileSync, writeFileSync, readdirSync, existsSync, mkdirSync } from "node:fs";
 import { resolve, relative, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { createHash } from "node:crypto";
 
 const directory = dirname(fileURLToPath(import.meta.url));
 const prototype = resolve(directory, "..");
+const output = resolve(directory, "run");
 const read = (path) => readFileSync(path, "utf8").replace(/^\uFEFF/, "").replaceAll("\r\n", "\n");
 const f = (name) => `frontend/src/${name}`;
 const c = (name) => f(`components/${name}.tsx`);
@@ -159,6 +160,19 @@ for (const [index, path] of changed.entries()) {
   const language = name.endsWith(".py") ? "python" : name.endsWith(".tsx") ? "tsx" : name.endsWith(".css") ? "css" : "typescript";
   report += `<a id="${codeAnchors.get(name)}"></a>\n\n### ${name}\n\nCurrent file: [${name}](${encodeURI(path.replaceAll("\\", "/"))}).\n\nSHA-256: ${createHash("sha256").update(readFileSync(path)).digest("hex")}\n\n\`\`\`${language}\n${content.trimEnd()}\n\`\`\`\n\n`;
 }
-writeFileSync(resolve(directory, "KEDITVIS_AUDIT.md"), report);
-writeFileSync(resolve(directory, "manifest.json"), JSON.stringify({ counts, changedFiles: changedNames, findings: issues.map(({ title, severity, locations }) => ({ title, severity, locations })) }, null, 2));
+report = `# Historical audit reprint\n\nGenerated: ${new Date().toISOString()}. Scope: historical_record_summary. Current-code GPU validation: NOT_RUN.\n\nThe findings and validation statements below are from the preserved first-pass audit. This generator executes no CPU, browser, build, or GPU tests. The source appendix is a current checkout snapshot; it is not evidence that this revision produced the recorded results. The original report and manifest are preserved.\n\n${report}`
+  .replace("copied directly from the tested working files", "copied from the current checkout without rerunning validation")
+  .replace("## Validation", "## Historical Validation")
+  .replaceAll("test_audit_backend.py", "test_backend.py")
+  .replaceAll("(./before/)", "(../before/)")
+  .replaceAll("(./frontend-results.json)", "(../frontend-results.json)")
+  .replaceAll("(./backend-results.txt)", "(../backend-results.txt)")
+  .replaceAll("(./build-results.txt)", "(../build-results.txt)")
+  .replaceAll("(./audit-desktop.png)", "(../audit-desktop.png)")
+  .replaceAll("(./audit-mobile.png)", "(../audit-mobile.png)");
+mkdirSync(output, { recursive: true });
+writeFileSync(resolve(output, "KEDITVIS_AUDIT.md"), report);
+writeFileSync(resolve(output, "manifest.json"), JSON.stringify({ generated_at: new Date().toISOString(),
+  scope: "historical_record_summary", current_code_gpu_validation: "NOT_RUN", counts,
+  current_changed_files: changedNames, historical_findings: issues.map(({ title, severity, locations }) => ({ title, severity, locations })) }, null, 2));
 console.log(JSON.stringify({ findings: issues.length, counts, changedFiles: changed.length, reportBytes: Buffer.byteLength(report) }));

@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { readFileSync, writeFileSync, existsSync } from "node:fs";
+import { readFileSync, writeFileSync, existsSync, mkdirSync } from "node:fs";
 import { resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { createHash } from "node:crypto";
@@ -47,6 +47,11 @@ const browserEdit = read("audit/optimization/browser/context-edit.json");
 assert.equal(browserEdit.data.optimization_config.revision, "context-v3");
 assert.equal(browserEdit.request.optimization, "context");
 record("five real browser checks pass and the deployed API identifies the frozen context profile");
-const files = ["modal_app.py", "editing_optimizations.py", "test_editing_optimizations.py", "test_audit_backend.py", "test_optimization_live.py", "frontend/src/App.tsx", "frontend/src/App.css", "frontend/src/types.ts", "frontend/src/api/client.ts", "frontend/tests/audit.mjs", "frontend/tests/optimization-live.mjs"];
+const files = ["modal_app.py", "editing_optimizations.py", "test_optimizations.py", "test_backend.py", "test_live.py", "frontend/src/App.tsx", "frontend/src/App.css", "frontend/src/types.ts", "frontend/src/api/client.ts", "frontend/tests/audit.mjs", "frontend/tests/optimization-live.mjs"];
 const sha256 = Object.fromEntries(files.map((file) => [file, createHash("sha256").update(readFileSync(resolve(root, file))).digest("hex")]));
-writeFileSync(resolve(root, "audit/optimization/verification.json"), JSON.stringify({ verified_at: new Date().toISOString(), checks, sha256, limitation: "Small regression set; one of five expanded GPT-2 Eiffel phrasings still fails. Scores compare candidate likelihoods, not greedy generation." }, null, 2));
+const output = resolve(root, "audit/run/optimization-record-check.json");
+mkdirSync(dirname(output), { recursive: true });
+writeFileSync(output, JSON.stringify({ checked_at: new Date().toISOString(), scope: "historical_record_consistency", checks,
+  current_source_sha256: sha256, current_code_gpu_validation: "NOT_RUN",
+  historical_verification: "audit/optimization/verification.json",
+  limitation: "Stored records support these historical checks; current source hashes do not identify their producing build. One of five expanded GPT-2 Eiffel phrasings still fails." }, null, 2));

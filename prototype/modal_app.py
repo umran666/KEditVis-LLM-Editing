@@ -88,10 +88,27 @@ image = (
         # non-empty path baked into the image.
     )
     .add_local_file("editing_optimizations.py", "/root/editing_optimizations.py")
+    .add_local_file("modal_app.py", "/root/keditvis_modal_app.py")
 )
 
 HF_CACHE_PATH = "/root/.cache/huggingface"
 MEMIT_DATA_PATH = "/root/memit/data"
+
+
+def _backend_source_sha256():
+    """Identify source files mounted in the running worker, not the caller's checkout."""
+    import hashlib
+    from pathlib import Path
+    import editing_optimizations
+
+    sources = {
+        "modal_app.py": Path("/root/keditvis_modal_app.py"),
+        "editing_optimizations.py": Path(editing_optimizations.__file__),
+    }
+    return {
+        name: hashlib.sha256(path.read_bytes()).hexdigest() if path.is_file() else None
+        for name, path in sources.items()
+    }
 
 
 def _normalize_scheme(scheme: list[int]) -> list[int]:
@@ -207,6 +224,7 @@ def _apply_with_rollback(apply_fn, model, tok, requests, hparams):
         nethook.get_parameter(model, f"{hparams.rewrite_module_tmp.format(layer)}.weight").detach().cpu().clone()
         for layer in layers
     }
+    gradient_flags = [(parameter, parameter.requires_grad) for parameter in model.parameters()]
     handles = []
     try:
         # Transformers GPT-J calls blocks with hidden_states=; upstream Trace
@@ -222,6 +240,8 @@ def _apply_with_rollback(apply_fn, model, tok, requests, hparams):
     finally:
         for handle in handles:
             handle.remove()
+        for parameter, flag in gradient_flags:
+            parameter.requires_grad_(flag)
 
 
 def _hparams_path(method, model_name):
@@ -344,10 +364,12 @@ def _probe_layers(model, tok, prompt_filled, subject, top_k=5):
         return hook
 
     mods = dict(model.named_modules())
-    handles = [mods[n].register_forward_hook(make_mlp_hook(n)) for n in mlp_names]
-    handles += [mods[n].register_forward_hook(make_block_hook(n)) for n in block_names]
-
+    handles = []
     try:
+        for name in mlp_names:
+            handles.append(mods[name].register_forward_hook(make_mlp_hook(name)))
+        for name in block_names:
+            handles.append(mods[name].register_forward_hook(make_block_hook(name)))
         with torch.no_grad():
             inputs = tok(prompt_filled, return_tensors="pt").to(device)
             last_idx = inputs["input_ids"].shape[1] - 1
@@ -528,6 +550,12 @@ def _evaluate_edit(
       S: harmonic mean of all three metrics; unavailable if any is missing.
       Also provides greedy token accuracy metrics (ES_greedy, PS_greedy, NS_greedy, S_greedy).
     """
+    if neighborhood_targets is not None:
+        if len(neighborhood_targets) != len(neighborhood_prompts):
+            raise ValueError("Neighborhood targets must align with neighborhood prompts.")
+        if any(not target.strip() for target in neighborhood_targets):
+            raise ValueError("Neighborhood targets must not be blank.")
+
     rewrite_prompt = prompt.format(subject)
     es_results = _eval_prefix_targets(model, tok, [rewrite_prompt], target_new, target_true)
     es_rate = sum(r["target_new_nll"] < r["target_true_nll"] for r in es_results) / len(es_results) if es_results else 0.0
@@ -551,7 +579,7 @@ def _evaluate_edit(
 
     ns_results = []
     if neighborhood_prompts:
-        if neighborhood_targets and len(neighborhood_targets) == len(neighborhood_prompts):
+        if neighborhood_targets is not None:
             for n_prompt, n_target in zip(neighborhood_prompts, neighborhood_targets):
                 res = _eval_prefix_targets(model, tok, [n_prompt], target_new, n_target)
                 ns_results.extend(res)
@@ -1441,7 +1469,10 @@ def web_app():
         def prompt_template(self):
             from string import Formatter
 
-            fields = [(name, spec, conversion) for _, name, spec, conversion in Formatter().parse(self.prompt) if name is not None]
+            parsed = list(Formatter().parse(self.prompt))
+            if any("{" in literal or "}" in literal for literal, _, _, _ in parsed):
+                raise ValueError("Literal braces are not supported in prompts.")
+            fields = [(name, spec, conversion) for _, name, spec, conversion in parsed if name is not None]
             if fields and fields != [("", "", None)]:
                 raise ValueError("Use exactly one plain {} subject placeholder.")
             if not fields:
@@ -1455,6 +1486,7 @@ def web_app():
         target_true: str | None = None
         paraphrase_prompts: list[str] = []
         neighborhood_prompts: list[str] = []
+        neighborhood_targets: list[str] | None = None
         generation_prompts: list[str] | None = None
         damage_prompts: list[str] | None = None
         method: Literal["memit", "rome"] = "memit"
@@ -1478,15 +1510,26 @@ def web_app():
                 raise ValueError("Evaluation prompts must not be blank.")
             return [value.strip() for value in values] if values is not None else None
 
+        @field_validator("neighborhood_targets")
+        @classmethod
+        def neighbor_answers(cls, values):
+            if values is not None and any(not value.strip() for value in values):
+                raise ValueError("Neighborhood targets must not be blank.")
+            return [value.strip() for value in values] if values is not None else None
+
+        @model_validator(mode="after")
+        def aligned_neighbors(self):
+            if self.neighborhood_targets is not None and len(self.neighborhood_targets) != len(self.neighborhood_prompts):
+                raise ValueError("Neighborhood targets must align with neighborhood prompts.")
+            return self
+
     class EditRequest(FactRequest):
         optimization: Literal["standard", "context", "context_v3", "standard_budget", "context_no_consistency"] = "standard"
         layers: list[StrictInt] | None = Field(default=None, min_length=1)
-        neighborhood_targets: list[str] | None = None
 
     class CompareRequest(FactRequest):
         optimization: Literal["standard", "context", "context_v3", "standard_budget", "context_no_consistency"] = "standard"
         schemes: list[list[StrictInt]] = Field(min_length=1)
-        neighborhood_targets: list[str] | None = None
 
         @field_validator("schemes")
         @classmethod
@@ -1541,6 +1584,9 @@ def web_app():
             elif optimization == "standard_budget":
                 from editing_optimizations import configure_context
                 configure_context(hparams, "standard_budget")
+                # Upstream's final loop iteration skips optimizer.step(); its
+                # 41 forwards allow the same maximum 40 updates as local context.
+                hparams.v_num_grad_steps += OPTIMIZATION_PROFILES["standard_budget"]["upstream_final_iteration_compensation"]
                 return _apply_with_rollback(apply_memit_to_model, model, tok, request_, hparams)
             return _apply_with_rollback(
                 apply_memit_to_model, model, tok, request_, hparams
@@ -1575,6 +1621,8 @@ def web_app():
             "n_layers": m.config.n_layer,
             "methods": SUPPORTED_METHODS,
             "editing_commit": MEMIT_COMMIT,
+            "backend_source_sha256": _backend_source_sha256(),
+            "model_revision": getattr(m.config, "_commit_hash", None),
             # Derived from the profile table so this list can never drift from
             # the optimization values the request models actually accept.
             "memit_optimizations": list(OPTIMIZATION_PROFILES),

@@ -16,8 +16,6 @@ import argparse
 from pathlib import Path
 
 import docx
-from docx.enum.text import WD_ALIGN_PARAGRAPH
-from docx.shared import Pt
 
 # The original abstract always begins with this sentence, which is how the
 # paragraph is located in the source document.
@@ -28,18 +26,21 @@ REVISED_ABSTRACT_TEXT = (
     "within their parameters. While locate-then-edit methods such as ROME and MEMIT provide "
     "computationally efficient alternatives to full model retraining, conventional pipelines "
     "rely on static, model-wide layer presets. These fixed presets ignore fact-specific "
-    "activation patterns, frequently causing incomplete edits, localized hallucination, or "
-    "catastrophic parameter drift. Grounded in recent visual analytics research for model editing, "
+    "activation patterns and can produce different editing outcomes across facts. "
+    "Grounded in recent visual analytics research for model editing, "
     "this capstone project develops an interactive prototype for human-in-the-loop layer "
     "selection. The system extracts internal model signals, specifically layer-wise residual "
-    "variance and vocabulary probability distributions, presenting them through coordinated visual "
+    "variance, MLP cosine similarity, and vocabulary probability distributions, presenting them through coordinated visual "
     "interfaces. Users can evaluate candidate layer ranges across editing success, paraphrase "
     "generalization, and neighborhood locality metrics. The framework incorporates a reversible "
     "model state mechanism and dimensionality reduction to monitor hidden state drift. "
-    "Experiments conducted on open-source Transformer architectures using standardized editing "
-    "benchmarks demonstrate that interactive telemetry-guided layer selection successfully identifies "
-    "viable editing bands to prevent catastrophic failure modes, while multi-context optimization "
-    "enhances paraphrase generalization under bounded parameter drift."
+    "A historical ten-fact GPT-2-XL CounterFact pilot compares fixed, telemetry-guided, and "
+    "seeded-random layer windows alongside editing profiles. Telemetry-guided selection did not "
+    "demonstrate superiority over fixed presets. A profile with matched optimization settings "
+    "achieved the same aggregate behavioral scores as the context profiles, leaving the "
+    "incremental benefit of context fitting and consistency unresolved. These findings support "
+    "an inspectable workflow for comparing editing configurations through behavioral evaluation "
+    "and measurements of selected rewrite-tensor changes."
 )
 
 
@@ -51,6 +52,8 @@ def build_revised_document(source: Path, output: Path) -> Path:
             "The .docx sources are not tracked in this repository; pass --source "
             "pointing at the original file."
         )
+    if source.resolve() == output.resolve() or (output.exists() and source.samefile(output)):
+        raise ValueError("The output must be a separate file; the original document is preserved.")
 
     document = docx.Document(str(source))
     paragraph = next(
@@ -63,18 +66,16 @@ def build_revised_document(source: Path, output: Path) -> Path:
             f"(expected one starting with {ABSTRACT_PREFIX!r})."
         )
 
-    # Capture the original styling before replacing the text, because assigning
-    # paragraph.text collapses the run list down to a single new run.
-    alignment = paragraph.alignment or WD_ALIGN_PARAGRAPH.JUSTIFY
+    # Keep inherited paragraph formatting and the original text run's style.
     runs = paragraph.runs
-    font_name = runs[0].font.name if runs and runs[0].font.name else "Times New Roman"
-    font_size = runs[0].font.size if runs and runs[0].font.size else Pt(12)
-
-    paragraph.text = REVISED_ABSTRACT_TEXT
-    paragraph.alignment = alignment
-    for run in paragraph.runs:
-        run.font.name = font_name
-        run.font.size = font_size
+    if runs:
+        first = next((run for run in runs if run.text), runs[0])
+        first.text = REVISED_ABSTRACT_TEXT
+        for run in runs:
+            if run is not first:
+                run.text = ""
+    else:
+        paragraph.add_run(REVISED_ABSTRACT_TEXT)
 
     output.parent.mkdir(parents=True, exist_ok=True)
     document.save(str(output))

@@ -16,12 +16,13 @@ OPTIMIZATION_PROFILES = {
         "key_fit": "averaged",
     },
     "standard_budget": {
-        "revision": "standard-budget",
+        "revision": "standard-budget-v2",
         "consistency_weight": 0.0,
         "minimum_clamp_norm_factor": 1.5,
         "minimum_gradient_steps": 40,
         "monitor_layers": 0,
         "key_fit": "averaged",
+        "upstream_final_iteration_compensation": 1,
     },
     "context_no_consistency": {
         "revision": "context-no-consistency",
@@ -54,6 +55,10 @@ CONTEXT_PROFILE = OPTIMIZATION_PROFILES["context_v3"]
 
 def configure_context(hp, profile: str = "context_v3"):
     """Applies a named optimization profile to a MEMIT hyperparameter object.
+
+    The standard_budget dispatcher adds one upstream loop iteration afterwards:
+    pinned MEMIT's final iteration evaluates the loss without updating delta.
+    Local context profiles update delta on every iteration and need no offset.
 
     Raises on an unknown profile rather than silently falling back to
     context_v3: a typo would otherwise run a different algorithm than the one

@@ -1,8 +1,17 @@
 import { useEffect, useRef, useState } from "react";
 import * as d3 from "d3";
 import type { LayerSignal } from "../types";
+import { MAX_COSINE_MAGNITUDE } from "../schemes";
 
 export type SignalMode = "cosine" | "variance" | "delta_variance";
+
+export function signalValue(signal: LayerSignal, mode: SignalMode): number | null {
+  const value = mode === "variance" ? signal.residual_variance
+    : mode === "delta_variance" ? signal.residual_delta_variance : signal.cosine_similarity;
+  if (value == null || !Number.isFinite(value)) return null;
+  if (mode === "cosine") return Math.abs(value) <= MAX_COSINE_MAGNITUDE ? Math.max(0, 1 - Math.abs(value)) : null;
+  return value >= 0 ? value : null;
+}
 
 interface Props {
   signals: LayerSignal[];
@@ -43,28 +52,21 @@ export function CosineSimilarityChart({
       .range([0, innerH])
       .padding(0.15);
 
-    const getVal = (d: LayerSignal) => {
-      if (signalMode === "variance") {
-        return d.residual_variance ?? 0;
-      } else if (signalMode === "delta_variance") {
-        return d.residual_delta_variance ?? 0;
-      }
-      return Math.max(0, Math.min(1, 1 - Math.abs(d.cosine_similarity)));
-    };
-
-    const maxVal = signalMode === "cosine" ? 1.0 : Math.max(...signals.map(getVal), 1e-4);
+    const rows = signals.filter((signal) => signalValue(signal, signalMode) != null);
+    const maxVal = signalMode === "cosine" ? 1.0 : Math.max(...rows.map((signal) => signalValue(signal, signalMode)!), 1e-4);
     const x = d3.scaleLinear().domain([0, maxVal]).range([0, innerW]);
 
     const selected = new Set(selectedLayers);
 
     g.selectAll("rect.bar")
-      .data(signals)
+      .data(rows)
       .join("rect")
       .attr("class", "bar")
+      .attr("data-layer", (d) => d.layer)
       .attr("y", (d) => y(d.layer)!)
       .attr("x", 0)
       .attr("height", y.bandwidth())
-      .attr("width", (d) => Math.max(1, x(getVal(d))))
+      .attr("width", (d) => Math.max(0, x(signalValue(d, signalMode)!)))
       .attr("fill", (d) => (selected.has(d.layer) ? "#3B82F6" : "#93C5FD"))
       .attr("rx", 2)
       .style("cursor", "pointer")
@@ -133,7 +135,7 @@ export function CosineSimilarityChart({
         {hoveredLayer && (
           <div className="signal-tooltip" style={{ fontSize: "10px", background: "#F8FAFC", border: "1px solid #E2E8F0", padding: "4px 6px", borderRadius: "4px", color: "#1E293B" }}>
             <div><strong>Layer {hoveredLayer.layer}</strong></div>
-            <div>cos_sim: {hoveredLayer.cosine_similarity.toFixed(4)} (activity: {(1 - Math.abs(hoveredLayer.cosine_similarity)).toFixed(4)})</div>
+            <div>cos_sim: {hoveredLayer.cosine_similarity.toFixed(4)} (activity: {signalValue(hoveredLayer, "cosine")?.toFixed(4) ?? "Unavailable"})</div>
             {hoveredLayer.residual_variance != null && (
               <div>resid_var: {hoveredLayer.residual_variance.toFixed(4)}</div>
             )}
@@ -149,6 +151,7 @@ export function CosineSimilarityChart({
       <div className="chart-svg-wrap" style={{ maxHeight: "380px", overflowY: "auto" }}>
         <svg ref={ref} style={{ width: "100%", height: "auto" }} />
       </div>
+      {signals.some((signal) => signalValue(signal, signalMode) == null) && <p className="hint">Missing measurements are omitted.</p>}
     </div>
   );
 }

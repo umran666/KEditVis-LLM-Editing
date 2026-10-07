@@ -85,11 +85,6 @@ def probe_layers(model, tok, prompt_filled: str, subject: str, top_k: int = 5):
             }
         return hook
 
-    handles = [
-        dict(model.named_modules())[name].register_forward_hook(make_hook(name))
-        for name in layer_names
-    ]
-
     # We also want the *residual stream* (block output, not just MLP output)
     # at each layer for the logit-lens view. Easiest: hook the whole block.
     block_names = [f"transformer.h.{i}" for i in range(model.config.n_layer)]
@@ -101,19 +96,20 @@ def probe_layers(model, tok, prompt_filled: str, subject: str, top_k: int = 5):
             residuals[name] = hs.detach()
         return hook
 
-    block_handles = [
-        dict(model.named_modules())[name].register_forward_hook(make_block_hook(name))
-        for name in block_names
-    ]
-
-    enc = tok(prompt_filled, return_tensors="pt").to(device)
-    last_idx = enc["input_ids"].shape[1] - 1
+    modules = dict(model.named_modules())
+    handles = []
     try:
+        for name in layer_names:
+            handles.append(modules[name].register_forward_hook(make_hook(name)))
+        for name in block_names:
+            handles.append(modules[name].register_forward_hook(make_block_hook(name)))
+        enc = tok(prompt_filled, return_tensors="pt").to(device)
+        last_idx = enc["input_ids"].shape[1] - 1
         model(**enc)
     finally:
         # Remove hooks on failure too. Without this a raised forward pass leaves
         # every hook attached to the caller's model.
-        for h in handles + block_handles:
+        for h in handles:
             h.remove()
 
     ln_f = model.transformer.ln_f

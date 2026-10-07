@@ -1,4 +1,31 @@
-import type { SchemeResult } from "./types";
+import type { LayerSignal, SchemeResult } from "./types";
+
+// Float32 cosine reductions can exceed one slightly; matches layer_selection.py.
+export const MAX_COSINE_MAGNITUDE = 1.000001;
+
+/** Uses complete baseline telemetry and the model's published MEMIT layer count. */
+export function recommendLayers(signals: LayerSignal[], method: "memit" | "rome", nLayers: number): number[] {
+  const byLayer = new Map(signals.map((signal) => [signal.layer, signal.cosine_similarity]));
+  if (signals.length !== nLayers || byLayer.size !== nLayers || signals.some((signal) =>
+    !Number.isInteger(signal.layer) || signal.layer < 0 || signal.layer >= nLayers ||
+    !Number.isFinite(signal.cosine_similarity) || Math.abs(signal.cosine_similarity) > MAX_COSINE_MAGNITUDE
+  )) {
+    throw new Error("Recommendation requires finite baseline telemetry for every model layer.");
+  }
+  const count = method === "rome" ? 1 : nLayers === 28 ? 6 : 5;
+  if (nLayers < count) throw new Error("The model has too few layers for this editing policy.");
+  let bestStart = 0;
+  let bestScore = Infinity;
+  for (let start = 0; start <= nLayers - count; start++) {
+    let score = 0;
+    for (let offset = 0; offset < count; offset++) score += Math.abs(byLayer.get(start + offset)!);
+    if (score < bestScore) {
+      bestScore = score;
+      bestStart = start;
+    }
+  }
+  return Array.from({ length: count }, (_, offset) => bestStart + offset);
+}
 
 export function schemeKey(layers: number[]): string {
   return [...new Set(layers)].sort((a, b) => a - b).join("-");

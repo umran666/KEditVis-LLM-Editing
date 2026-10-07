@@ -33,6 +33,22 @@ def _norm_token(s: str) -> str:
     return s.strip().strip(",.;:!?'\"").lower()
 
 
+def _signals_by_layer(signals):
+    by_layer = {}
+    for signal in signals:
+        layer = signal["layer"]
+        if type(layer) is not int or layer < 0 or layer in by_layer:
+            raise ValueError("Baseline layers must be unique nonnegative integers.")
+        by_layer[layer] = signal
+    return by_layer
+
+
+def _scheme_layers(layers):
+    if not layers or any(type(layer) is not int or layer < 0 for layer in layers):
+        raise ValueError("A scheme requires nonnegative integer layers.")
+    return set(layers)
+
+
 def target_token_probs(layer_signals: list, target: str) -> dict:
     """
     Logit-lens probability of `target` at every layer where it appears in
@@ -46,9 +62,12 @@ def target_token_probs(layer_signals: list, target: str) -> dict:
     """
     t = _norm_token(target)
     probs = {}
-    for l in layer_signals:
-        for tt in (l.get("last_top_tokens") or l.get("top_tokens") or []):
+    for l in _signals_by_layer(layer_signals).values():
+        tokens = l["last_top_tokens"] if "last_top_tokens" in l else l.get("top_tokens", [])
+        for tt in tokens:
             if _norm_token(tt["token"]) == t:
+                if not math.isfinite(tt["prob"]) or not 0 <= tt["prob"] <= 1:
+                    raise ValueError("Token probabilities must be finite and lie in [0, 1].")
                 probs[l["layer"]] = tt["prob"]
     return probs
 
@@ -59,8 +78,8 @@ def scheme_projection_score(layer_signals: list, scheme_layers: list, target: st
     token-projection selection rule: the span between the two layers where
     the fact's object token shows its highest logit-lens probabilities is
     "considered to be processing target knowledge and is typically selected."
-    The signal comes from the full-fact-statement projection (`fact_top_tokens`)
-    when available -- without the object in the input text it never surfaces.
+    The signal uses last-token projection, with a subject-position fallback
+    only for legacy records that do not contain that field.
 
     Returns None when the object token never enters any layer's top-5 (no
     signal available), otherwise:
@@ -68,6 +87,7 @@ def scheme_projection_score(layer_signals: list, scheme_layers: list, target: st
       span_overlap -- fraction of peak-span layers the scheme contains (0-1)
       max_prob     -- highest logit-lens prob of the object inside the scheme
     """
+    scheme_layers = _scheme_layers(scheme_layers)
     probs = target_token_probs(layer_signals, target)
     if not probs:
         return None
@@ -78,7 +98,7 @@ def scheme_projection_score(layer_signals: list, scheme_layers: list, target: st
     return {
         "peak_span": [lo, hi],
         "span_overlap": sum(1 for l in scheme_layers if l in span_layers)
-        / len(list(span_layers)),
+        / len(span_layers),
         "max_prob": max(scheme_probs) if scheme_probs else 0.0,
     }
 
@@ -98,19 +118,14 @@ def scheme_activity_score(layer_signals: list, scheme_layers: list) -> dict:
     position, so a reordered or partial signal list cannot silently attribute
     the wrong cosine similarity to a layer.
     """
-    by_layer = {l["layer"]: l for l in layer_signals}
-    cos_sims = [
-        abs(by_layer[l]["cosine_similarity"])
-        for l in scheme_layers
-        if l in by_layer
-    ]
-    if not cos_sims:
-        known = sorted(by_layer)
-        span = f"{known[0]}-{known[-1]}" if known else "none recorded"
-        raise ValueError(
-            f"Scheme {sorted(set(scheme_layers))} contains no layer present in the "
-            f"baseline signals (recorded layers: {span})."
-        )
+    by_layer = _signals_by_layer(layer_signals)
+    scheme_layers = _scheme_layers(scheme_layers)
+    missing = sorted(scheme_layers - by_layer.keys())
+    if missing:
+        raise ValueError(f"Scheme requires layers missing from baseline signals: {missing}.")
+    cos_sims = [abs(by_layer[layer]["cosine_similarity"]) for layer in scheme_layers]
+    if any(not math.isfinite(value) or value > 1.000001 for value in cos_sims):
+        raise ValueError("Cosine similarities must be finite and lie in [-1, 1] within float32 tolerance.")
     return {
         "mean_abs_cos_sim": sum(cos_sims) / len(cos_sims),
         "min_abs_cos_sim": min(cos_sims),
@@ -169,6 +184,8 @@ def spearman_rank_correlation(xs: list, ys: list) -> float:
         raise ValueError(
             f"Rank correlation requires equal-length inputs (got {len(xs)} and {len(ys)})."
         )
+    if any(not math.isfinite(value) for value in [*xs, *ys]):
+        raise ValueError("Rank correlation requires finite paired observations.")
     if len(xs) < 2:
         return float("nan")
     return _pearson(_average_ranks(xs), _average_ranks(ys))

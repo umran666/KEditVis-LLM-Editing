@@ -1,5 +1,6 @@
 import { useMemo } from "react";
 import type { LayerSignal } from "../types";
+import { recommendLayers } from "../schemes";
 
 interface Props {
   nLayers: number;
@@ -7,42 +8,14 @@ interface Props {
   selected: number[];
   onChange: (layers: number[]) => void;
   method?: "memit" | "rome";
+  disabled?: boolean;
 }
 
-function recommendLayers(signals: LayerSignal[], count = 5, method?: "memit" | "rome"): number[] {
-  if (signals.length === 0) return [];
-  const byLayer = [...signals].sort((a, b) => a.layer - b.layer);
-  if (method === "rome") {
-    let best = byLayer[0];
-    for (const sig of byLayer) {
-      if (Math.abs(sig.cosine_similarity) < Math.abs(best.cosine_similarity)) {
-        best = sig;
-      }
-    }
-    return [best.layer];
-  }
-  if (byLayer.length <= count) return byLayer.map((s) => s.layer);
-  // Best contiguous window of `count` layers by total |cos_sim|. MEMIT needs a
-  // contiguous mid-layer block; picking the individually-lowest layers is
-  // scattered and measurably underperforms (see README, recommended-scheme
-  // failure: [9,10,11,13,15] ES=0.00 vs contiguous [8-12] ES=1.00).
-  let bestStart = 0;
-  let bestSum = Infinity;
-  for (let i = 0; i + count <= byLayer.length; i++) {
-    let sum = 0;
-    for (let j = i; j < i + count; j++) {
-      sum += Math.abs(byLayer[j].cosine_similarity);
-    }
-    if (sum < bestSum) {
-      bestSum = sum;
-      bestStart = i;
-    }
-  }
-  return byLayer.slice(bestStart, bestStart + count).map((s) => s.layer);
-}
-
-export function LayerSelector({ nLayers, signals, selected, onChange, method }: Props) {
-  const recommended = useMemo(() => recommendLayers(signals, 5, method), [signals, method]);
+export function LayerSelector({ nLayers, signals, selected, onChange, method = "memit", disabled = false }: Props) {
+  const recommended = useMemo(() => {
+    try { return recommendLayers(signals, method, nLayers); }
+    catch { return []; }
+  }, [signals, method, nLayers]);
   const selectedSet = new Set(selected);
 
   const toggle = (layer: number) => {
@@ -65,10 +38,10 @@ export function LayerSelector({ nLayers, signals, selected, onChange, method }: 
         selection.
       </p>
       <div className="layer-actions">
-        <button type="button" onClick={() => onChange(recommended)} disabled={!signals.length}>
+        <button type="button" onClick={() => onChange(recommended)} disabled={disabled || !recommended.length}>
           {method === "rome" ? "Recommend single" : "Recommend contiguous"} ({recommended.join(", ") || "—"})
         </button>
-        <button type="button" onClick={() => onChange([])}>
+        <button type="button" onClick={() => onChange([])} disabled={disabled}>
           Clear
         </button>
         <span className="selected-label">
@@ -80,12 +53,13 @@ export function LayerSelector({ nLayers, signals, selected, onChange, method }: 
           const sig = signals.find((s) => s.layer === layer);
           const active = selectedSet.has(layer);
           const cos = sig ? Math.abs(sig.cosine_similarity) : null;
-          const activity = cos != null ? 1 - cos : 0;
+          const activity = cos != null ? Math.max(0, Math.min(1, 1 - cos)) : 0;
           const bgTint = cos != null ? `rgba(123, 134, 255, ${(activity * 0.35).toFixed(2)})` : undefined;
           return (
             <button
               key={layer}
               type="button"
+              disabled={disabled}
               className={`layer-chip${active ? " active" : ""}`}
               style={{ background: active ? undefined : bgTint }}
               title={cos != null ? `|cos|=${cos.toFixed(3)}` : undefined}

@@ -1,15 +1,12 @@
 import { useEffect, useRef, useState } from "react";
 import * as d3 from "d3";
 import type { LayerSignal } from "../types";
+import { signalValue } from "./CosineSimilarityChart";
 
 interface Props {
   preSignals: LayerSignal[];
   postSignals: LayerSignal[];
   editedLayers?: number[];
-}
-
-function activity(cos: number): number {
-  return Math.max(0, Math.min(1, 1 - Math.abs(cos)));
 }
 
 /** Paired pre/post bars per layer — KEditVis before/after editing view. */
@@ -30,19 +27,16 @@ export function CosineSimilarityCompareChart({
     const rows = preSignals
       .map((pre) => {
         const post = postByLayer.get(pre.layer);
-        const preVal = signalMode === "variance"
-          ? (pre.residual_variance ?? 0)
-          : activity(pre.cosine_similarity);
-        const postVal = signalMode === "variance"
-          ? (post?.residual_variance ?? preVal)
-          : activity(post?.cosine_similarity ?? pre.cosine_similarity);
+        const preVal = signalValue(pre, signalMode);
+        const postVal = post ? signalValue(post, signalMode) : null;
+        if (preVal == null || postVal == null) return null;
         return {
           layer: pre.layer,
           pre: preVal,
           post: postVal,
         };
       })
-      .filter((r) => postByLayer.has(r.layer) && Number.isFinite(r.pre) && Number.isFinite(r.post));
+      .filter((r): r is { layer: number; pre: number; post: number } => r != null);
 
     if (rows.length === 0) return;
 
@@ -76,7 +70,7 @@ export function CosineSimilarityCompareChart({
       .attr("y", (d) => y(d.layer)!)
       .attr("x", 0)
       .attr("height", barH)
-      .attr("width", (d) => Math.max(0.5, x(d.pre)))
+      .attr("width", (d) => Math.max(0, x(d.pre)))
       .attr("fill", "#CBD5E1")
       .attr("rx", 1.5);
 
@@ -87,7 +81,7 @@ export function CosineSimilarityCompareChart({
       .attr("y", (d) => y(d.layer)! + barH + 2)
       .attr("x", 0)
       .attr("height", barH)
-      .attr("width", (d) => Math.max(0.5, x(d.post)))
+      .attr("width", (d) => Math.max(0, x(d.post)))
       .attr("fill", (d) => (edited.has(d.layer) ? "#EF4444" : "#3B82F6"))
       .attr("rx", 1.5);
 
@@ -150,6 +144,9 @@ export function CosineSimilarityCompareChart({
       <div className="chart-svg-wrap" style={{ maxHeight: "380px", overflowY: "auto" }}>
         <svg ref={ref} style={{ width: "100%", height: "auto" }} />
       </div>
+      {preSignals.some((pre) => signalValue(pre, signalMode) == null ||
+        !postSignals.some((post) => post.layer === pre.layer && signalValue(post, signalMode) != null)
+      ) && <p className="hint">Missing measurement pairs are omitted.</p>}
     </div>
   );
 }

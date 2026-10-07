@@ -4,9 +4,8 @@ EVERY layer scheme tested in audit/development/batch_comparison.json, while "Mar
 developed by" -> "Apple" (same target word, different subject) succeeded
 under all of them.
 
-Since both facts share the same target_new ("Apple"), any systematic
-difference in editability must trace back to how the SUBJECT is
-represented in the model, not the target token. This script compares the
+Both facts share the same target_new ("Apple"), but also differ in prompt
+and original association. This script compares the
 two facts' baseline (pre-edit) cosine-similarity and logit-lens profiles,
 side by side, using data already collected by `modal run
 modal_app.py::batch` -- no new GPU computation needed.
@@ -16,26 +15,30 @@ Usage:
 """
 
 import json
+import math
 import sys
+
+from analyze_schemes import target_token_probs
 
 
 def summarize_fact(fact_result):
     signals = fact_result["baseline"]["layer_signals"]
+    if not signals:
+        raise ValueError("A fact summary requires measured baseline signals.")
     cos_sims = [abs(l["cosine_similarity"]) for l in signals]
+    if any(not math.isfinite(value) or value > 1.000001 for value in cos_sims):
+        raise ValueError("Cosine similarities must be finite and lie in [-1, 1] within float32 tolerance.")
     mean_cos = sum(cos_sims) / len(cos_sims)
 
     target_new = fact_result["fact"]["target_new"].strip().lower()
-    layers_with_target_in_top5 = [
-        l["layer"]
-        for l in signals
-        if any(t["token"].strip().lower() == target_new for t in l["top_tokens"])
-    ]
+    layers_with_target_in_top5 = sorted(target_token_probs(signals, target_new))
 
     return {
         "mean_abs_cos_sim_all_layers": mean_cos,
         "min_abs_cos_sim": min(cos_sims),
         "max_abs_cos_sim": max(cos_sims),
         "layers_with_target_in_top5": layers_with_target_in_top5,
+        "n_layers": len(signals),
     }
 
 
@@ -57,7 +60,7 @@ def main():
         s = summarize_fact(fr)
         summaries[prompt_str] = s
         print(f"{prompt_str!r} -> {fr['fact']['target_new']!r}")
-        print(f"  mean|cos_sim| (all 48 layers): {s['mean_abs_cos_sim_all_layers']:.3f}")
+        print(f"  mean|cos_sim| ({s['n_layers']} recorded layers): {s['mean_abs_cos_sim_all_layers']:.3f}")
         print(f"  min|cos_sim|:                  {s['min_abs_cos_sim']:.3f}")
         print(f"  max|cos_sim|:                  {s['max_abs_cos_sim']:.3f}")
         print(f"  layers where target_new appears in top-5 (pre-edit): "
@@ -65,7 +68,7 @@ def main():
         print()
 
     print("\n=== Focused comparison: Windows->Apple (failed) vs Mario Kart->Apple (succeeded) ===")
-    print("Both share the same target_new, so any difference traces to the SUBJECT.\n")
+    print("The shared target does not isolate subject representation from other differences.\n")
 
     windows_key = next((k for k in by_prompt if "Windows" in k), None)
     mario_key = next((k for k in by_prompt if "Mario Kart" in k), None)
@@ -80,16 +83,10 @@ def main():
         print(f"{'# layers with target in top-5':<35} | {len(w['layers_with_target_in_top5']):>18} | {len(m['layers_with_target_in_top5']):>24}")
 
     print(
-        "\nInterpretation: if Windows shows much higher cosine similarity across "
-        "the board (values close to 1.0 mean the MLP block barely changes its "
-        "input at all at the subject token position), that suggests the model "
-        "simply isn't processing 'Windows' as a knowledge-bearing subject the "
-        "same way it processes 'Mario Kart' at these layers -- there may be no "
-        "good editing layer in the tested range for this fact, rather than the "
-        "wrong layers having been chosen. This is a genuine limitation "
-        "orthogonal to layer selection, worth calling out explicitly in a "
-        "capstone discussion of when interactive layer selection alone isn't "
-        "enough to fix a bad edit."
+        "\nInterpretation: cosine similarity describes direction, not the magnitude "
+        "of the MLP output or factual storage. Differences in these profiles are "
+        "exploratory observations; they do not establish the cause of edit failure "
+        "or prove that no effective editing layer exists."
     )
 
 

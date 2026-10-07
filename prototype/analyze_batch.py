@@ -2,9 +2,8 @@
 Pooled version of analyze_schemes.py: tests KEditVis's two core layer-selection
 hypotheses (cosine similarity, Sec 4.2.1, and token projection, Sec 4.2.2)
 across MANY (fact, scheme) pairs at once, using the output of
-`modal run modal_app.py::batch`. This gives far more statistical power
-than analyzing a single fact's schemes in isolation (n = num_facts x
-num_schemes instead of n = num_schemes).
+`modal run modal_app.py::batch`. Schemes from the same fact are dependent;
+the pooled rows support descriptive correlations, not independent replication.
 
 Usage:
     python analyze_batch.py audit/development/batch_comparison.json

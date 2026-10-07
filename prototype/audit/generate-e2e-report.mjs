@@ -1,10 +1,11 @@
-import { readFileSync, writeFileSync } from "node:fs";
+import { readFileSync, writeFileSync, mkdirSync } from "node:fs";
 import { resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { createHash } from "node:crypto";
 
 const audit = dirname(fileURLToPath(import.meta.url));
 const root = resolve(audit, "..");
+const output = resolve(audit, "run");
 const json = (path) => JSON.parse(readFileSync(resolve(audit, path), "utf8"));
 const models = ["gpt2-xl", "EleutherAI_gpt-j-6B"];
 const browser = json("live/browser/results.json");
@@ -12,9 +13,12 @@ const fixtures = json("frontend-results.json");
 if (browser.checks.length !== 6 || browser.errors.length) throw new Error("Live browser verification is incomplete");
 const files = ["modal_app.py", "frontend/src/App.tsx", "frontend/src/App.css", "frontend/src/api/client.ts", "frontend/src/types.ts",
   "frontend/src/components/FactForm.tsx", "frontend/src/components/KnowledgeGraph.tsx", "frontend/src/components/TokenRankingChart.tsx",
-  "frontend/src/components/DriftScatterPlot.tsx", "frontend/.env.local", "test_audit_backend.py", "test_live_backend.py", "frontend/tests/audit.mjs", "frontend/tests/live.mjs", "README.md"];
+  "frontend/src/components/DriftScatterPlot.tsx", "test_backend.py", "test_live_backend.py", "frontend/tests/audit.mjs", "frontend/tests/live.mjs", "README.md"];
 const lines = (path, needle) => readFileSync(resolve(root, path), "utf8").split(/\r?\n/).findIndex((line) => line.includes(needle)) + 1;
-const location = (path, needle) => `[${path}:${lines(path, needle)}](../${path}#L${lines(path, needle)})`;
+const location = (path, needle) => {
+  const line = lines(path, needle);
+  return line ? `[${path}:${line}](../../${path}#L${line})` : `[${path}](../../${path}) (historical anchor no longer present)`;
+};
 let report = `# KEditVis end-to-end fixes and verification\n\nDate: ${new Date().toISOString()}.\n\nThis report supersedes the runtime and feature limitations in the historical first-pass audit. The backend is deployed at [Modal API](https://opzgameryt--keditvis-memit-web-app.modal.run/health). The local dashboard is [http://127.0.0.1:5187](http://127.0.0.1:5187), configured to use that deployment.\n\n## Real GPU verification\n\nAll rows below used actual model weights and the pinned upstream editing implementation on an A100-40GB. Each model/method combination executed an edit and a comparison with two different schemes. Subsequent probes reproduced every baseline layer signal exactly; deterministic generation reproduced the baseline text exactly. No API mocks were used in these runs.\n\n| Model | Method | Edit layers | ES | PS | NS | S | Edit seconds | Compare seconds |\n|---|---|---|---:|---:|---:|---:|---:|---:|\n`;
 const manifest = {};
 for (const model of models) {
@@ -54,6 +58,14 @@ for (const path of files) {
   const fence = "`".repeat(4);
   report += `### ${path}\n\n${fence}${path.endsWith(".py") ? "python" : path.endsWith(".tsx") ? "tsx" : path.endsWith(".ts") ? "typescript" : path.endsWith(".mjs") ? "javascript" : "text"}\n${data.trimEnd()}\n${fence}\n\n`;
 }
-writeFileSync(resolve(audit, "E2E_VERIFICATION.md"), report);
-writeFileSync(resolve(audit, "e2e-manifest.json"), JSON.stringify({ date: new Date().toISOString(), hashes, requests: manifest, liveBrowser: browser.checks, fixtureBrowser: fixtures.checks }, null, 2));
-console.log("Saved E2E_VERIFICATION.md and e2e-manifest.json");
+report = `# Historical evidence reprint\n\nGenerated: ${new Date().toISOString()}. Scope: historical_record_summary. Current-code GPU validation: NOT_RUN.\n\nThe validation statements below describe preserved historical records. This generator executes no CPU, browser, build, or GPU tests. The source appendix is a current checkout snapshot; its hashes do not identify the build that produced those records. The original reports and manifests are preserved.\n\n${report}`
+  .replace("## Validation", "## Historical Validation")
+  .replaceAll("test_audit_backend.py", "test_backend.py")
+  .replaceAll("(./live/", "(../live/")
+  .replaceAll("(./frontend-results.json)", "(../frontend-results.json)");
+mkdirSync(output, { recursive: true });
+writeFileSync(resolve(output, "E2E_VERIFICATION.md"), report);
+writeFileSync(resolve(output, "e2e-manifest.json"), JSON.stringify({ generated_at: new Date().toISOString(),
+  scope: "historical_record_summary", current_code_gpu_validation: "NOT_RUN", current_source_sha256: hashes,
+  historical_requests: manifest, historical_live_browser: browser.checks, historical_fixture_browser: fixtures.checks }, null, 2));
+console.log("Saved historical record summary to audit/run/E2E_VERIFICATION.md and audit/run/e2e-manifest.json");

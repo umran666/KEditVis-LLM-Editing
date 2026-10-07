@@ -8,6 +8,7 @@ interface Props {
   targetTrue?: string;
   paraphrasePrompts: string[];
   neighborhoodPrompts: string[];
+  neighborhoodTargets?: string[];
   generations?: string[];
   metrics?: Metrics | null;
 }
@@ -19,6 +20,7 @@ export const PromptDetailCards: React.FC<Props> = ({
   targetTrue,
   paraphrasePrompts,
   neighborhoodPrompts,
+  neighborhoodTargets,
   generations = [],
   metrics,
 }) => {
@@ -29,9 +31,9 @@ export const PromptDetailCards: React.FC<Props> = ({
   // Evaluate real pass/fail state based on metrics if available
   const evaluationClass = (value: number | null | undefined) =>
     value == null || !Number.isFinite(value) ? "eval-unknown" : value > 0.5 ? "eval-pass" : "eval-fail";
-  const promptClass = (category: "efficacy" | "paraphrase" | "neighborhood", prefix: string) => {
-    const result = metrics?.details?.[category].find((r) => r.prefix === prefix);
-    if (!result) return "eval-unknown";
+  const promptClass = (category: "efficacy" | "paraphrase" | "neighborhood", prefix: string, index = 0) => {
+    const result = metrics?.details?.[category]?.[index];
+    if (!result || result.prefix !== prefix || !Number.isFinite(result.target_new_nll) || !Number.isFinite(result.target_true_nll)) return "eval-unknown";
     const passed = category === "neighborhood"
       ? result.target_true_nll < result.target_new_nll
       : result.target_new_nll < result.target_true_nll;
@@ -52,7 +54,7 @@ export const PromptDetailCards: React.FC<Props> = ({
       <div className="category-card col-paraphrase">
         <div className={`cat-header cat-para ${evaluationClass(metrics?.PS)}`}>Paraphrase</div>
         {paraphrasePrompts.map((p, idx) => (
-          <div key={idx} className={`eval-pill ${promptClass("paraphrase", p)}`}>
+          <div key={idx} className={`eval-pill ${promptClass("paraphrase", p, idx)}`}>
             <div>{p} <strong>{targetNew}</strong></div>
           </div>
         ))}
@@ -62,8 +64,8 @@ export const PromptDetailCards: React.FC<Props> = ({
       <div className="category-card col-neighborhood">
         <div className={`cat-header cat-neigh ${evaluationClass(metrics?.NS)}`}>Neighborhood</div>
         {neighborhoodPrompts.map((p, idx) => (
-          <div key={idx} className={`eval-pill ${promptClass("neighborhood", p)}`}>
-            <div>{p} <strong>{targetTrue ?? ""}</strong></div>
+          <div key={idx} className={`eval-pill ${promptClass("neighborhood", p, idx)}`}>
+            <div>{p} <strong>{neighborhoodTargets?.[idx] ?? targetTrue ?? ""}</strong></div>
           </div>
         ))}
       </div>

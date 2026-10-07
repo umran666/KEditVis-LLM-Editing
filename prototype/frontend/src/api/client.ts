@@ -39,10 +39,19 @@ export function generate(body: Pick<FactInput, "prompt" | "subject"> & { model?:
   return request("/generate", { method: "POST", body: JSON.stringify(body) });
 }
 
+function validateNeighborhoodTargets(body: FactInput): void {
+  if (body.neighborhood_targets !== undefined && (
+    body.neighborhood_targets.length !== body.neighborhood_prompts.length ||
+    body.neighborhood_targets.some((target) => !target.trim())
+  )) throw new Error("Provide one non-empty original answer for each neighborhood prompt, or leave neighborhood answers empty to use the fact's original answer.");
+}
+
 export function edit(body: FactInput & { layers: number[] | null; method?: string; model?: string; optimization?: OptimizationProfile }): Promise<EditResponse> {
+  validateNeighborhoodTargets(body);
   return request("/edit", { method: "POST", body: JSON.stringify(body) });
 }
 
 export function compare(body: FactInput & { schemes: number[][]; method?: string; model?: string; optimization?: OptimizationProfile }): Promise<CompareResponse> {
+  validateNeighborhoodTargets(body);
   return request("/compare", { method: "POST", body: JSON.stringify(body) });
 }

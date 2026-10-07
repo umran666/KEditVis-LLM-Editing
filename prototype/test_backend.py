@@ -109,6 +109,28 @@ class BackendAudit(unittest.TestCase):
         self.ns["_restore_weights"](edited, originals)
         self.assertTrue(torch.equal(edited.weights[3], torch.eye(2)))
 
+    def test_apply_restores_mixed_gradient_flags_after_success_and_failure(self):
+        hp = SimpleNamespace(layers=[3], rewrite_module_tmp="weights.{}")
+        self.model.weights[2].requires_grad_(False)
+        expected = [parameter.requires_grad for parameter in self.model.parameters()]
+        for fail in [False, True]:
+            def apply(model, *args, **kwargs):
+                model.requires_grad_(False)
+                with torch.no_grad():
+                    model.weights[3].add_(7)
+                if fail:
+                    raise RuntimeError("after disabling gradients")
+                return model, {}
+            if fail:
+                with self.assertRaisesRegex(RuntimeError, "after disabling gradients"):
+                    self.ns["_apply_with_rollback"](apply, self.model, None, [], hp)
+                self.assertTrue(torch.equal(self.model.weights[3], torch.eye(2)))
+            else:
+                edited, originals = self.ns["_apply_with_rollback"](apply, self.model, None, [], hp)
+                self.assertTrue(torch.equal(edited.weights[3], torch.eye(2) + 7))
+                self.ns["_restore_weights"](edited, originals)
+            self.assertEqual([parameter.requires_grad for parameter in self.model.parameters()], expected)
+
     def test_keyword_block_inputs_are_traceable_and_hooks_are_removed(self):
         class Block(torch.nn.Module):
             def forward(self, hidden_states, scale=1):
@@ -224,6 +246,40 @@ class BackendAudit(unittest.TestCase):
             self.ns["_probe_layers"](model, lambda *args, **kwargs: Batch(input_ids=torch.tensor([[1]])), "Subject", "Subject")
         self.assertTrue(all(not module._forward_hooks for module in model.modules()))
 
+    def test_probe_hooks_are_removed_after_tokenization_and_registration_failures(self):
+        from local_probe import probe_layers
+
+        class ProbeModel(torch.nn.Module):
+            def __init__(self):
+                super().__init__()
+                self.config = SimpleNamespace(n_layer=1)
+                self.transformer = torch.nn.Module()
+                block = torch.nn.Module()
+                block.mlp = torch.nn.Linear(2, 2)
+                self.transformer.h = torch.nn.ModuleList([block])
+
+            def forward(self, **kwargs):
+                raise AssertionError("Invalid input must fail before the forward pass")
+
+        class BrokenTokenizer:
+            def __call__(self, prompt, **kwargs):
+                if kwargs.get("return_offsets_mapping"):
+                    return {"offset_mapping": [(0, len(prompt))]}
+                raise ValueError("encoding failed")
+
+        for probe in [self.ns["_probe_layers"], probe_layers]:
+            model = ProbeModel()
+            with self.subTest(probe=probe.__name__, failure="tokenization"):
+                with self.assertRaisesRegex(ValueError, "encoding failed"):
+                    probe(model, BrokenTokenizer(), "Subject", "Subject")
+                self.assertTrue(all(not module._forward_hooks for module in model.modules()))
+
+            model.config.n_layer = 2
+            with self.subTest(probe=probe.__name__, failure="registration"):
+                with self.assertRaises(KeyError):
+                    probe(model, BrokenTokenizer(), "Subject", "Subject")
+                self.assertTrue(all(not module._forward_hooks for module in model.modules()))
+
     def test_token_alignment_whitespace_padding_and_multitoken_targets(self):
         class Batch(dict):
             def to(self, device):
@@ -251,6 +307,7 @@ class BackendAudit(unittest.TestCase):
     def make_web(self):
         self.loaded = []
         self.applied = []
+        self.applied_gradient_iterations = []
         self.fail_load = False
         self.fail_apply = False
         self.fail_post = False
@@ -266,6 +323,7 @@ class BackendAudit(unittest.TestCase):
             return SimpleNamespace(layers=[5] if "/ROME/" in path else [3, 4], rewrite_module_tmp="weights.{}", clamp_norm_factor=.75, v_num_grad_steps=20)
         def apply(model, tok, requests, hparams, **kwargs):
             self.applied.append(list(hparams.layers))
+            self.applied_gradient_iterations.append(hparams.v_num_grad_steps)
             self.assertTrue(all(torch.equal(w, torch.eye(2)) for w in model.weights))
             with torch.no_grad():
                 for layer in hparams.layers:
@@ -310,6 +368,36 @@ class BackendAudit(unittest.TestCase):
         self.assertEqual(response.json()["schemes"][0]["neighborhood"][0]["pre_text"], "Near relation unchanged")
         self.assertTrue(all(torch.equal(w, torch.eye(2)) for w in self.loaded[-1].weights))
 
+    def test_http_rejects_literal_braces_before_model_work(self):
+        client = self.make_web()
+        body = {"prompt": "{} relation", "subject": "Subject", "target_new": "New", "layers": [2]}
+        for prompt in ["{{literal}} {} relation", "{} relation {{}}", "{{}} relation"]:
+            with self.subTest(prompt=prompt):
+                for endpoint in ["/probe", "/edit", "/compare"]:
+                    response = client.post(endpoint, json=body | {"prompt": prompt, "schemes": [[2]]})
+                    self.assertEqual(response.status_code, 422, response.text)
+        self.assertEqual(self.applied, [])
+
+    def test_neighborhood_target_validation_prevents_silent_metric_fallback(self):
+        client = self.make_web()
+        body = {"prompt": "{} relation", "subject": "Subject", "target_new": "New",
+                "target_true": "Old", "layers": [2], "schemes": [[2]],
+                "neighborhood_prompts": ["One relation", "Two relation"]}
+        for targets in [[], ["One"], ["One", "Two", "Three"], ["One", " "]]:
+            for endpoint in ["/edit", "/compare"]:
+                with self.subTest(endpoint=endpoint, targets=targets):
+                    response = client.post(endpoint, json=body | {"neighborhood_targets": targets})
+                    self.assertEqual(response.status_code, 422, response.text)
+        self.assertEqual(self.applied, [])
+
+        with patch.dict(self.ns, {"_eval_prefix_targets": unittest.mock.Mock()}):
+            for targets in [[], ["One"], ["One", " "]]:
+                with self.subTest(targets=targets):
+                    with self.assertRaisesRegex(ValueError, "Neighborhood targets"):
+                        self.ns["_evaluate_edit"](None, None, "{} relation", "Subject", "New", "Old",
+                                                 [], ["One relation", "Two relation"], targets)
+            self.ns["_eval_prefix_targets"].assert_not_called()
+
     def test_http_apply_and_post_failure_preserve_baseline(self):
         client = self.make_web()
         body = {"prompt": "{} relation", "subject": "Subject", "target_new": "New", "layers": [2, 3]}
@@ -341,6 +429,28 @@ class BackendAudit(unittest.TestCase):
         self.assertEqual(calls, [[2, 3], [2, 3], [3, 4]])
         self.assertEqual(client.post("/edit", json=body | {"optimization": "unknown"}).status_code, 422)
         self.assertEqual(client.post("/edit", json=body | {"method": "rome", "layers": [2]}).status_code, 400)
+
+    def test_budget_dispatch_matches_update_counts_without_changing_local_profiles(self):
+        client = self.make_web()
+        body = {"prompt": "{} relation", "subject": "Subject", "target_new": "New", "layers": [2, 3]}
+        standard = client.post("/edit", json=body)
+        self.assertEqual(standard.status_code, 200, standard.text)
+        self.assertEqual(self.applied_gradient_iterations[-1], 20)
+        budget = client.post("/edit", json=body | {"optimization": "standard_budget"})
+        self.assertEqual(budget.status_code, 200, budget.text)
+        self.assertEqual(self.applied_gradient_iterations[-1], 41)
+        self.assertEqual(budget.json()["optimization_config"]["revision"], "standard-budget-v2")
+        self.assertEqual(budget.json()["optimization_config"]["upstream_final_iteration_compensation"], 1)
+
+        local_iterations = []
+        def local_apply(model, tok, requests, hp, **kwargs):
+            local_iterations.append(hp.v_num_grad_steps)
+            return model, {}
+        with patch("editing_optimizations.apply_context_memit", local_apply):
+            for profile in ["context", "context_v3", "context_no_consistency"]:
+                response = client.post("/edit", json=body | {"optimization": profile})
+                self.assertEqual(response.status_code, 200, response.text)
+        self.assertEqual(local_iterations, [40, 40, 40])
 
     def test_model_load_failure_can_recover_and_gptj_uses_upstream_path(self):
         client = self.make_web()
@@ -491,6 +601,38 @@ class BackendAudit(unittest.TestCase):
                                              "target_new": "New", "optimization": "not_a_profile"})
         self.assertEqual(rejected.status_code, 422)
 
+    def test_health_identifies_runtime_sources_and_available_model_revision(self):
+        client = self.make_web()
+        hashes = {"modal_app.py": "1" * 64, "editing_optimizations.py": "2" * 64}
+        with patch.dict(self.ns, {"_backend_source_sha256": lambda: hashes}):
+            self.loaded[-1].config._commit_hash = "actual_model_revision"
+            health = client.get("/health").json()
+        self.assertEqual(health["backend_source_sha256"], hashes)
+        self.assertEqual(health["model_revision"], "actual_model_revision")
+
+    def test_runtime_hashes_use_mounted_files_and_do_not_substitute_missing_sources(self):
+        import hashlib
+        import editing_optimizations
+
+        with tempfile.TemporaryDirectory() as tmp:
+            backend = Path(tmp) / "mounted_backend.py"
+            optimizer = Path(tmp) / "mounted_optimizer.py"
+            backend.write_bytes(b"deployed backend revision")
+            optimizer.write_bytes(b"deployed optimizer revision")
+
+            def source_path(path):
+                if str(path) == "/root/keditvis_modal_app.py":
+                    return backend
+                self.assertEqual(str(path), str(optimizer))
+                return optimizer
+
+            with patch("pathlib.Path", side_effect=source_path), patch.object(editing_optimizations, "__file__", str(optimizer)):
+                hashes = self.ns["_backend_source_sha256"]()
+                self.assertEqual(hashes["modal_app.py"], hashlib.sha256(backend.read_bytes()).hexdigest())
+                self.assertEqual(hashes["editing_optimizations.py"], hashlib.sha256(optimizer.read_bytes()).hexdigest())
+                backend.unlink()
+                self.assertIsNone(self.ns["_backend_source_sha256"]()["modal_app.py"])
+
     def test_experiment_schemes_are_matched_by_layers_not_response_order(self):
         """Regression: /compare deduplicates identical schemes, so indexing the
         response by position attached results to the wrong policy (or raised
@@ -622,6 +764,24 @@ class BackendAudit(unittest.TestCase):
 class AnalysisRegressions(unittest.TestCase):
     """Regressions in the offline analysis layer (analyze_schemes / run_experiments)."""
 
+    def test_live_result_validation_matches_small_sample_pca_contract(self):
+        from copy import deepcopy
+        from test_live_backend import check_result
+
+        row = {"pre_text": "before", "post_text": "after", "hidden_state_drift": 0.0,
+               "projection_method": "pca-small-sample",
+               "projection": {"pre": [0.0, 1.0], "post": [1.0, 0.0]}}
+        result = {"metrics": {"ES": 1.0, "PS": 0.5, "NS": 1.0, "S": 0.75},
+                  "damage": {"kl_divergence": 0.0}, "neighborhood": [deepcopy(row), deepcopy(row)]}
+        check_result(result)
+        result["neighborhood"][0]["projection_method"] = "joint-tsne"
+        with self.assertRaises(AssertionError):
+            check_result(result)
+        result["neighborhood"][0]["projection_method"] = "pca-small-sample"
+        result["neighborhood"][0]["projection"]["post"] = [0.0]
+        with self.assertRaises(AssertionError):
+            check_result(result)
+
     def test_spearman_is_correct_in_the_presence_of_ties(self):
         """Regression: the untied-only shortcut understated |rho| by ~2x on tied data."""
         from analyze_schemes import spearman_rank_correlation
@@ -650,8 +810,10 @@ class AnalysisRegressions(unittest.TestCase):
         from analyze_schemes import scheme_activity_score
 
         signals = [{"layer": i, "cosine_similarity": 0.5, "top_tokens": []} for i in range(28)]
-        with self.assertRaisesRegex(ValueError, "no layer present"):
+        with self.assertRaisesRegex(ValueError, "missing from baseline signals"):
             scheme_activity_score(signals, [30, 31, 32])
+        with self.assertRaisesRegex(ValueError, "missing from baseline signals"):
+            scheme_activity_score(signals, [0, 30])
         # Looked up by the recorded `layer` field, not by list position.
         reordered = [signals[5], signals[0], signals[9]]
         self.assertEqual(

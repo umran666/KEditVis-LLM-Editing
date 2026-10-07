@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import { existsSync, mkdirSync, writeFileSync } from "node:fs";
 import { resolve } from "node:path";
+import { fileURLToPath } from "node:url";
 import puppeteer from "puppeteer";
 
 const base = process.env.AUDIT_URL ?? "http://127.0.0.1:5187";
@@ -9,7 +10,7 @@ const base = process.env.AUDIT_URL ?? "http://127.0.0.1:5187";
 // otherwise dirty tracked evidence files (audit/audit-desktop.png,
 // audit/audit-mobile.png, audit/frontend-results.json) on every invocation.
 // Set AUDIT_OUT=../audit to deliberately refresh that committed evidence.
-const out = resolve(process.env.AUDIT_OUT ?? "../audit/run");
+const out = resolve(process.env.AUDIT_OUT ?? fileURLToPath(new URL("../../audit/run/", import.meta.url)));
 mkdirSync(out, { recursive: true });
 const browser = await puppeteer.launch({ headless: true, ...(existsSync("C:/Program Files/Google/Chrome/Application/chrome.exe") ? { executablePath: "C:/Program Files/Google/Chrome/Application/chrome.exe" } : {}) });
 const checks = [];
@@ -66,6 +67,37 @@ try {
   assert.equal(await page.$$eval(".drift-svg circle", (els) => els.length), 0);
   record("zero efficacy fails; zero KL preserved; no fabricated projection");
 
+  await page.click(".chat-mode-toggle button:nth-child(2)");
+  const setNeighborAnswers = async (text) => {
+    await page.click('[aria-label="Neighborhood answers"]');
+    await page.keyboard.down("Control");
+    await page.keyboard.press("KeyA");
+    await page.keyboard.up("Control");
+    await page.keyboard.press("Backspace");
+    if (text) await page.type('[aria-label="Neighborhood answers"]', text);
+  };
+  await setNeighborAnswers("Paris\nLondon");
+  await page.click(".btn-primary");
+  await page.waitForFunction(() => document.querySelector(".diff-body")?.textContent?.includes("EDIT_RESPONSE"));
+  assert.deepEqual(sent.filter((r) => r.path === "/edit").at(-1).body.neighborhood_targets, ["Paris", "London"]);
+  assert.deepEqual(await page.$$eval(".col-neighborhood .eval-pill strong", (els) => els.map((el) => el.textContent)), ["Paris", "London"]);
+  await setNeighborAnswers("Paris");
+  const editCount = sent.filter((r) => r.path === "/edit").length;
+  const compareCount = sent.filter((r) => r.path === "/compare").length;
+  await page.click(".btn-primary");
+  await page.waitForFunction(() => document.querySelector(".error-banner")?.textContent?.includes("one non-empty original answer"));
+  assert.equal(sent.filter((r) => r.path === "/edit").length, editCount);
+  await page.click(".action-buttons-group button:nth-child(2)");
+  await tick(page);
+  assert.equal(sent.filter((r) => r.path === "/compare").length, compareCount);
+  await setNeighborAnswers("");
+  await page.click(".btn-primary");
+  await page.waitForFunction(() => document.querySelector(".diff-body")?.textContent?.includes("EDIT_RESPONSE"));
+  assert.equal(Object.hasOwn(sent.filter((r) => r.path === "/edit").at(-1).body, "neighborhood_targets"), false);
+  assert.deepEqual(await page.$$eval(".col-neighborhood .eval-pill strong", (els) => els.map((el) => el.textContent)), ["Paris", "Paris"]);
+  await page.click(".facts-card .btn-tiny");
+  record("per-neighborhood answers are submitted and displayed, mismatches reject locally, and empty input restores default answers");
+
   assert.equal(sent.filter((r) => r.path === "/edit").at(-1).body.optimization, "context");
   await page.select('[aria-label="MEMIT objective"]', "standard");
   assert.equal(await page.$(".diff-body"), null);
@@ -75,6 +107,13 @@ try {
   holdEdit = true;
   await page.click(".btn-primary");
   await page.waitForFunction(() => Boolean(document.querySelector(".telemetry-bar")));
+  const beforePendingLayers = await page.$eval(".selected-layers-pill .pill-val", (el) => el.textContent);
+  assert.equal(await page.$(".diff-body"), null);
+  assert.equal(await page.$$eval(".layer-selector button", (els) => els.every((el) => el.disabled)), true);
+  await page.click('.lens-pre .token-bubble[data-layer="0"][data-rank="1"]');
+  await tick(page);
+  assert.equal(await page.$eval(".selected-layers-pill .pill-val", (el) => el.textContent), beforePendingLayers);
+  record("pending edits clear prior results and prevent layer changes");
   await page.select('[aria-label="MEMIT objective"]', "context");
   pending.splice(0).forEach((resolve) => resolve());
   await page.waitForNetworkIdle();
@@ -109,6 +148,16 @@ try {
   record("rapid 48/28 model switches discard stale results and release loading");
 
   holdEdit = false;
+  await page.click(".method-pill-group button:nth-child(1)");
+  assert.equal(await page.$$eval(".layer-chip.active", (els) => els.length), 6);
+  await page.click(".action-buttons-group .btn-action:first-child");
+  await page.waitForFunction(() => document.querySelector(".selected-layers-pill .pill-val")?.textContent === "0-5");
+  assert.match(await page.$eval(".layer-actions button:first-child", (el) => el.textContent), /0, 1, 2, 3, 4, 5/);
+  await page.click(".layer-actions button:nth-child(2)");
+  await page.click(".layer-actions button:first-child");
+  assert.equal(await page.$eval(".selected-layers-pill .pill-val", (el) => el.textContent), "0-5");
+  record("GPT-J method switching and both recommendation controls select six layers");
+  await page.click(".method-pill-group button:nth-child(2)");
   await page.click(".btn-action:nth-child(2)");
   await page.waitForSelector(".scheme-row");
   const request = sent.filter((r) => r.path === "/compare").at(-1);
@@ -186,6 +235,63 @@ try {
   await tick(page);
   assert.equal(await page.$$eval(".col-paraphrase .eval-pill", (els) => els.map((el) => el.classList.contains("eval-pass")).join(",")), "true,false");
   record("missing metrics stay unknown and mixed prompt outcomes use per-prompt evidence");
+
+  await page.evaluate(() => window.audit.renderInvalidPromptMetrics());
+  await tick(page);
+  assert.equal(await page.$$eval(".eval-fail, .eval-pass", (els) => els.length), 1); // aggregate ES alone is known
+  assert.equal(await page.$$eval(".eval-pill.eval-unknown", (els) => els.length), 3);
+  record("partial and non-finite per-prompt metrics stay unknown without throwing");
+
+  await page.evaluate(() => window.audit.renderDuplicatePromptMetrics());
+  await tick(page);
+  assert.deepEqual(await page.$$eval(".col-neighborhood .eval-pill", (els) => els.map((el) => el.classList.contains("eval-pass"))), [true, false]);
+  assert.deepEqual(await page.$$eval(".col-neighborhood .eval-pill strong", (els) => els.map((el) => el.textContent)), ["London", "Paris"]);
+  assert.deepEqual(await page.$$eval(".col-paraphrase .eval-pill", (els) => els.map((el) => el.classList.contains("eval-unknown"))), [false, true]);
+  await page.evaluate(() => window.audit.renderDuplicatePromptMetrics(true));
+  await tick(page);
+  assert.deepEqual(await page.$$eval(".col-neighborhood .eval-pill", (els) => els.map((el) => el.classList.contains("eval-unknown"))), [true, false]);
+  record("duplicate prompt rows use their own ordered result and missing or mismatched evidence stays unknown");
+
+  await page.evaluate(() => window.audit.renderSelector("complete"));
+  await tick(page);
+  assert.match(await page.$eval(".layer-actions button:first-child", (el) => el.textContent), /6, 7, 8, 9, 10, 11/);
+  await page.evaluate(() => window.audit.renderSelector("partial"));
+  await tick(page);
+  assert.equal(await page.$eval(".layer-actions button:first-child", (el) => el.disabled), true);
+  const recommendations = await page.evaluate(() => {
+    const full = Array.from({ length: 48 }, (_, layer) => ({ layer, cosine_similarity: layer >= 10 && layer <= 14 ? 0 : 0.9 }));
+    const invalid = [full.slice(1), [...full.slice(1), full[1]], full.map((s) => s.layer === 0 ? { ...s, cosine_similarity: NaN } : s), full.map((s) => s.layer === 0 ? { ...s, layer: 49 } : s), full.map((s) => s.layer === 0 ? { ...s, cosine_similarity: 1.00001 } : s)];
+    const nearUnit = full.map((s) => s.layer < 2 ? { ...s, cosine_similarity: s.layer === 0 ? 1.0000003576278687 : -1.0000003576278687 } : s);
+    return { layers: window.audit.recommendLayers(full.reverse(), "memit", 48), nearUnit: window.audit.recommendLayers(nearUnit, "memit", 48), rejected: invalid.map((signals) => { try { window.audit.recommendLayers(signals, "memit", 48); return false; } catch { return true; } }) };
+  });
+  assert.deepEqual(recommendations.layers, [10, 11, 12, 13, 14]);
+  assert.deepEqual(recommendations.nearUnit, [10, 11, 12, 13, 14]);
+  assert(recommendations.rejected.every(Boolean));
+  record("recommendations use complete finite layer telemetry and reject missing or duplicate data");
+
+  await page.evaluate(() => window.audit.renderMissingSignals());
+  await tick(page);
+  await page.evaluate(() => [...document.querySelectorAll("button")].find((el) => el.textContent.trim() === "Residual Var").click());
+  await tick(page);
+  assert.deepEqual(await page.$$eval("rect.bar", (els) => els.map((el) => [el.dataset.layer, +el.getAttribute("width")])), [["1", 196], ["2", 0]]);
+  await page.evaluate(() => [...document.querySelectorAll("button")].find((el) => el.textContent.trim() === "Variance").click());
+  await tick(page);
+  assert.equal(await page.$$eval("rect.post", (els) => els.length), 1);
+  assert.equal(await page.$eval("rect.post", (el) => +el.getAttribute("width")), 0);
+  await page.evaluate(() => [...document.querySelectorAll("button")].find((el) => el.textContent.trim() === "Δ Var").click());
+  await tick(page);
+  assert.deepEqual(await page.$$eval("rect.bar", (els) => els.map((el) => el.dataset.layer)), ["1", "2"]);
+  record("missing residual measurements are omitted and measured zero variance retains zero geometry");
+
+  await page.evaluate(() => window.audit.renderMissingSignals(true));
+  await tick(page);
+  await page.evaluate(() => [...document.querySelectorAll("button")].filter((el) => ["Cosine", "Cosine Activity"].includes(el.textContent.trim())).forEach((el) => el.click()));
+  await tick(page);
+  assert.equal(await page.$$eval("rect.bar", (els) => els.length), 3);
+  assert.equal(await page.$eval('rect.bar[data-layer="2"]', (el) => +el.getAttribute("width")), 0);
+  assert.equal(await page.$$eval("rect.post", (els) => els.length), 3);
+  assert.equal(await page.$eval("rect.post:last-of-type", (el) => +el.getAttribute("width")), 0);
+  record("float32 near-unit cosine roundoff remains valid telemetry and renders zero activity");
 
   await page.evaluate(() => window.audit.renderCharts("valid"));
   await tick(page);

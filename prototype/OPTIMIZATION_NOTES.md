@@ -60,15 +60,24 @@ are retained. Early termination remains allowed.
 > updates) and have **not** been regenerated, because doing so requires a live
 > GPU run. Treat those numbers as "40-step profile, pre-fix build".
 >
-> To reproduce them with the fixed code, set the budget to 39 — the exact
-> equivalent of the old build's 40:
->
-> ```python
-> OPTIMIZATION_PROFILES["context_v3"]["minimum_gradient_steps"] = 39
-> ```
+> A 39-update cap can approximate the old target-fitting budget, but changing
+> one profile value does not establish exact reproduction. It changes the source
+> identity and does not account for other code, dependency, or deployed-build
+> differences. Current runs should keep the corrected semantics and use new labels.
 >
 > See [`audit/README.md`](audit/README.md) for the full evidence index and this
 > caveat in context.
+
+The current `standard_budget` revision is `standard-budget-v2`. The pinned
+[upstream optimizer](https://github.com/kmeng01/memit/blob/80426fd9316cf9a50c5ba15e0912f2c2c5bfe84b/memit/compute_z.py#L149-L156)
+evaluates its final iteration without updating the latent vector. The dispatcher
+therefore adds one iteration after setting the budget: 41 upstream iterations
+allow up to 40 gradient updates, matching the current local context profiles.
+The response records `upstream_final_iteration_compensation: 1`. Standard MEMIT
+keeps its original settings; local context profiles receive no added iteration.
+Early stopping may reduce actual update counts, and equal update caps do not
+imply equal runtime or memory. This revision has CPU dispatch validation only;
+historical ablation results have not been rerun or relabeled as this revision.
 
 Instead of averaging all keys into a single key, the local adaptation retains
 each context's key and its own original output plus delta. The bare context

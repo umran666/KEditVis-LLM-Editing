@@ -8,16 +8,35 @@ import time
 import requests
 
 
+def check_result(result, n_neighborhood=2):
+    assert all(0 <= result["metrics"][key] <= 1 for key in ["ES", "PS", "NS", "S"])
+    assert math.isfinite(result["damage"]["kl_divergence"])
+    assert len(result["neighborhood"]) == n_neighborhood
+    for row in result["neighborhood"]:
+        assert row["pre_text"] and row["post_text"]
+        assert math.isfinite(row["hidden_state_drift"]) and row["hidden_state_drift"] >= 0
+        # Pre/post states give two points per prompt. Small samples use PCA;
+        # larger samples may also use PCA when every state is identical.
+        methods = {"pca-small-sample"} if n_neighborhood * 2 < 6 else {"joint-tsne", "pca-small-sample"}
+        assert row["projection_method"] in methods
+        assert set(row["projection"]) == {"pre", "post"}
+        assert all(len(point) == 2 and all(math.isfinite(x) for x in point)
+                   for point in row["projection"].values())
+
+
 def main():
+    if not __debug__:
+        raise RuntimeError("Live verification requires assertions; run Python without -O.")
     parser = argparse.ArgumentParser()
     parser.add_argument("--url", default="https://opzgameryt--keditvis-memit-web-app.modal.run")
     parser.add_argument("--model", choices=["gpt2-xl", "EleutherAI/gpt-j-6B"], required=True)
-    parser.add_argument("--methods", nargs="+", default=["rome", "memit"])
+    parser.add_argument("--methods", nargs="+", choices=["rome", "memit"], default=["rome", "memit"])
+    parser.add_argument("--output", type=Path, help="New output directory; existing evidence is never overwritten")
     args = parser.parse_args()
-    folder = Path(__file__).parent / "audit" / "live" / args.model.replace("/", "_")
-    folder.mkdir(parents=True, exist_ok=True)
+    folder = args.output or (Path(__file__).parent / "audit" / "run" / "live" /
+                             f"{args.model.replace('/', '_')}-{time.time_ns()}")
+    folder.mkdir(parents=True, exist_ok=False)
     verified_path = folder / "verified.json"
-    verified_path.unlink(missing_ok=True)
     summary = []
 
     def call(name, path, body=None, expected=200):
@@ -53,16 +72,6 @@ def main():
                 assert len(signal[kind]) == 5
                 assert all(0 <= t["prob"] <= 1 for t in signal[kind])
 
-    def check_result(result):
-        assert all(0 <= result["metrics"][key] <= 1 for key in ["ES", "PS", "NS", "S"])
-        assert math.isfinite(result["damage"]["kl_divergence"])
-        assert len(result["neighborhood"]) == 2
-        for row in result["neighborhood"]:
-            assert row["pre_text"] and row["post_text"]
-            assert math.isfinite(row["hidden_state_drift"]) and row["hidden_state_drift"] >= 0
-            assert row["projection_method"] == "joint-tsne"
-            assert all(math.isfinite(x) for point in row["projection"].values() for x in point)
-
     health = call("health", f"/health?model={args.model}")
     assert health["model"] == args.model and health["n_layers"] == n_layers
     baseline = call("baseline-probe", "/probe", probe)
@@ -92,7 +101,11 @@ def main():
 
     verified_path.write_text(json.dumps({"model": args.model, "methods": args.methods,
         "request_checks": len(summary), "baseline_restored": True,
-        "editing_commit": health["editing_commit"]}, indent=2), encoding="utf-8")
+        "editing_commit": health["editing_commit"],
+        "backend_source_sha256": health.get("backend_source_sha256"),
+        "model_revision": health.get("model_revision"),
+        "scope": "live_endpoint_validation"}, indent=2), encoding="utf-8")
+    print(f"Evidence saved to {folder}", flush=True)
 
 
 if __name__ == "__main__":
