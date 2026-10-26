@@ -1768,7 +1768,7 @@ def web_app():
             if optimization in ("context", "context_v3"):
                 from editing_optimizations import apply_context_memit, configure_context
 
-                configure_context(hparams, "context_v3")
+                configure_context(hparams, optimization)
                 return _apply_with_rollback(
                     apply_context_memit, model, tok, request_, hparams
                 )
