@@ -202,7 +202,7 @@ def compute_context_target(model, tok, request, hp, layer, contexts):
             if baseline_kl is None:
                 baseline_kl = current_kl.detach().clone()
             kl = torch.nn.functional.kl_div(
-                baseline_kl, current_kl, log_target=True, reduction="sum"
+                current_kl, baseline_kl, log_target=True, reduction="sum"
             )
             decay = (
                 hp.v_weight_decay
