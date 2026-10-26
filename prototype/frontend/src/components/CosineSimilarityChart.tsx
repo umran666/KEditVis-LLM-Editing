@@ -75,7 +75,7 @@ export function CosineSimilarityChart({
       .on("mouseleave", () => setHoveredLayer(null));
 
     g.selectAll("text.label")
-      .data(signals)
+      .data(rows)
       .join("text")
       .attr("class", "label")
       .attr("x", -5)
@@ -85,7 +85,7 @@ export function CosineSimilarityChart({
       .attr("font-size", 9)
       .attr("font-family", "var(--font-mono)")
       .attr("fill", "#64748B")
-      .text((d) => (d.layer % 4 === 0 || d.layer === signals.length - 1 ? d.layer : ""));
+      .text((d) => (d.layer % 4 === 0 || d.layer === rows[rows.length - 1].layer ? d.layer : ""));
   }, [signals, selectedLayers, onSelectLayer, signalMode]);
 
   if (signals.length === 0) {

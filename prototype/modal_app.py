@@ -817,7 +817,7 @@ def _neighborhood_report(
         raise ValueError("Neighborhood measurements must align with prompts.")
     projections = (
         _project_drift(pre_hidden, post_hidden)
-        if pre_hidden is not None and len(prompts)
+        if pre_hidden is not None and post_hidden is not None and len(prompts)
         else [{} for _ in prompts]
     )
     return [
@@ -1767,8 +1767,7 @@ def web_app():
             _seed_memit_rng()
             if optimization in ("context", "context_v3"):
                 from editing_optimizations import apply_context_memit, configure_context
-
-                configure_context(hparams, "context_v3")
+                configure_context(hparams, optimization)
                 return _apply_with_rollback(
                     apply_context_memit, model, tok, request_, hparams
                 )
@@ -1807,11 +1806,21 @@ def web_app():
         return {"revision": str(profile)}
 
     web = FastAPI(title="KEditVis API")
+    # Configure deployed frontend origins with comma-separated KEDITVIS_CORS_ORIGINS.
+    # Local Vite origins are development defaults; set exact origins in production.
+    cors_origins = [
+        origin.strip()
+        for origin in os.environ.get(
+            "KEDITVIS_CORS_ORIGINS",
+            "http://localhost:5173,http://127.0.0.1:5173,http://localhost:5187,http://127.0.0.1:5187",
+        ).split(",")
+        if origin.strip()
+    ]
     web.add_middleware(
         CORSMiddleware,
-        allow_origins=["*"],
-        allow_methods=["*"],
-        allow_headers=["*"],
+        allow_origins=cors_origins,
+        allow_methods=["GET", "POST", "OPTIONS"],
+        allow_headers=["Content-Type", "Authorization"],
     )
 
     @web.get("/health")
