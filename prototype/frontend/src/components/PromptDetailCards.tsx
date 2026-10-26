@@ -25,7 +25,7 @@ export const PromptDetailCards: React.FC<Props> = ({
   metrics,
 }) => {
   const filledPrompt = prompt.includes("{}")
-    ? prompt.replace("{}", subject)
+    ? prompt.replace(/\{\}/g, subject)
     : prompt.includes(subject) ? prompt : `${subject} ${prompt}`;
 
   // Evaluate real pass/fail state based on metrics if available
