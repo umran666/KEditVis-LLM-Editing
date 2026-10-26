@@ -1807,11 +1807,22 @@ def web_app():
         return {"revision": str(profile)}
 
     web = FastAPI(title="KEditVis API")
+    # Configure the deployed frontend origin(s) via a comma-separated
+    # KEDITVIS_CORS_ORIGINS environment variable. Local Vite origins are
+    # defaults for development only; production deployments should set this.
+    cors_origins = [
+        origin.strip()
+        for origin in os.environ.get(
+            "KEDITVIS_CORS_ORIGINS",
+            "http://localhost:5173,http://127.0.0.1:5173",
+        ).split(",")
+        if origin.strip()
+    ]
     web.add_middleware(
         CORSMiddleware,
-        allow_origins=["*"],
-        allow_methods=["*"],
-        allow_headers=["*"],
+        allow_origins=cors_origins,
+        allow_methods=["GET", "POST", "OPTIONS"],
+        allow_headers=["Content-Type", "Authorization"],
     )
 
     @web.get("/health")
