@@ -817,7 +817,7 @@ def _neighborhood_report(
         raise ValueError("Neighborhood measurements must align with prompts.")
     projections = (
         _project_drift(pre_hidden, post_hidden)
-        if pre_hidden is not None and len(prompts)
+        if pre_hidden is not None and post_hidden is not None and len(prompts)
         else [{} for _ in prompts]
     )
     return [
