@@ -85,7 +85,7 @@ export function CosineSimilarityChart({
       .attr("font-size", 9)
       .attr("font-family", "var(--font-mono)")
       .attr("fill", "#64748B")
-      .text((d) => (d.layer % 4 === 0 || d.layer === rows[rows.length - 1]?.layer ? d.layer : ""));
+      .text((d) => (d.layer % 4 === 0 || d.layer === signals[signals.length - 1].layer ? d.layer : ""));
   }, [signals, selectedLayers, onSelectLayer, signalMode]);
 
   if (signals.length === 0) {
